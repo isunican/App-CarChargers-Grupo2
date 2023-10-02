@@ -27,14 +27,14 @@
         tools:text="Title" />
 
     <TextView
-        android:id="@+id/tvInfo"
+        android:id="@+id/tvInfoAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="@+id/tvTitle"
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        tools:text="Info" />
+        tools:text="InfoAddress" />
 
     <TextView
         android:id="@+id/tvId"
@@ -44,4 +44,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="id" />
+
+    <TextView
+        android:id="@+id/tvInfoNumberOfPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="NumberOfPoints"
+        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+        app:layout_constraintStart_toStartOf="@+id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfoAddress" />
 </androidx.constraintlayout.widget.ConstraintLayout>

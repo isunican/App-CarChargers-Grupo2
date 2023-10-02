@@ -28,6 +28,8 @@ public class DetailsView extends AppCompatActivity {
         ImageView ivLogo = findViewById(R.id.ivLogo);
         TextView tvTitle = findViewById(R.id.tvTitle);
         TextView tvId = findViewById(R.id.tvId);
+        TextView tvInfoAddress = findViewById(R.id.tvInfoAddress);
+        TextView tvInfoNumberOfPoints = findViewById(R.id.tvInfoNumberOfPoints);
 
         // Get Charger from the intent that triggered this activity
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
@@ -39,6 +41,13 @@ public class DetailsView extends AppCompatActivity {
         // Set Infos
         tvTitle.setText(charger.operator.title);
         tvId.setText(charger.id);
+        String strInfoAddress = String.format("%s, (%s, %s)", charger.address.title, charger.address.town, charger.address.province);
+        tvInfoAddress.setText(strInfoAddress);
+
+        String strInfoNumberOfPoints = String.format("Número de cargadores: %d", charger.numberOfPoints);
+        tvInfoNumberOfPoints.setText(strInfoNumberOfPoints);
+
+
 
     }
 }
