@@ -45,35 +45,84 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="id" />
 
-    <TextView
-        android:id="@+id/tvInfoNumberOfPoints"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="NumberOfPoints"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvInfoAddress" />
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfoAddress">
+
+        <TextView
+            android:id="@+id/tvInfoNumberOfPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="NumberOfPoints"
+            tools:layout_editor_absoluteX="45dp"
+            tools:layout_editor_absoluteY="288dp" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvPrecio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="204dp"
         android:text="Price"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvInfoNumberOfPoints" />
+        app:layout_constraintEnd_toEndOf="@+id/tvInfoAddress"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="@+id/tvInfoAddress"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <TextView
         android:id="@+id/tvWebsite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Website"
         android:autoLink="all"
+        android:text="Website"
         app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle"
+        app:layout_constraintStart_toStartOf="@+id/tvPrecio"
         app:layout_constraintTop_toBottomOf="@+id/tvPrecio" />
+
+    <TextView
+        android:id="@+id/tvResConnectorType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvConnectorType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvConnectorType" />
+
+    <TextView
+        android:id="@+id/tvResPower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvPower"
+        app:layout_constraintEnd_toEndOf="@+id/tvResConnectorType"
+        app:layout_constraintStart_toStartOf="@+id/tvResConnectorType" />
+
+    <TextView
+        android:id="@+id/tvConnectorType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="32dp"
+        android:text="Tipo conector:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/tvPower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Potencia"
+        app:layout_constraintStart_toStartOf="@+id/tvConnectorType"
+        app:layout_constraintTop_toBottomOf="@+id/tvConnectorType" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
