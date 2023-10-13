@@ -1,9 +1,17 @@
 package es.unican.carchargers.activities.details;
 
+import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_NONE;
+import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.util.Linkify;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,8 +41,7 @@ public class DetailsView extends AppCompatActivity {
         TextView tvInfoAddress = findViewById(R.id.tvInfoAddress);
         TextView tvInfoNumberOfPoints = findViewById(R.id.tvInfoNumberOfPoints);
         TextView tvPrecio = findViewById(R.id.tvPrecio);
-        TextView tvWebsite = findViewById(R.id.tvWebsite);
-        WebView wvMapa = findViewById(R.id.wvMapa);
+        Button btHipervinculo = findViewById(R.id.btHipervinculo);
 
         // Get Charger from the intent that triggered this activity
         Charger charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
@@ -59,6 +66,18 @@ public class DetailsView extends AppCompatActivity {
         tvPrecio.setText(strPrecio);
 
         String strWebsite = String.format(charger.operator.website);
-        tvWebsite.setText(strWebsite);
+        //tvWebsite.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_NONE);
+        //tvWebsite.setText(strWebsite);
+
+        btHipervinculo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri _link = Uri.parse(strWebsite);
+                Intent i = new Intent (Intent.ACTION_VIEW, _link);
+                startActivity(i);
+            }
+        });
+
+
     }
 }

@@ -65,15 +65,14 @@
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvInfoNumberOfPoints" />
 
-    <TextView
-        android:id="@+id/tvWebsite"
+    <Button
+        android:id="@+id/btHipervinculo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Website"
-        android:autoLink="all"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
-        app:layout_constraintStart_toStartOf="@+id/tvTitle"
+        android:text="Página web del proveedor"
+        app:layout_constraintEnd_toEndOf="@+id/tvPrecio"
+        app:layout_constraintStart_toStartOf="@+id/tvPrecio"
         app:layout_constraintTop_toBottomOf="@+id/tvPrecio" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
