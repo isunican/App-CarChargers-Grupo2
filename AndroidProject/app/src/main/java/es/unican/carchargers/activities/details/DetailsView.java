@@ -78,7 +78,7 @@ public class DetailsView extends AppCompatActivity {
         }
         tvPrecio.setText(strPrecio);
 
-        String strWebsite = String.format(charger.operator.website);
+
         //tvWebsite.setText(strWebsite);
         wvMapa.setWebViewClient(new WebViewClient());
         //String mapaString = "<iframe src=\"https://maps.google.com/maps/embed?hl=en&amp;coord=52.70967533219885,-8.020019531250002&amp\" width=\"100%\" height=\"100%\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>";
@@ -93,7 +93,8 @@ public class DetailsView extends AppCompatActivity {
                 return true; //True if the listener has consumed the event, false otherwise.
             }
         });
-        strWebsite = "hola";
+
+        String strWebsite = null;
         if (charger.operator.website != null) {
             strWebsite = String.format(charger.operator.website);
         }
@@ -105,7 +106,7 @@ public class DetailsView extends AppCompatActivity {
         btHipervinculo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (finalStrWebsite != "hola") {
+                if (finalStrWebsite != null) {
                     Uri _link = Uri.parse(finalStrWebsite);
                     Intent i = new Intent(Intent.ACTION_VIEW, _link);
                     startActivity(i);
