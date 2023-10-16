@@ -1,14 +1,24 @@
 package es.unican.carchargers.activities.details;
 
+import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_NONE;
+import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.text.util.Linkify;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -36,7 +46,7 @@ public class DetailsView extends AppCompatActivity {
         TextView tvInfoAddress = findViewById(R.id.tvInfoAddress);
         TextView tvInfoNumberOfPoints = findViewById(R.id.tvInfoNumberOfPoints);
         TextView tvPrecio = findViewById(R.id.tvPrecio);
-        TextView tvWebsite = findViewById(R.id.tvWebsite);
+        Button btHipervinculo = findViewById(R.id.btHipervinculo);
         WebView wvMapa = findViewById(R.id.wvMapa);
 
         // Get Charger from the intent that triggered this activity
@@ -56,19 +66,20 @@ public class DetailsView extends AppCompatActivity {
 
 
         tvInfoNumberOfPoints.setText(strInfoNumberOfPoints);
-        String strPrecio = String.format("Precio No Disponible");
-        if (charger.usageCost != null) {
+        String strPrecio;
+        if (charger.usageCost == null) {
+            strPrecio = String.format("Precio No Disponible");
+        } else {
             strPrecio = String.format(charger.usageCost);
-            if (strPrecio.equals("")) {
+
+            if (strPrecio.equals("") || strPrecio == null) {
                 strPrecio = String.format("Precio No Disponible");
             }
         }
         tvPrecio.setText(strPrecio);
 
         String strWebsite = String.format(charger.operator.website);
-        tvWebsite.setText(strWebsite);
-
-
+        //tvWebsite.setText(strWebsite);
         wvMapa.setWebViewClient(new WebViewClient());
         //String mapaString = "<iframe src=\"https://maps.google.com/maps/embed?hl=en&amp;coord=52.70967533219885,-8.020019531250002&amp\" width=\"100%\" height=\"100%\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>";
         //String mapaString = "<iframe src=\"https://maps.google.com/maps/embed?hl=en&amp;coord=52.70967533219885,-8.020019531250002&amp\" width=\"100%\" height=\"100%\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>";
@@ -82,6 +93,26 @@ public class DetailsView extends AppCompatActivity {
                 return true; //True if the listener has consumed the event, false otherwise.
             }
         });
+        strWebsite = "hola";
+        if (charger.operator.website != null) {
+            strWebsite = String.format(charger.operator.website);
+        }
 
+        //tvWebsite.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_NONE);
+        //tvWebsite.setText(strWebsite);
+
+        String finalStrWebsite = strWebsite;
+        btHipervinculo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (finalStrWebsite != "hola") {
+                    Uri _link = Uri.parse(finalStrWebsite);
+                    Intent i = new Intent(Intent.ACTION_VIEW, _link);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "El proveedor no tiene enlace web", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }
