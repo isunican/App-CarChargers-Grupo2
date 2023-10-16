@@ -3,7 +3,10 @@ package es.unican.carchargers.activities.details;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,15 +53,35 @@ public class DetailsView extends AppCompatActivity {
         tvInfoAddress.setText(strInfoAddress);
 
         String strInfoNumberOfPoints = String.format("Número de cargadores: %d", charger.numberOfPoints);
-        tvInfoNumberOfPoints.setText(strInfoNumberOfPoints);
 
-        String strPrecio = String.format(charger.usageCost);
-        if (strPrecio.equals("")) {
-            strPrecio = String.format("Precio No Disponible");
+
+        tvInfoNumberOfPoints.setText(strInfoNumberOfPoints);
+        String strPrecio = String.format("Precio No Disponible");
+        if (charger.usageCost != null) {
+            strPrecio = String.format(charger.usageCost);
+            if (strPrecio.equals("")) {
+                strPrecio = String.format("Precio No Disponible");
+            }
         }
         tvPrecio.setText(strPrecio);
 
         String strWebsite = String.format(charger.operator.website);
         tvWebsite.setText(strWebsite);
+
+
+        wvMapa.setWebViewClient(new WebViewClient());
+        //String mapaString = "<iframe src=\"https://maps.google.com/maps/embed?hl=en&amp;coord=52.70967533219885,-8.020019531250002&amp\" width=\"100%\" height=\"100%\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>";
+        //String mapaString = "<iframe src=\"https://maps.google.com/maps/embed?hl=en&amp;coord=52.70967533219885,-8.020019531250002&amp\" width=\"100%\" height=\"100%\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>";
+        String mapaString = "<iframe width=\"100%\" height=\"100%\" allowfullscreen=\"\" loading=\" lazy\" referrerpolicy=\"no-referrer-when-downgrade\" frameborder=\"0\" src=\"https://maps.google.com/maps?q=" + charger.address.latitude +"," + charger.address.longitude + "&hl=es;z=14&amp;output=embed\"></iframe>";
+        wvMapa.loadData(mapaString, "text/html", null);
+        wvMapa.getSettings().setJavaScriptEnabled(true);
+
+        wvMapa.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true; //True if the listener has consumed the event, false otherwise.
+            }
+        });
+
     }
 }
