@@ -14,6 +14,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -59,22 +60,37 @@ public class DetailsView extends AppCompatActivity {
         String strInfoNumberOfPoints = String.format("Número de cargadores: %d", charger.numberOfPoints);
         tvInfoNumberOfPoints.setText(strInfoNumberOfPoints);
 
-        String strPrecio = String.format(charger.usageCost);
-        if (strPrecio.equals("")) {
+        String strPrecio;
+        if (charger.usageCost == null) {
             strPrecio = String.format("Precio No Disponible");
+        } else {
+            strPrecio = String.format(charger.usageCost);
+
+            if (strPrecio.equals("") || strPrecio == null) {
+                strPrecio = String.format("Precio No Disponible");
+            }
         }
         tvPrecio.setText(strPrecio);
 
-        String strWebsite = String.format(charger.operator.website);
+        String strWebsite = "hola";
+        if (charger.operator.website != null) {
+            strWebsite = String.format(charger.operator.website);
+        }
+
         //tvWebsite.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_NONE);
         //tvWebsite.setText(strWebsite);
 
+        String finalStrWebsite = strWebsite;
         btHipervinculo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri _link = Uri.parse(strWebsite);
-                Intent i = new Intent (Intent.ACTION_VIEW, _link);
-                startActivity(i);
+                if (finalStrWebsite != "hola") {
+                    Uri _link = Uri.parse(finalStrWebsite);
+                    Intent i = new Intent(Intent.ACTION_VIEW, _link);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "El proveedor no tiene enlace web", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
