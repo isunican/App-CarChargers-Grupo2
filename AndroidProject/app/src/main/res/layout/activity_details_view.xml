@@ -31,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/tvTitle"
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
@@ -49,7 +50,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="28dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,23 +71,11 @@
         android:id="@+id/tvPrecio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Price"
+        android:text="-"
+        app:layout_constraintBottom_toTopOf="@+id/wvMapa"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
-
-    <TextView
-        android:id="@+id/tvWebsite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:autoLink="all"
-        android:text="Website"
-        app:layout_constraintEnd_toEndOf="@+id/tvPrecio"
-        app:layout_constraintStart_toStartOf="@+id/tvPrecio"
-        app:layout_constraintTop_toBottomOf="@+id/tvPrecio" />
 
     <TextView
         android:id="@+id/tvResConnectorType"
@@ -143,4 +132,18 @@
         app:layout_constraintEnd_toEndOf="@+id/tvResPower"
         app:layout_constraintStart_toStartOf="@+id/tvResPower" />
 
+    <WebView
+        android:id="@+id/wvMapa"
+        android:layout_width="329dp"
+        android:layout_height="182dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
