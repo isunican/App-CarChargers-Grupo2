@@ -70,12 +70,12 @@
         android:id="@+id/tvPrecio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="204dp"
+        android:layout_marginTop="32dp"
         android:text="Price"
-        app:layout_constraintEnd_toEndOf="@+id/tvInfoAddress"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="@+id/tvInfoAddress"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
 
     <TextView
         android:id="@+id/tvWebsite"
@@ -84,7 +84,7 @@
         android:layout_marginTop="32dp"
         android:autoLink="all"
         android:text="Website"
-        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+        app:layout_constraintEnd_toEndOf="@+id/tvPrecio"
         app:layout_constraintStart_toStartOf="@+id/tvPrecio"
         app:layout_constraintTop_toBottomOf="@+id/tvPrecio" />
 
@@ -110,8 +110,8 @@
         android:id="@+id/tvConnectorType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="16dp"
         android:text="Tipo conector:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -120,9 +120,27 @@
         android:id="@+id/tvPower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Potencia"
         app:layout_constraintStart_toStartOf="@+id/tvConnectorType"
         app:layout_constraintTop_toBottomOf="@+id/tvConnectorType" />
+
+    <TextView
+        android:id="@+id/tvQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Cantidad:"
+        app:layout_constraintStart_toStartOf="@+id/tvPower"
+        app:layout_constraintTop_toBottomOf="@+id/tvPower" />
+
+    <TextView
+        android:id="@+id/tvResQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvQuantity"
+        app:layout_constraintEnd_toEndOf="@+id/tvResPower"
+        app:layout_constraintStart_toStartOf="@+id/tvResPower" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
