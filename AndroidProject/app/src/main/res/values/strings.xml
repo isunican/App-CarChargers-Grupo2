@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Car Chargers</string>
     <string name="info">Info</string>
+    <string name="favoritos">Favoritos</string>
     <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_favourite">FavouriteActivity</string>
     <string name="info_text">Aplicación creada para el Proyecto Integrado Curso 2023-2024</string>
 </resources>

@@ -44,4 +44,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="id" />
+
+    <ImageView
+        android:id="@+id/ivFavoritos"
+        android:layout_width="61dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:soundEffectsEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toEndOf="@+id/ivLogo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/favoritosnoactivo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

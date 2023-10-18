@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+
 /**
  * A charging station according to the OpenChargeMap API
  * Documentation: https://openchargemap.org/site/develop/api#/operations/get-poi
@@ -19,9 +20,10 @@ public class Charger {
     @SerializedName("OperatorInfo")         public Operator operator;
     @SerializedName("AddressInfo")          public Address address;
 
+    public boolean isFavourite = false;
+
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();
     }
-
 }
