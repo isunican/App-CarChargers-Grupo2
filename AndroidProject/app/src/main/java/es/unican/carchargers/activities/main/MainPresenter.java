@@ -71,5 +71,4 @@ public class MainPresenter implements IMainContract.Presenter {
     public void onMenuInfoClicked() {
         view.showInfoActivity();
     }
-
 }
