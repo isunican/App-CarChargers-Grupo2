@@ -3,4 +3,14 @@
     <string name="info">Info</string>
     <string name="title_activity_info">InfoActivity</string>
     <string name="info_text">Aplicación creada para el Proyecto Integrado Curso 2023-2024</string>
+    <string name="title_activity_filters">activity_filters</string>
+    <string-array name="companhiasArray">
+        <item>REPSOL</item>
+        <item>TESLA</item>
+        <item>IBERDROLA</item>
+        <item>IONITY</item>
+        <item>ZUNDER</item>
+        <item>WENEA</item>
+    </string-array>
+
 </resources>

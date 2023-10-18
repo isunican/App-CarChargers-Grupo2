@@ -2,6 +2,7 @@ package es.unican.carchargers.activities.main;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
@@ -18,6 +19,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
+    private List<Charger> filteredChargers;
 
     @Override
     public void init(IMainContract.View view) {
@@ -72,4 +74,10 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showInfoActivity();
     }
 
+    public void showFiltered(String companhia){
+        filteredChargers = shownChargers.stream().filter
+                (charger -> charger.operator.title.equals(companhia))
+                .collect(Collectors.toList());
+        view.showChargers(filteredChargers);
+    }
 }
