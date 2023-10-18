@@ -117,6 +117,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         } else {
             strPrecio = String.format(charger.usageCost);
 
+
             if (strPrecio.equals("") || strPrecio == null) {
                 strPrecio = String.format("Precio No Disponible");
             }
