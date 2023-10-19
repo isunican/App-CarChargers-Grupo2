@@ -41,18 +41,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
+    AlertDialog filterDialog;
+
     Spinner spnCompanhia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.companhiasArray,
-                android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnCompanhia.setAdapter(adapter);
 
         // Initialize presenter-view connection
         presenter = new MainPresenter();
@@ -74,6 +70,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 return true;
             case R.id.btnFilters:
                 filterDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -134,11 +131,30 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(view);
 
+        filterDialog = builder.create();
+
+        spnCompanhia = (Spinner)view.findViewById(R.id.spnCompanhia);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.companhiasArray,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnCompanhia.setAdapter(adapter);
+
+        filterDialog.show();
+
         String companhia = "";
 
         Button btnBuscar = (Button)view.findViewById(R.id.btnBuscar);
+        Button btnBuscarTodos = (Button)view.findViewById(R.id.btnBuscarTodos);
         btnBuscar.setOnClickListener(v -> {
+            filterDialog.dismiss();
             setFilter(companhia);
+        });
+
+        btnBuscarTodos.setOnClickListener(v -> {
+            filterDialog.dismiss();
+            presenter.showChargers();
         });
 
     }
