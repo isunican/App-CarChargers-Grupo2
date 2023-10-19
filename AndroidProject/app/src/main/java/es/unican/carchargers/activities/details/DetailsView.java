@@ -79,16 +79,13 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         // Set logo
         int resourceId = EOperator.fromId(charger.operator.id).logo;
         ivLogo.setImageResource(resourceId);
-        ivLogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (finalStrWebsite != null) {
-                    Uri _link = Uri.parse(finalStrWebsite);
-                    Intent i = new Intent(Intent.ACTION_VIEW, _link);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(getApplicationContext(), "El proveedor no tiene enlace web", Toast.LENGTH_LONG).show();
-                }
+        ivLogo.setOnClickListener(v -> {
+            if (finalStrWebsite != null) {
+                Uri link = Uri.parse(finalStrWebsite);
+                Intent i = new Intent(Intent.ACTION_VIEW, link);
+                startActivity(i);
+            } else {
+                Toast.makeText(getApplicationContext(), "El proveedor no tiene enlace web", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -121,7 +118,6 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             } catch(NullPointerException n) {
                 // Gray when we do not know
                 tv.setBackgroundColor(Color.GRAY);
-                System.out.println("NullPointerException thrown");
             }
             params.setMargins(20,0,0,0);
             tv.setLayoutParams(params);
@@ -132,13 +128,13 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
 
         String strPrecio;
         if (charger.usageCost == null) {
-            strPrecio = String.format("Precio No Disponible");
+            strPrecio = "Precio No Disponible";
         } else {
             strPrecio = String.format(charger.usageCost);
 
 
             if (strPrecio.equals("") || strPrecio == null) {
-                strPrecio = String.format("Precio No Disponible");
+                strPrecio = "Precio No Disponible";
             }
         }
         tvPrecio.setText(strPrecio);
@@ -147,14 +143,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         String mapaString = "<iframe width=\"100%\" height=\"100%\" allowfullscreen=\"\" loading=\" lazy\" referrerpolicy=\"no-referrer-when-downgrade\" frameborder=\"0\" src=\"https://maps.google.com/maps?q=" + charger.address.latitude +"," + charger.address.longitude + "&hl=es;z=14&amp;output=embed\"></iframe>";
         wvMapa.loadData(mapaString, "text/html", null);
         wvMapa.getSettings().setJavaScriptEnabled(true);
-
-        wvMapa.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true; //True if the listener has consumed the event, false otherwise.
-            }
-        });
-
+        wvMapa.setOnTouchListener((v, event) -> true);
 
         // SharedPreferences
         SharedPreferences sharedPref = this.getSharedPreferences("favoritos",Context.MODE_PRIVATE);
@@ -199,7 +188,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
 
         // Change her properties
         tvResConnectorType.setText(connection.connectionType.formalName);
-        tvResPower.setText(String.format(connection.powerKW + " KW"));
+        tvResPower.setText(String.format("%d KW", connection.powerKW));
         tvResDisponibility.setText(String.valueOf(connection.quantity));
     }
 }
