@@ -59,7 +59,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
         // Info
         {
-            TextView tv = convertView.findViewById(R.id.tvInfo);
+            TextView tv = convertView.findViewById(R.id.tvInfoAddress);
             tv.setText(charger.usageCost);
         }
 
