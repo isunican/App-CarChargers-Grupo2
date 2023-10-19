@@ -4,6 +4,7 @@ class Charger {
     + String id
     + int numberOfPoints
     + String usageCost
+    + boolean isFavorito
 }
 
 class Operator {
@@ -21,7 +22,34 @@ class Address {
     + String longitude
 }
 
+class Favourite {
+    + addCharger(String id)
+}
+
+class Connection {
+    + String id
+    + double powerKW
+    + int quantity
+}
+
+class ConnectionType {
+    + String id
+    + String formalName
+}
+
+class StatusType {
+    + String id
+    + boolean isOperational
+}
+
+
 Charger -down-> "1" Address : address
 Charger -down-> "1" Operator : operator
+Charger -down-> "*" Connection : connections
+
+Favourite -right-> "*" Charger: listaFavoritos
+
+Connection -down-> "1" ConnectionType : connectionType
+Connection -down-> "1" StatusType : connectionStatus
 
 @enduml
