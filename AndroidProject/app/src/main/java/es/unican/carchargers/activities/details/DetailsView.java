@@ -177,8 +177,12 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
                     ivFavoritos.setImageResource(R.drawable.favoritoactivo);
                     editor.putBoolean(charger.id, true);
                     editor.apply();
-                    favourite.addCharger(charger.id);
-                    Toast.makeText(getApplicationContext(), "Anhadido correctamente a favoritos", Toast.LENGTH_LONG).show();
+                    String anhadirFavorito = favourite.addCharger(charger.id);
+                    if (anhadirFavorito.equals(charger.id)) {
+                        Toast.makeText(getApplicationContext(),"Anhadido correctamente a favoritos", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Punto de recarga ya en favoritos", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
