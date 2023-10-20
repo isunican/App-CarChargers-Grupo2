@@ -39,7 +39,6 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
         // logo
         {
             ImageView iv = convertView.findViewById(R.id.ivLogo);
-            String operatorName = charger.operator.title;
             EOperator operator = EOperator.fromId(charger.operator.id);
             iv.setImageResource(operator.logo);
         }

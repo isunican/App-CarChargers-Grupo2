@@ -80,12 +80,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public void init() {
         // initialize listener to react to touch selections in the list
         ListView lv = findViewById(R.id.lvChargers);
+        lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
+        /*
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 presenter.onChargerClicked(position);
             }
         });
+
+         */
     }
 
     @Override

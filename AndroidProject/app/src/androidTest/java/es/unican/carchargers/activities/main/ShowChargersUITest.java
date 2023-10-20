@@ -67,10 +67,8 @@ public class ShowChargersUITest {
     @Test
     public void showChargersTest() {
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
-
         DataInteraction interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
     }
-
 }
