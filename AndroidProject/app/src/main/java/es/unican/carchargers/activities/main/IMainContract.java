@@ -36,6 +36,10 @@ public interface IMainContract {
          * Only the View should call this method
          */
         public void onMenuInfoClicked();
+
+        void showFiltered(String companhia);
+
+        void showChargers();
     }
 
     /**

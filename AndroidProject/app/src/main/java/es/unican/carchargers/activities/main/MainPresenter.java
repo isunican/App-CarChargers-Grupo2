@@ -2,6 +2,7 @@ package es.unican.carchargers.activities.main;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
@@ -18,6 +19,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
+    private List<Charger> filteredChargers;
 
     @Override
     public void init(IMainContract.View view) {
@@ -44,6 +46,7 @@ public class MainPresenter implements IMainContract.Presenter {
             public void onSuccess(List<Charger> chargers) {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
+                filteredChargers = shownChargers;
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -51,6 +54,7 @@ public class MainPresenter implements IMainContract.Presenter {
             @Override
             public void onFailure(Throwable e) {
                 MainPresenter.this.shownChargers = Collections.emptyList();
+                filteredChargers = shownChargers;
                 view.showLoadError();
             }
         };
@@ -61,8 +65,8 @@ public class MainPresenter implements IMainContract.Presenter {
 
     @Override
     public void onChargerClicked(int index) {
-        if (shownChargers != null && index < shownChargers.size()) {
-            Charger charger = shownChargers.get(index);
+        if (filteredChargers != null && index < filteredChargers.size()) {
+            Charger charger = filteredChargers.get(index);
             view.showChargerDetails(charger);
         }
     }
@@ -70,5 +74,19 @@ public class MainPresenter implements IMainContract.Presenter {
     @Override
     public void onMenuInfoClicked() {
         view.showInfoActivity();
+    }
+
+    @Override
+    public void showFiltered(String companhia){
+        filteredChargers = shownChargers.stream().filter
+                        (charger -> charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
+                .collect(Collectors.toList());
+        view.showChargers(filteredChargers);
+    }
+
+    @Override
+    public void showChargers(){
+        filteredChargers = shownChargers;
+        view.showChargers(shownChargers);
     }
 }
