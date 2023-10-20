@@ -27,6 +27,22 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     /**
+     * Constructor used for unit testing porpuses.
+     * @param view MainView for testing the class.
+     * @param shownChargers list of chargers for testing the class.
+     */
+    protected MainPresenter(MainView view, List<Charger> shownChargers) {
+        this.view = view;
+        this.shownChargers = shownChargers;
+    }
+
+    /**
+     * The regular empty constructor
+     */
+    public MainPresenter() {
+    }
+
+    /**
      * This method requests a list of charging stations from the repository, and requests
      * the view to show them.
      */
@@ -73,3 +89,5 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 }
+
+

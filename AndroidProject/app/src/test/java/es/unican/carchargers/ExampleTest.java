@@ -14,4 +14,5 @@ public class ExampleTest {
         charger.numberOfPoints = 5;
         assertEquals(charger.numberOfPoints, 5);
     }
+
 }
