@@ -23,7 +23,7 @@ class Address {
 }
 
 class Favourite {
-    + addCharger(String id)
+    + addCharger(String id) : String
 }
 
 class Connection {
