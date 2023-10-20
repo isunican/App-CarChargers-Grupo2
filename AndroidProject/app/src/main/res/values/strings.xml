@@ -1,6 +1,25 @@
 <resources>
     <string name="app_name">Car Chargers</string>
     <string name="info">Info</string>
+    <string name="favoritos">Favoritos</string>
     <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_favourite">FavouriteActivity</string>
     <string name="info_text">Aplicación creada para el Proyecto Integrado Curso 2023-2024</string>
+    <string name="title_activity_filters">activity_filters</string>
+    <string-array name="companhiasArray">
+        <item>REPSOL - ibil (ES)</item>
+        <item>TESLA</item>
+        <item>IBERDROLA</item>
+        <item>IONITY</item>
+        <item>ZUNDER</item>
+        <item>WENEA</item>
+        <item>ENDESA</item>
+        <item>Telepark (Empark)</item>
+        <item>CEPSA (ES)</item>
+        <item>Renault</item>
+        <item>Mercadona</item>
+        <item>Lidl</item>
+        <item>EDP</item>
+    </string-array>
+
 </resources>
