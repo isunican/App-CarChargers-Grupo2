@@ -3,11 +3,10 @@ package es.unican.carchargers.activities.main;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
 import android.util.Log;
 import android.view.LayoutInflater;
->>>>>>> feature/484732-FiltroCompanhia
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -83,12 +82,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public void init() {
         // initialize listener to react to touch selections in the list
         ListView lv = findViewById(R.id.lvChargers);
+        lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
+        /*
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 presenter.onChargerClicked(position);
             }
         });
+
+         */
     }
 
     @Override
