@@ -58,6 +58,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         ImageView ivLogo = findViewById(R.id.ivLogo);
         TextView tvTitle = findViewById(R.id.tvTitle);
         TextView tvId = findViewById(R.id.tvId);
+        TextView tvAddress = findViewById(R.id.tvDireccion);
 
         ImageView ivFavoritos = findViewById(R.id.ivFavoritos);
 
@@ -97,6 +98,15 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         tvId.setText(charger.id);
         String strInfoAddress = String.format("%s, (%s, %s)", charger.address.title, charger.address.town, charger.address.province);
         tvInfoAddress.setText(strInfoAddress);
+
+        String strAddress = String.format("%s", charger.address.addressLine1);
+        if (strAddress.equals(null)){
+            strAddress = String.format("%s", charger.address.addressLine2);
+            if (strAddress.equals(null)) {
+                strAddress = "Dirección no disponible";
+            }
+        }
+        tvAddress.setText(strAddress);
 
         // Set params for all connection views
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(60, 60);
