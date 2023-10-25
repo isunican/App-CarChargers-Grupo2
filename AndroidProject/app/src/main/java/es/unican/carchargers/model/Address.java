@@ -18,5 +18,7 @@ public class Address {
     @SerializedName("StateOrProvince")  public String province;
     @SerializedName("Latitude")         public String latitude;
     @SerializedName("Longitude")        public String longitude;
+    @SerializedName("AddressLine1")     public String addressLine1;
+    @SerializedName("AddressLine2")     public String addressLine2;
 
 }
