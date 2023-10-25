@@ -2,15 +2,23 @@ package es.unican.carchargers.activities.main;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
 
 import androidx.test.espresso.DataInteraction;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -28,6 +36,7 @@ import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 import es.unican.carchargers.common.RepositoriesModule;
 import es.unican.carchargers.utils.HTTPIdlingResource;
+import es.unican.carchargers.utils.Matchers;
 
 /**
  * Example UI Test using Hilt dependency injection
@@ -36,13 +45,15 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  */
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
-public class ShowChargersUITest {
+public class FiltroCompanhiaUITest {
+
 
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
     @Rule(order = 1)
     public ActivityScenarioRule<MainView> activityRule = new ActivityScenarioRule(MainView.class);
+
 
     // necesito el context para acceder a recursos, por ejemplo un json con datos fake
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -61,8 +72,26 @@ public class ShowChargersUITest {
 
     // inject a fake repository that loads the data from a local json file
     // IMPORTANT: all the tests in this class must use this repository
-    @BindValue IRepository repository = Repositories
+    @BindValue
+    IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
+
+    /* No funciona porque no selecciona el elemento deseado del spinner
+    @Test
+    public void filtroCompanhiaTest() throws InterruptedException {
+        onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
+        onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
+        onView(withId(R.id.btnFilters)).perform(click());
+        onView(withId(R.id.spnCompanhia)).perform(click());
+        //onView(withText("ENDESA")).perform(click());
+        Thread.sleep(1000);
+        onData(allOf(is(instanceOf(String.class)), is("REPSOL - ibil (ES)"))).perform(click());
+        onView(withId(R.id.btnBuscar)).perform(click());
+        onView(withId(R.id.lvChargers)).check(matches(hasChildCount(6)));
+        onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).onChildView(withId(R.id.tvId)).
+                check(matches(withText("203416")));
+    }
+    */
 
     @Test
     public void showChargersTest() {
@@ -72,5 +101,6 @@ public class ShowChargersUITest {
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
     }
-
 }
+
+

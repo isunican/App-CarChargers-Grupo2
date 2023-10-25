@@ -37,6 +37,9 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
+        void showFiltered(String companhia);
+
+        void showChargers();
     }
 
     /**

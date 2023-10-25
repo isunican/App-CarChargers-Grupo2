@@ -1,14 +1,21 @@
 package es.unican.carchargers.activities.main;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +43,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
 
+    AlertDialog filterDialog;
+
+    Spinner spnCompanhia;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +70,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemInfo:
                 presenter.onMenuInfoClicked();
                 return true;
+            case R.id.btnFilters:
+                filterDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -68,12 +82,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public void init() {
         // initialize listener to react to touch selections in the list
         ListView lv = findViewById(R.id.lvChargers);
+        lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
+        /*
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 presenter.onChargerClicked(position);
             }
         });
+
+         */
     }
 
     @Override
@@ -112,4 +130,43 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(intent);
     }
 
+    public void filterDialog() {
+        LayoutInflater inflater= LayoutInflater.from(this);
+        View view=inflater.inflate(R.layout.filter_menu, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        filterDialog = builder.create();
+
+        spnCompanhia = (Spinner)view.findViewById(R.id.spnCompanhia);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.companhiasArray,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnCompanhia.setAdapter(adapter);
+
+        filterDialog.show();
+
+        String companhia = "";
+
+        Button btnBuscar = (Button)view.findViewById(R.id.btnBuscar);
+        Button btnBuscarTodos = (Button)view.findViewById(R.id.btnBuscarTodos);
+        btnBuscar.setOnClickListener(v -> {
+            filterDialog.dismiss();
+            setFilter(companhia);
+        });
+
+        btnBuscarTodos.setOnClickListener(v -> {
+            filterDialog.dismiss();
+            presenter.showChargers();
+        });
+
+    }
+
+    private void setFilter(String companhia) {
+        companhia = spnCompanhia.getSelectedItem().toString();
+        presenter.showFiltered(companhia);
+    }
 }
