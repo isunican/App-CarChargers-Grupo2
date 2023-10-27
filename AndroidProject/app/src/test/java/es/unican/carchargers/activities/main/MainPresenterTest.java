@@ -46,7 +46,7 @@ public class MainPresenterTest {
         verify(view).showChargerDetails(shownChargers.get(1));
     }
 
-    @Testgit 
+    @Test
     public void onMenuInfoClickedTest() {
         List<Charger> shownChargers = new ArrayList<>();
         presenter = new MainPresenter(view, shownChargers);
