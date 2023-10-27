@@ -90,7 +90,8 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showChargers(shownChargers);
     }
 
-    public  List<Charger> sortPower(List<Charger> chargers, ascendente) {
-
+    @Override
+    public void onMenuSortClicked() {
+        view.showSortActivity();
     }
 }

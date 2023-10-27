@@ -74,6 +74,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.btnFilters:
                 filterDialog();
                 return true;
+            case R.id.btnOrdenar:
+                presenter.onMenuSortClicked();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -131,7 +134,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(intent);
     }
 
-    public void showOrderActivity() {
+
+    @Override
+    public void showSortActivity() {
         Intent intent = new Intent(this, SortActivity.class);
         startActivity(intent);
     }
