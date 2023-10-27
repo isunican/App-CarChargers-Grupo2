@@ -9,7 +9,7 @@ import java.util.List;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
 
-public class SortTest {
+public class ChargerTest {
     List<Charger> chargers;
     Charger charger1;
     Charger charger2;
