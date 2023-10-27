@@ -35,7 +35,7 @@ public class showFilteredTest {
 
     }
 
-    /*
+
     @Test
     public void showFilteredTestA() {
         String companhia = "ENDESA";
@@ -48,9 +48,9 @@ public class showFilteredTest {
 
         sut.showFiltered("ENDESA");
 
-        verify(mockView).showChargers();
+        verify(mockView).showChargers(mockChargers);
     }
-    */
+
 
     @Test
     public void test() {
