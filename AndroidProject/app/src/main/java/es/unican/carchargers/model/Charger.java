@@ -34,7 +34,7 @@ public class Charger {
     }
 
     public double potenciaMaxima() {
-        potenciaMax = 0;
+        potenciaMax = -1;
         for (int i = 0; i < connections.size(); i++) {
             if (connections.get(i).powerKW > potenciaMax) {
                 potenciaMax = connections.get(i).powerKW;

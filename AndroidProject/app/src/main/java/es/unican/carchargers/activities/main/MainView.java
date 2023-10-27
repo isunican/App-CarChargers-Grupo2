@@ -31,6 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.activities.ordenar.SortActivity;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 
@@ -127,6 +128,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     @Override
     public void showInfoActivity() {
         Intent intent = new Intent(this, InfoActivity.class);
+        startActivity(intent);
+    }
+
+    public void showOrderActivity() {
+        Intent intent = new Intent(this, SortActivity.class);
         startActivity(intent);
     }
 

@@ -89,4 +89,8 @@ public class MainPresenter implements IMainContract.Presenter {
         filteredChargers = shownChargers;
         view.showChargers(shownChargers);
     }
+
+    public  List<Charger> sortPower(List<Charger> chargers, ascendente) {
+
+    }
 }
