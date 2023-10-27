@@ -40,6 +40,8 @@ public interface IMainContract {
         void showFiltered(String companhia);
 
         void showChargers();
+
+        public void onMenuSortClicked();
     }
 
     /**
@@ -100,6 +102,8 @@ public interface IMainContract {
          * Only the Presenter should call this method
          */
         public void showInfoActivity();
+
+        public void showSortActivity();
 
     }
 }

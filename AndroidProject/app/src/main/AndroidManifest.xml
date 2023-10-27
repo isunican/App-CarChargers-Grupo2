@@ -21,9 +21,9 @@
             android:label="@string/title_activity_info"
             android:theme="@style/Theme.CarChargers" />
         <activity
-            android:name=".activities.favourite.FavouriteView"
+            android:name=".activities.sort.SortActivity"
             android:exported="false"
-            android:label="@string/title_activity_favourite"
+            android:label="Ordenar"
             android:theme="@style/Theme.CarChargers" />
         <activity
             android:name=".activities.details.DetailsView"

@@ -31,6 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.activities.sort.SortActivity;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 
@@ -72,6 +73,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 return true;
             case R.id.btnFilters:
                 filterDialog();
+                return true;
+            case R.id.btnOrdenar:
+                presenter.onMenuSortClicked();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -127,6 +131,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     @Override
     public void showInfoActivity() {
         Intent intent = new Intent(this, InfoActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showSortActivity() {
+        Intent intent = new Intent(this, SortActivity.class);
         startActivity(intent);
     }
 

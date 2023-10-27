@@ -89,4 +89,9 @@ public class MainPresenter implements IMainContract.Presenter {
         filteredChargers = shownChargers;
         view.showChargers(shownChargers);
     }
+
+    @Override
+    public void onMenuSortClicked() {
+        view.showSortActivity();
+    }
 }
