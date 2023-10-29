@@ -43,6 +43,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     AlertDialog sortDialog;
 
     Spinner spnCompanhia;
+    Spinner spnCriterio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +176,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.setView(view);
 
         sortDialog = builder.create();
+
+        spnCriterio = (Spinner)view.findViewById(R.id.spnCriterio);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.criteriosArray,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnCriterio.setAdapter(adapter);
 
         sortDialog.show();
     }
