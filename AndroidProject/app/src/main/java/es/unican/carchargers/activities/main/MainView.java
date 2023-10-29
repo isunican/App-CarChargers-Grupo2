@@ -3,15 +3,11 @@ package es.unican.carchargers.activities.main;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
-import es.unican.carchargers.activities.sort.SortActivity;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 
@@ -45,6 +40,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     IMainContract.Presenter presenter;
 
     AlertDialog filterDialog;
+    AlertDialog sortDialog;
 
     Spinner spnCompanhia;
 
@@ -75,7 +71,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 filterDialog();
                 return true;
             case R.id.btnOrdenar:
-                presenter.onMenuSortClicked();
+                sortDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -134,12 +130,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(intent);
     }
 
-    @Override
-    public void showSortActivity() {
-        Intent intent = new Intent(this, SortActivity.class);
-        startActivity(intent);
-    }
-
     public void filterDialog() {
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.filter_menu, null);
@@ -170,13 +160,24 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         btnBuscarTodos.setOnClickListener(v -> {
             filterDialog.dismiss();
-            presenter.showChargers();
+            presenter.onShowChargersFiltered();
         });
-
     }
-
     private void setFilter(String companhia) {
         companhia = spnCompanhia.getSelectedItem().toString();
-        presenter.showFiltered(companhia);
+        presenter.onFilteredClicked(companhia);
     }
+    public void sortDialog() {
+        LayoutInflater inflater= LayoutInflater.from(this);
+        View view=inflater.inflate(R.layout.sort_menu, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        sortDialog = builder.create();
+
+        sortDialog.show();
+    }
+
+    public void setOrdenacion(String criterio, boolean ascendente) {}
 }
