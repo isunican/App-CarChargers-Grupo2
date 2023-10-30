@@ -216,7 +216,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         Button btnBuscarOrden = (Button)view.findViewById(R.id.btnBuscarOrden);
         btnBuscarOrden.setOnClickListener(v -> {
-            filterDialog.dismiss();
+            sortDialog.dismiss();
             setOrdenacion(ascendente);
         });
     }

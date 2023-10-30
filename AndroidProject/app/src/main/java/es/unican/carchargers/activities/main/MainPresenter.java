@@ -51,7 +51,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
                 filteredChargers = shownChargers;
-                sortedChargers = shownChargers;
+                //sortedChargers = shownChargers;
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -74,10 +74,12 @@ public class MainPresenter implements IMainContract.Presenter {
             Charger charger = filteredChargers.get(index);
             view.showChargerDetails(charger);
         }
+        /*
         if (sortedChargers != null && index < sortedChargers.size()) {
             Charger charger = sortedChargers.get(index);
             view.showChargerDetails(charger);
         }
+        */
     }
 
     @Override
@@ -103,28 +105,26 @@ public class MainPresenter implements IMainContract.Presenter {
     public void onSortedClicked(String criterio, boolean ascendente) {
 
         if (ascendente) {
-            sortedChargers = (List<Charger>) shownChargers.stream().sorted(new Comparator<Charger>() {
+            filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
                 @Override
                 public int compare(Charger ch1, Charger ch2) {
                     return (int) (ch1.maxPower() - ch2.maxPower());
                 }
             }).collect(Collectors.toList());
         } else {
-            sortedChargers = (List<Charger>) shownChargers.stream().sorted(new Comparator<Charger>() {
+            filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
                 @Override
                 public int compare(Charger ch1, Charger ch2) {
-                    return (int) (ch1.maxPower() - ch2.maxPower());
+                    return (int) (ch2.maxPower() - ch1.maxPower());
                 }
             }).collect(Collectors.toList());
         }
-
-        view.showChargers(sortedChargers);
-
+        view.showChargers(filteredChargers);
     }
 
     @Override
     public void onShowChargersSorted() {
-        sortedChargers = shownChargers;
+        filteredChargers = shownChargers;
         view.showChargers((shownChargers));
     }
 

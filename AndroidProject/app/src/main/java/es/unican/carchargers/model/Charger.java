@@ -25,7 +25,6 @@ public class Charger {
     @SerializedName("Connections")          public List<Connection> connections;
 
     public boolean isFavourite = false;
-    private double potenciaMax;
     private boolean ascendente = false;
 
     public Charger() {
@@ -35,7 +34,7 @@ public class Charger {
     }
 
     public double maxPower() {
-        potenciaMax = 0;
+        double potenciaMax = 0;
         for (int i = 0; i < connections.size(); i++) {
             if (connections.get(i).powerKW > potenciaMax) {
                 potenciaMax = connections.get(i).powerKW;
