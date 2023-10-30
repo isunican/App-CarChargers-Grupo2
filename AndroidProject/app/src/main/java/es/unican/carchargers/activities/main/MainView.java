@@ -53,7 +53,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     Charger charger = new Charger();
 
-    boolean ascendente;
+    int ascendente = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,14 +203,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         radioButtonAsc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ascendente = true;
+                ascendente = 1;
             }
         });
 
         radioButtonDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ascendente = false;
+                ascendente = -1;
             }
         });
 
@@ -221,7 +221,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
     }
 
-    public void setOrdenacion(boolean ascendente) {
+    public void setOrdenacion(int ascendente) {
         String criterio = spnCriterio.getSelectedItem().toString();
         presenter.onSortedClicked(criterio, ascendente);
     }

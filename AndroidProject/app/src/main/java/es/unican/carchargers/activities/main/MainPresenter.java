@@ -102,22 +102,24 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void onSortedClicked(String criterio, boolean ascendente) {
+    public void onSortedClicked(String criterio, int ascendente) {
 
-        if (ascendente) {
+        if (ascendente == 1) {
             filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
                 @Override
                 public int compare(Charger ch1, Charger ch2) {
                     return (int) (ch1.maxPower() - ch2.maxPower());
                 }
             }).collect(Collectors.toList());
-        } else {
+        } else if (ascendente == -1) {
             filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
                 @Override
                 public int compare(Charger ch1, Charger ch2) {
                     return (int) (ch2.maxPower() - ch1.maxPower());
                 }
             }).collect(Collectors.toList());
+        } else {
+            filteredChargers = (List<Charger>) filteredChargers.stream().collect(Collectors.toList());
         }
         view.showChargers(filteredChargers);
     }
