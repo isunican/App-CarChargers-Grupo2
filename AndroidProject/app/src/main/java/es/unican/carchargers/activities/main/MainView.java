@@ -1,20 +1,19 @@
 package es.unican.carchargers.activities.main;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,8 +43,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     IMainContract.Presenter presenter;
 
     AlertDialog filterDialog;
+    AlertDialog sortDialog;
 
     Spinner spnCompanhia;
+    Spinner spnCriterio;
+    RadioButton radioButtonAsc;
+    RadioButton radioButtonDesc;
+
+    Charger charger = new Charger();
+
+    boolean ascendente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +79,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 return true;
             case R.id.btnFilters:
                 filterDialog();
+                return true;
+            case R.id.btnOrdenar:
+                sortDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -160,13 +170,58 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         btnBuscarTodos.setOnClickListener(v -> {
             filterDialog.dismiss();
-            presenter.showChargers();
+            presenter.onShowChargersFiltered();
         });
-
     }
-
     private void setFilter(String companhia) {
         companhia = spnCompanhia.getSelectedItem().toString();
-        presenter.showFiltered(companhia);
+        presenter.onFilteredClicked(companhia);
+    }
+    public void sortDialog() {
+        LayoutInflater inflater= LayoutInflater.from(this);
+        View view=inflater.inflate(R.layout.sort_menu, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        sortDialog = builder.create();
+
+        spnCriterio = (Spinner)view.findViewById(R.id.spnCriterio);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.criteriosArray,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnCriterio.setAdapter(adapter);
+
+        sortDialog.show();
+
+        radioButtonAsc = (RadioButton) view.findViewById(R.id.radioButtonAsc);
+        radioButtonDesc = (RadioButton) view.findViewById(R.id.radioButtonDesc);
+
+        radioButtonAsc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ascendente = true;
+            }
+        });
+
+        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ascendente = false;
+            }
+        });
+
+        Button btnBuscarOrden = (Button)view.findViewById(R.id.btnBuscarOrden);
+        btnBuscarOrden.setOnClickListener(v -> {
+            sortDialog.dismiss();
+            setOrdenacion(ascendente);
+        });
+    }
+
+    public void setOrdenacion(boolean ascendente) {
+        String criterio = spnCriterio.getSelectedItem().toString();
+        presenter.onSortedClicked(criterio, ascendente);
     }
 }
