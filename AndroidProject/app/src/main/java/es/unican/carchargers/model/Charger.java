@@ -26,6 +26,7 @@ public class Charger {
 
     public boolean isFavourite = false;
     private double potenciaMax;
+    private boolean ascendente = false;
 
     public Charger() {
         this.connections = new ArrayList<Connection>();

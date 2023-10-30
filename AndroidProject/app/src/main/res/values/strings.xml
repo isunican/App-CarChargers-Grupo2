@@ -25,4 +25,8 @@
         <item>Potencia</item>
     </string-array>
 
+    <string-array name="criteriosArray">
+        <item>POTENCIA</item>
+    </string-array>
+
 </resources>

@@ -17,8 +17,6 @@ import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
 
-import androidx.test.espresso.DataInteraction;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -37,7 +35,6 @@ import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 import es.unican.carchargers.common.RepositoriesModule;
 import es.unican.carchargers.utils.HTTPIdlingResource;
-import es.unican.carchargers.utils.Matchers;
 
 /**
  * Example UI Test using Hilt dependency injection

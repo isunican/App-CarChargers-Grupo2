@@ -37,11 +37,13 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        void showFiltered(String companhia);
+        public void onFilteredClicked(String companhia);
 
-        void showChargers();
+        public void onShowChargersFiltered();
 
-        public void onMenuSortClicked();
+        public void onSortedClicked(String criterio, boolean ascendente);
+
+        public void onShowChargersSorted();
     }
 
     /**
@@ -102,8 +104,5 @@ public interface IMainContract {
          * Only the Presenter should call this method
          */
         public void showInfoActivity();
-
-        public void showSortActivity();
-
     }
 }
