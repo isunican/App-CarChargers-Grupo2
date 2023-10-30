@@ -78,9 +78,17 @@ public class MainPresenter implements IMainContract.Presenter {
 
     @Override
     public void showFiltered(String companhia){
-        filteredChargers = shownChargers.stream().filter
-                        (charger -> charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
-                .collect(Collectors.toList());
+        if (companhia.equals("-")) {
+            filteredChargers = shownChargers;
+        } else if (companhia.equals("OTROS")) {
+            filteredChargers = shownChargers.stream().filter
+                            (charger -> charger.operator.title.toLowerCase().equals("(Business Owner at Location)".toLowerCase()))
+                    .collect(Collectors.toList());
+        } else {
+            filteredChargers = shownChargers.stream().filter
+                            (charger -> charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
         view.showChargers(filteredChargers);
     }
 
