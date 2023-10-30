@@ -1,7 +1,9 @@
 package es.unican.carchargers.activities.main;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,6 +47,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     Spinner spnCompanhia;
     Spinner spnCriterio;
+    RadioButton radioButtonAsc;
+    RadioButton radioButtonDesc;
+
+    Charger charger = new Charger();
+
+    boolean ascendente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,7 +195,33 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         spnCriterio.setAdapter(adapter);
 
         sortDialog.show();
+
+        radioButtonAsc = (RadioButton) view.findViewById(R.id.radioButtonAsc);
+        radioButtonDesc = (RadioButton) view.findViewById(R.id.radioButtonDesc);
+
+        radioButtonAsc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ascendente = true;
+            }
+        });
+
+        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ascendente = false;
+            }
+        });
+
+        Button btnBuscarOrden = (Button)view.findViewById(R.id.btnBuscarOrden);
+        btnBuscarOrden.setOnClickListener(v -> {
+            sortDialog.dismiss();
+            setOrdenacion(ascendente);
+        });
     }
 
-    public void setOrdenacion(String criterio, boolean ascendente) {}
+    public void setOrdenacion(boolean ascendente) {
+        String criterio = spnCriterio.getSelectedItem().toString();
+        presenter.onSortedClicked(criterio, ascendente);
+    }
 }
