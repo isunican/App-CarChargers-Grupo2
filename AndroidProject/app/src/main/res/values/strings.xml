@@ -21,6 +21,9 @@
         <item>Lidl</item>
         <item>EDP</item>
     </string-array>
+    <string-array name="tiposOrdenacion">
+        <item>Potencia</item>
+    </string-array>
 
     <string-array name="criteriosArray">
         <item>NINGUNO</item>
