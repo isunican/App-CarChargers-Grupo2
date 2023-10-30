@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.main;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,9 @@ public class MainPresenter implements IMainContract.Presenter {
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
     private List<Charger> filteredChargers;
+    private List<Charger> sortedChargers;
+    Charger charger1 = new Charger();
+    Charger charger2 = new Charger();
 
     @Override
     public void init(IMainContract.View view) {
@@ -47,6 +51,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
                 filteredChargers = shownChargers;
+                //sortedChargers = shownChargers;
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -69,6 +74,12 @@ public class MainPresenter implements IMainContract.Presenter {
             Charger charger = filteredChargers.get(index);
             view.showChargerDetails(charger);
         }
+        /*
+        if (sortedChargers != null && index < sortedChargers.size()) {
+            Charger charger = sortedChargers.get(index);
+            view.showChargerDetails(charger);
+        }
+        */
     }
 
     @Override
@@ -77,7 +88,7 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void showFiltered(String companhia){
+    public void onFilteredClicked(String companhia){
         if (companhia.equals("-")) {
             filteredChargers = shownChargers;
         } else if (companhia.equals("OTROS")) {
@@ -93,8 +104,37 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void showChargers(){
+    public void onShowChargersFiltered(){
         filteredChargers = shownChargers;
         view.showChargers(shownChargers);
     }
+
+    public void onSortedClicked(String criterio, boolean ascendente) {
+
+        if (ascendente) {
+            filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
+                @Override
+                public int compare(Charger ch1, Charger ch2) {
+                    return (int) (ch1.maxPower() - ch2.maxPower());
+                }
+            }).collect(Collectors.toList());
+        } else {
+            filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
+                @Override
+                public int compare(Charger ch1, Charger ch2) {
+                    return (int) (ch2.maxPower() - ch1.maxPower());
+                }
+            }).collect(Collectors.toList());
+        }
+        view.showChargers(filteredChargers);
+    }
+
+    @Override
+    public void onShowChargersSorted() {
+        filteredChargers = shownChargers;
+        view.showChargers((shownChargers));
+    }
 }
+
+
+

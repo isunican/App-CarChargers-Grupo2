@@ -21,11 +21,6 @@
             android:label="@string/title_activity_info"
             android:theme="@style/Theme.CarChargers" />
         <activity
-            android:name=".activities.favourite.FavouriteView"
-            android:exported="false"
-            android:label="@string/title_activity_favourite"
-            android:theme="@style/Theme.CarChargers" />
-        <activity
             android:name=".activities.details.DetailsView"
             android:exported="false" />
         <activity

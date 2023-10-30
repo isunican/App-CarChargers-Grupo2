@@ -14,4 +14,12 @@
         android:icon="@drawable/filter"
         android:title="filtersButton"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/btnOrdenar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:icon="@drawable/sortbyicon"
+        android:title="orderButton"
+        app:showAsAction="always" />
 </menu>
