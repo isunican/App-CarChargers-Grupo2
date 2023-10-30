@@ -77,7 +77,7 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void showFiltered(String companhia){
+    public void onFilteredClicked(String companhia){
         filteredChargers = shownChargers.stream().filter
                         (charger -> charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
                 .collect(Collectors.toList());
@@ -85,13 +85,16 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void showChargers(){
+    public void onShowChargersFiltered(){
         filteredChargers = shownChargers;
         view.showChargers(shownChargers);
     }
 
     @Override
-    public void onMenuSortClicked() {
-        view.showSortActivity();
-    }
+    public void onSortedClicked(String criterio, boolean ascendente) {}
+
+    @Override
+    public void onShowChargersSorted() {}
+
+
 }
