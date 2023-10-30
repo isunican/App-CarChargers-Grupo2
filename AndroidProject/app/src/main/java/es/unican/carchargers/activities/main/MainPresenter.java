@@ -106,14 +106,14 @@ public class MainPresenter implements IMainContract.Presenter {
             sortedChargers = (List<Charger>) shownChargers.stream().sorted(new Comparator<Charger>() {
                 @Override
                 public int compare(Charger ch1, Charger ch2) {
-                    return (int) (ch1.potenciaMaxima() - ch2.potenciaMaxima());
+                    return (int) (ch1.maxPower() - ch2.maxPower());
                 }
             }).collect(Collectors.toList());
         } else {
             sortedChargers = (List<Charger>) shownChargers.stream().sorted(new Comparator<Charger>() {
                 @Override
                 public int compare(Charger ch1, Charger ch2) {
-                    return (int) (ch1.potenciaMaxima() - ch2.potenciaMaxima());
+                    return (int) (ch1.maxPower() - ch2.maxPower());
                 }
             }).collect(Collectors.toList());
         }
