@@ -1,11 +1,9 @@
 package es.unican.carchargers.activities.main;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,9 +19,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.internal.bind.MapTypeAdapterFactory;
+
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -46,6 +49,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     AlertDialog filterDialog;
 
     Spinner spnCompanhia;
+    Spinner spnProvincia;
+    Spinner spnLocalidad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +76,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 presenter.onMenuInfoClicked();
                 return true;
             case R.id.btnFilters:
-                filterDialog();
+                presenter.onDialogRequested();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -130,7 +135,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(intent);
     }
 
-    public void filterDialog() {
+    @Override
+    public void showFilterDialog(Map<String, Set<String>> provinces) {
+        final Context context = this;
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.filter_menu, null);
 
@@ -146,6 +153,32 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnCompanhia.setAdapter(adapter);
+
+        spnProvincia = (Spinner)view.findViewById(R.id.spnProvincia);
+
+        ArrayAdapter<String> adapterProvincia = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(provinces.keySet()));
+        adapterProvincia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnProvincia.setAdapter(adapterProvincia);
+
+        spnLocalidad = (Spinner)view.findViewById(R.id.spnLocalidad);
+
+        spnProvincia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedProvince = spnProvincia.getSelectedItem().toString();
+                Set<String> localities = provinces.get(selectedProvince);
+                String[] localityArray = localities.toArray(new String[0]);
+                ArrayAdapter<String> localityAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, localityArray);
+                localityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spnLocalidad.setAdapter(localityAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                ArrayAdapter<String> emptyAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+                spnLocalidad.setAdapter(emptyAdapter);
+            }
+        });
 
         filterDialog.show();
 

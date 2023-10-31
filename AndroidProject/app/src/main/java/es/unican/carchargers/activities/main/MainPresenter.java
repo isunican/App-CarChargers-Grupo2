@@ -1,9 +1,15 @@
 package es.unican.carchargers.activities.main;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import es.unican.carchargers.model.Address;
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
@@ -20,6 +26,8 @@ public class MainPresenter implements IMainContract.Presenter {
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
     private List<Charger> filteredChargers;
+
+    private Map<String, Set<String>> provinces;
 
     @Override
     public void init(IMainContract.View view) {
@@ -63,6 +71,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
                 filteredChargers = shownChargers;
+                provinces = mappingProvinces(chargers);
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -104,6 +113,36 @@ public class MainPresenter implements IMainContract.Presenter {
     public void showChargers(){
         filteredChargers = shownChargers;
         view.showChargers(shownChargers);
+    }
+
+    @Override
+    public void onDialogRequested() {
+        view.showFilterDialog(provinces);
+    }
+
+    protected static Map<String, Set<String>> mappingProvinces(List<Charger> chargers) {
+
+        Map<String, Set<String>> mapProvinces = new HashMap<>();
+
+        /* Get rid of chargers with no information about its province or town */
+        chargers.removeIf(charger -> {
+            Address address = charger.address;
+            return address == null || address.province == null || address.town == null;
+        });
+
+        for (Charger c: chargers) {
+            String province = c.address.province;
+            String town = c.address.town;
+            if (mapProvinces.containsKey(province)) {
+                Set<String> setTowns = mapProvinces.get(province);
+                setTowns.add(town);
+            } else {
+                Set<String> setTowns = new HashSet<>();
+                setTowns.add(town);
+                mapProvinces.put(province, setTowns);
+            }
+        }
+        return mapProvinces;
     }
 }
 
