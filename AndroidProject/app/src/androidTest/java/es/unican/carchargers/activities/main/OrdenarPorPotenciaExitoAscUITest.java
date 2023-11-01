@@ -79,17 +79,18 @@ public class OrdenarPorPotenciaExitoAscUITest {
 
         onView(withId(R.id.btnBuscarOrden)).perform(click());
 
+
         DataInteraction interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
-        interaction.onChildView(withId(R.id.tvAddress)).check(matches(withText("Hotel Catalonia Giralda")));
+        interaction.onChildView(withId(R.id.tvAddress)).check(matches(withText("Hotel Catalonia Giralda (Andalucía)")));
 
         interaction = onData(anything())
-                .inAdapterView(withId(R.id.lvChargers)).atPosition(4);
-        interaction.onChildView(withId(R.id.tvAddress)).check(matches(withText("Hotel Catalonia Giralda")));
+                .inAdapterView(withId(R.id.lvChargers)).atPosition(5);
+        interaction.onChildView(withId(R.id.tvAddress)).check(matches(withText("E.S. Zacatín (Andalucía)")));
 
         interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(9);
-        interaction.onChildView(withId(R.id.tvAddress)).check(matches(withText("Hotel Catalonia Giralda")));
+        interaction.onChildView(withId(R.id.tvAddress)).check(matches(withText("Torre-Pacheco - Calle Cartagena (Zunder) (Región de Murcia)")));
 
     }
 }
