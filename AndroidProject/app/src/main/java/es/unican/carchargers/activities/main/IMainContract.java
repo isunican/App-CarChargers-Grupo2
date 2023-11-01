@@ -41,7 +41,7 @@ public interface IMainContract {
 
         public void onShowChargersFiltered();
 
-        public void onSortedClicked(String criterio, int ascendente);
+        public void onSortedClicked(String criterio, Boolean ascendente);
 
         public void onShowChargersSorted();
     }
