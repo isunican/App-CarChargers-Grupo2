@@ -52,7 +52,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     Charger charger = new Charger();
 
-    boolean ascendente;
+    Boolean ascendente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,7 +220,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
     }
 
-    public void setOrdenacion(boolean ascendente) {
+    public void setOrdenacion(Boolean ascendente) {
         String criterio = spnCriterio.getSelectedItem().toString();
         presenter.onSortedClicked(criterio, ascendente);
     }
