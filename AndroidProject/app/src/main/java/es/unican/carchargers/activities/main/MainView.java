@@ -53,7 +53,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     Charger charger = new Charger();
 
-    boolean ascendente;
+    Boolean ascendente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,13 +160,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         filterDialog.show();
 
-        String companhia = "";
-
         Button btnBuscar = (Button)view.findViewById(R.id.btnBuscar);
         Button btnBuscarTodos = (Button)view.findViewById(R.id.btnBuscarTodos);
         btnBuscar.setOnClickListener(v -> {
             filterDialog.dismiss();
-            setFilter(companhia);
+            setFilter();
         });
 
         btnBuscarTodos.setOnClickListener(v -> {
@@ -174,8 +172,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             presenter.onShowChargersFiltered();
         });
     }
-    private void setFilter(String companhia) {
-        companhia = spnCompanhia.getSelectedItem().toString();
+    private void setFilter() {
+        String companhia = spnCompanhia.getSelectedItem().toString();
         presenter.onFilteredClicked(companhia);
     }
     public void sortDialog() {
@@ -221,7 +219,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
     }
 
-    public void setOrdenacion(boolean ascendente) {
+    public void setOrdenacion(Boolean ascendente) {
         String criterio = spnCriterio.getSelectedItem().toString();
         presenter.onSortedClicked(criterio, ascendente);
     }
