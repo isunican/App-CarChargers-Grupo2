@@ -159,13 +159,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         filterDialog.show();
 
-        String companhia = "";
-
         Button btnBuscar = (Button)view.findViewById(R.id.btnBuscar);
         Button btnBuscarTodos = (Button)view.findViewById(R.id.btnBuscarTodos);
         btnBuscar.setOnClickListener(v -> {
             filterDialog.dismiss();
-            setFilter(companhia);
+            setFilter();
         });
 
         btnBuscarTodos.setOnClickListener(v -> {
@@ -173,8 +171,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             presenter.onShowChargersFiltered();
         });
     }
-    private void setFilter(String companhia) {
-        companhia = spnCompanhia.getSelectedItem().toString();
+    private void setFilter() {
+        String companhia = spnCompanhia.getSelectedItem().toString();
         presenter.onFilteredClicked(companhia);
     }
     public void sortDialog() {
