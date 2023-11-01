@@ -1,5 +1,8 @@
 package es.unican.carchargers.activities.main;
 
+import android.content.Context;
+import android.widget.Toast;
+import android.content.Context;
 import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,6 +16,7 @@ import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.service.APIArguments;
+import hilt_aggregated_deps._dagger_hilt_android_internal_modules_ApplicationContextModule;
 
 public class MainPresenter implements IMainContract.Presenter {
 
@@ -93,8 +97,12 @@ public class MainPresenter implements IMainContract.Presenter {
         filteredChargers = shownChargers.stream().filter
                         (charger -> charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
                 .collect(Collectors.toList());
+        if (filteredChargers.isEmpty()) {
+            view.showFilterEmpty();
+        }
         view.showChargers(filteredChargers);
     }
+
 
     @Override
     public void onShowChargersFiltered() {

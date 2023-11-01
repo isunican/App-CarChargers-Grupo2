@@ -1,9 +1,7 @@
 package es.unican.carchargers.activities.main;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -129,6 +127,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     @Override
+    public void showFilterEmpty() {
+        Toast.makeText(this, "No hay resultados de búsqueda", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void showChargerDetails(Charger charger) {
         Intent intent = new Intent(this, DetailsView.class);
         intent.putExtra(DetailsView.INTENT_CHARGER, Parcels.wrap(charger));
@@ -175,6 +178,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private void setFilter() {
         String companhia = spnCompanhia.getSelectedItem().toString();
         presenter.onFilteredClicked(companhia);
+
     }
     public void sortDialog() {
         LayoutInflater inflater= LayoutInflater.from(this);
