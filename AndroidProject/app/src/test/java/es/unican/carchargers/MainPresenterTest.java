@@ -2,6 +2,7 @@ package es.unican.carchargers;
 
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -93,8 +94,7 @@ public class MainPresenterTest {
         chargersResult3.add(charger3);
         chargersResult3.add(charger1);
 
-        System.out.println("Chargers1" + chargers1);
-
+        // List of 3 chargers ordered
         repository = Repositories.getFake(chargers1);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
@@ -106,39 +106,37 @@ public class MainPresenterTest {
 
 
         sut.onSortedClicked("POTENCIA", Boolean.parseBoolean("A"));
-        verify(mockView, atLeast(1)).showChargers(chargers1);
+        verify(mockView).showChargers(chargers1);
 
         repository = Repositories.getFake(chargers2);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
-        verify(mockView, atLeast(1)).showChargers(chargers2);
+        verify(mockView, atLeast(2)).showChargers(chargers2);
 
 
         repository = Repositories.getFake(chargers3);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
-        verify(mockView, atLeast(1)).showChargers(chargers3);
+        verify(mockView, atLeast(2)).showChargers(chargers3);
 
-        /*
         repository = Repositories.getFake(chargers4);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
         verify(mockView).showChargers(chargersResult3);
-        */
 
         repository = Repositories.getFake(chargers5);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
-        verify(mockView, atLeast(1)).showChargers(chargers5);
+        verify(mockView).showChargers(chargers5);
 
-        repository = Repositories.getFake(chargers3);
+        repository = Repositories.getFake(chargers1);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("NINGUNO", true);
-        verify(mockView, atLeast(1)).showChargers(chargers3);
+        verify(mockView, atLeast(2)).showChargers(chargers1);
     }
 }

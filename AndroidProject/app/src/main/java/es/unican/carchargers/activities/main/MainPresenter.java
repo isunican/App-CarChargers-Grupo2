@@ -125,7 +125,6 @@ public class MainPresenter implements IMainContract.Presenter {
             } else {
                 filteredChargers = (List<Charger>) filteredChargers.stream().collect(Collectors.toList());
             }
-            System.out.println(filteredChargers);
             view.showChargers(filteredChargers);
         } else {
             view.showChargers(filteredChargers);
