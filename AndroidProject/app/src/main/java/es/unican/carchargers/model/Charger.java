@@ -25,7 +25,6 @@ public class Charger {
     @SerializedName("Connections")          public List<Connection> connections;
 
     public boolean isFavourite = false;
-    private boolean ascendente = false;
 
     public Charger() {
         this.connections = new ArrayList<Connection>();

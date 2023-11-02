@@ -3,16 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#000C0000">
+
+    <TextView
+        android:id="@+id/tvOrdenarTitulo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="32dp"
+        android:background="#3F51B5"
+        android:gravity="center|end"
+        android:text="Ordenar"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textIsSelectable="false"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvCriterio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvCriterio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="128dp"
         android:text="Criterio"
+        android:textColor="#000000"
         android:textSize="32dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,18 +41,28 @@
         android:id="@+id/btnBuscarOrden"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:text="Buscar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
+    <Spinner
+        android:id="@+id/spnCriterio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:scrollbarSize="4dp"
+        app:layout_constraintStart_toStartOf="@+id/tvCriterio"
+        app:layout_constraintTop_toBottomOf="@+id/tvCriterio" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="24dp"
         android:gravity="center|center_horizontal"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,16 +91,6 @@
                 android:text="Descendente"
                 android:textSize="16dp" />
         </RadioGroup>
-
     </LinearLayout>
-
-
-    <Spinner
-        android:id="@+id/spnCriterio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/tvCriterio"
-        app:layout_constraintTop_toBottomOf="@+id/tvCriterio" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
