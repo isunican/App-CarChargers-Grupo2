@@ -1,9 +1,7 @@
 package es.unican.carchargers.activities.main;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -125,6 +123,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     @Override
     public void showLoadError() {
         Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showSortedEmpty() {
+        Toast.makeText(this, "No hay cargadores para ordenar", Toast.LENGTH_LONG).show();
     }
 
     @Override

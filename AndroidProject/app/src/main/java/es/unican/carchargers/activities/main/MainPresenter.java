@@ -140,6 +140,9 @@ public class MainPresenter implements IMainContract.Presenter {
     @Override
     public void onShowChargersSorted() {
         filteredChargers = shownChargers;
+        if (filteredChargers.isEmpty()) {
+            view.showSortedEmpty();
+        }
         view.showChargers((shownChargers));
     }
 
