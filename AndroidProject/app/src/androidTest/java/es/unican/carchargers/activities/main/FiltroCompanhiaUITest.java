@@ -35,6 +35,7 @@ import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 import es.unican.carchargers.common.RepositoriesModule;
 import es.unican.carchargers.utils.HTTPIdlingResource;
+import es.unican.carchargers.utils.Matchers;
 
 /**
  * Example UI Test using Hilt dependency injection
@@ -74,7 +75,6 @@ public class FiltroCompanhiaUITest {
     IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
 
-    // No funciona porque no selecciona el elemento deseado del spinner
     @Test
     public void filtroCompanhiaTest() throws InterruptedException {
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
@@ -83,12 +83,10 @@ public class FiltroCompanhiaUITest {
         onView(withId(R.id.spnCompanhia)).perform(click());
         //onView(withText("ENDESA")).perform(click());
         Thread.sleep(1000);
-        onData(allOf(is(instanceOf(String.class)),is("REPSOL - ibil (ES)"))).inRoot(isPlatformPopup()).perform(click());
+        onData(allOf(is(instanceOf(String.class)),is("IBERDROLA"))).inRoot(isPlatformPopup()).perform(click());
         Thread.sleep(1000);
         onView(withId(R.id.btnBuscar)).perform(click());
-        onView(withId(R.id.lvChargers)).check(matches(hasChildCount(6)));
-        //onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).onChildView(withId(R.id.tvId)).
-                //check(matches(withText("203416")));
+        onView(withId(R.id.lvChargers)).check(matches(hasChildCount(2)));
     }
 
 }

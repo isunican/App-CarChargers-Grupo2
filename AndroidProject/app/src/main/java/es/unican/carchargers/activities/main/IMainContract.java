@@ -92,6 +92,8 @@ public interface IMainContract {
          */
         public void showLoadError();
 
+        void showFilterEmpty();
+
         void showSortedEmpty();
 
         void showRuleEmpty();

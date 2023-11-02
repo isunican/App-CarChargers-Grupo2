@@ -2,6 +2,7 @@ package es.unican.carchargers.activities.main;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,11 +53,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     Boolean ascendente = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // Initialize presenter-view connection
         presenter = new MainPresenter();
         presenter.init(this);
@@ -126,6 +128,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     @Override
+    public void showFilterEmpty() {
+        Toast.makeText(this, "No hay resultados de búsqueda", Toast.LENGTH_LONG).show();
+    }
+
     public void showSortedEmpty() {
         Toast.makeText(this, "No hay cargadores para ordenar", Toast.LENGTH_LONG).show();
     }
@@ -188,6 +194,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private void setFilter() {
         String companhia = spnCompanhia.getSelectedItem().toString();
         presenter.onFilteredClicked(companhia);
+
     }
     public void sortDialog() {
         LayoutInflater inflater= LayoutInflater.from(this);
