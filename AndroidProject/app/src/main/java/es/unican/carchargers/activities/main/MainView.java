@@ -200,6 +200,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     private void setFilter(String companhia) {
         companhia = spnCompanhia.getSelectedItem().toString();
-        presenter.showFiltered(companhia);
+        String localidad = spnLocalidad.getSelectedItem().toString();
+        presenter.showFiltered(companhia, localidad);
     }
 }

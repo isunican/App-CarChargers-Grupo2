@@ -39,7 +39,7 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        void showFiltered(String companhia);
+        void showFiltered(String companhia, String localidad);
 
         void showChargers();
 

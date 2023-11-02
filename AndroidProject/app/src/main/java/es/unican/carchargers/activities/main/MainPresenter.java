@@ -63,7 +63,7 @@ public class MainPresenter implements IMainContract.Presenter {
         APIArguments args = APIArguments.builder()
                 .setCountryCode(ECountry.SPAIN.code)
                 .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                .setMaxResults(50);
+                .setMaxResults(1000);
 
         ICallBack callback = new ICallBack() {
             @Override
@@ -102,10 +102,15 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void showFiltered(String companhia){
+    public void showFiltered(String companhia, String localidad){
         filteredChargers = shownChargers.stream().filter
                         (charger -> charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
                 .collect(Collectors.toList());
+
+        filteredChargers = filteredChargers.stream().filter(
+                charger -> charger.address.town.toLowerCase().equals(localidad.toLowerCase()))
+                .collect(Collectors.toList());
+
         view.showChargers(filteredChargers);
     }
 
