@@ -104,7 +104,8 @@ public class MainPresenter implements IMainContract.Presenter {
     @Override
     public void showFiltered(String companhia, String localidad){
         filteredChargers = shownChargers.stream().filter
-                        (charger -> charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
+                        (charger -> charger.operator != null &&
+                                charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
                 .collect(Collectors.toList());
 
         filteredChargers = filteredChargers.stream().filter(

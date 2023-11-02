@@ -94,11 +94,15 @@ public class FiltroLocalidadUITest {
         onView(withId(R.id.spnLocalidad)).perform(click());
         onData(allOf(is(instanceOf(String.class)),is("Aranjuez"))).inRoot(isPlatformPopup()).perform(click());
 
+
         onView(withId(R.id.spnProvincia)).perform(click());
         onData(allOf(is(instanceOf(String.class)),is("Extremadura"))).inRoot(isPlatformPopup()).perform(click());
         onView(withId(R.id.spnLocalidad)).perform(click());
         onData(allOf(is(instanceOf(String.class)),is("Azuaga"))).inRoot(isPlatformPopup()).perform(click());
+        onView(withId(R.id.spnCompanhia)).perform(click());
+        onData(allOf(is(instanceOf(String.class)),is("IBERDROLA"))).inRoot(isPlatformPopup()).perform(click());
         onView(withId(R.id.btnBuscar)).perform(click());
+        Thread.sleep(3000);
         onView(withId(R.id.lvChargers)).check(matches(hasChildCount(1)));
         //onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).perform(click());
 
