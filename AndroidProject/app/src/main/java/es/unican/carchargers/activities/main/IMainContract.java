@@ -41,7 +41,7 @@ public interface IMainContract {
 
         public void onShowChargersFiltered();
 
-        public void onSortedClicked(String criterio, boolean ascendente);
+        public void onSortedClicked(String criterio, Boolean ascendente);
 
         public void onShowChargersSorted();
     }
@@ -91,6 +91,8 @@ public interface IMainContract {
          * Only the Presenter should call this method
          */
         public void showLoadError();
+
+        void showFilterEmpty();
 
         /**
          * The view is requested to display the detailed view of the given charging station.
