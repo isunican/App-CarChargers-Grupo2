@@ -30,6 +30,8 @@ interface IMainContract#Presenter {
    init(View view);
    onChargerClicked(int index)
    onMenuInfoClicked();
+   showFiltered(String comapnhia)
+   showChargers()
 }
 
 interface IRepository {
@@ -39,6 +41,15 @@ interface IRepository {
 interface ICallBack {
     onSuccess(List<Charger> chargers)
     onFailure(Throwable e)
+}
+
+class MainPresenter {
+    -load()
+}
+
+class MainView {
+    +filterDialog()
+    -setFilter(String companhia)
 }
 
 @enduml
