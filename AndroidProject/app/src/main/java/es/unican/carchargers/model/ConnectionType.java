@@ -10,4 +10,6 @@ public class ConnectionType {
     @SerializedName("ID")                   public String id;
     @SerializedName("FormalName")           public String formalName;
 
+    @SerializedName("Title")           public String title;
+
 }
