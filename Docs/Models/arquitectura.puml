@@ -22,6 +22,10 @@ interface IMainContract#View {
     showChargers(List<Charger> chargers)
     showLoadCorrect(int chargers)
     showLoadError()
+    showFilterEmpty()
+    showSortedEmpty()
+    showRuleEmpty()
+    showAscDescEmpty()
     showChargerDetails(Charger charger)
     showInfoActivity()
 }
@@ -30,8 +34,11 @@ interface IMainContract#Presenter {
    init(View view);
    onChargerClicked(int index)
    onMenuInfoClicked();
-   showFiltered(String comapnhia)
-   showChargers()
+
+   showFilteredClicked(String comapnhia)
+   showChargersFiltered()
+   onSortedClicked(String criterio)
+   onShowChargersSorted()
 }
 
 interface IRepository {
@@ -50,6 +57,8 @@ class MainPresenter {
 class MainView {
     +filterDialog()
     -setFilter(String companhia)
+    +sortDialog()
+    -setOrdenacion(Boolean ascendente)
 }
 
 @enduml

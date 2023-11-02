@@ -51,7 +51,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     Charger charger = new Charger();
 
-    Boolean ascendente;
+    Boolean ascendente = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +130,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     @Override
     public void showFilterEmpty() {
         Toast.makeText(this, "No hay resultados de búsqueda", Toast.LENGTH_LONG).show();
+    }
+
+    public void showSortedEmpty() {
+        Toast.makeText(this, "No hay cargadores para ordenar", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showRuleEmpty() {
+        Toast.makeText(this, "No se ha elegido ningún criterio", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showAscDescEmpty() {
+        Toast.makeText(this, "No se ha elegido si la ordenación es ascendente o descendente",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -223,7 +239,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
     }
 
-    public void setOrdenacion(Boolean ascendente) {
+    private void setOrdenacion(Boolean ascendente) {
         String criterio = spnCriterio.getSelectedItem().toString();
         presenter.onSortedClicked(criterio, ascendente);
     }

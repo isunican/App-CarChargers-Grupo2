@@ -5,8 +5,7 @@ class Charger {
     + int numberOfPoints
     + String usageCost
     + boolean isFavorito
-    - double potenciaMax
-    + potenciaMaxima() : double
+    + maxPower() : double
 }
 
 class Operator {
@@ -44,19 +43,12 @@ class ConnectionType {
 class StatusType {
     + String id
     + boolean isOperational
-}
-
-class Ordena {
-    +ordenaPotencia(List<Charger> cargadores, boolean asc) : List<Charger>
-}
 
 Charger -down-> "1" Address : address
 Charger -down-> "1" Operator : operator
 Charger -down-> "*" Connection : connections
 
 Favourite -right-> "*" Charger: listaFavoritos
-
-Ordena -left-> "*" Charger: listaOrdenada
 
 Connection -down-> "1" ConnectionType : connectionType
 Connection -down-> "1" StatusType : connectionStatus

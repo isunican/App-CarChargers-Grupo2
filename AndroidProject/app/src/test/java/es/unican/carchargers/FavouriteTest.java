@@ -12,7 +12,7 @@ import java.util.List;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Favourite;
 
-public class ListFavouriteTest {
+public class FavouriteTest {
 
     private Favourite favorito;
     private List<Charger> listaCargadores;
