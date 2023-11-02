@@ -22,10 +22,6 @@ public class MainPresenter implements IMainContract.Presenter {
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
     private List<Charger> filteredChargers;
-    private List<Charger> sortedChargers;
-    Charger charger1 = new Charger();
-    Charger charger2 = new Charger();
-
     @Override
     public void init(IMainContract.View view) {
         this.view = view;
@@ -52,7 +48,6 @@ public class MainPresenter implements IMainContract.Presenter {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
                 filteredChargers = shownChargers;
-                //sortedChargers = shownChargers;
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -130,6 +125,7 @@ public class MainPresenter implements IMainContract.Presenter {
             } else {
                 filteredChargers = (List<Charger>) filteredChargers.stream().collect(Collectors.toList());
             }
+            System.out.println(filteredChargers);
             view.showChargers(filteredChargers);
         } else {
             view.showChargers(filteredChargers);
