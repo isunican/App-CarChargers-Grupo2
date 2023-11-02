@@ -239,7 +239,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
     }
 
-    public void setOrdenacion(Boolean ascendente) {
+    private void setOrdenacion(Boolean ascendente) {
         String criterio = spnCriterio.getSelectedItem().toString();
         presenter.onSortedClicked(criterio, ascendente);
     }
