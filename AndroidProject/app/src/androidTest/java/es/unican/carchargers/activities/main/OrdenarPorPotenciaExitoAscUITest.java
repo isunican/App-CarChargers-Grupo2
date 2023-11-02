@@ -80,17 +80,31 @@ public class OrdenarPorPotenciaExitoAscUITest {
 
         onView(withId(R.id.btnBuscarOrden)).perform(click());
 
+        /*
+            Comprobar que el primer cargador es de la companhia (Business Owner at Location), ya
+            que pero es la unica companhia con 3.7W y podria ser cualquiera de esos 3 pero que no
+            sea uno de los dos cargadores que tienen de 22W.
+         */
         DataInteraction interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("(Business Owner at Location)")));
         interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
         interaction.onChildView(withId(R.id.tvAddress)).check(matches(not(withText("E.S. Zacatín (Andalucía)"))));
+        interaction = onData(anything())
+                .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
+        interaction.onChildView(withId(R.id.tvAddress)).check(matches(not(withText("E.S. Montequinto (Andalucía)"))));
 
+        /*
+            Comprobar que el cargador de la posicion 5 es de la companhia Zunder porque hay 3 con 3.7W y luego 4 de 22W
+            pero de 22W dos son de la companhia Zunder y los otros de de (Business Owner at Location), como estan empate
+            se hace por orden alfabetico entonces un cargador Zunder tiene que ir en esa posicion.
+         */
         interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(5);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
 
+        // El ultimo tiene que tener esa direccion ya que es el unico que llega a los 90W
         interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(9);
         interaction.onChildView(withId(R.id.tvAddress)).check(matches(withText("Torre-Pacheco - Calle Cartagena (Zunder) (Región de Murcia)")));

@@ -38,11 +38,13 @@ public class MainPresenterTest {
     @Test
     public void onSortedClickedTest() {
 
+        // Se crean las companhias
         Operator operatorA = new Operator();
         operatorA.title = "A";
         Operator operatorB = new Operator();
         operatorB.title = "B";
 
+        // Se crean las conexiones
         Connection connection1 = new Connection();
         connection1.powerKW = 600.1;
         Connection connection2 = new Connection();
@@ -50,6 +52,7 @@ public class MainPresenterTest {
         Connection connection3 = new Connection();
         connection3.powerKW = 0;
 
+        // Se crean los cargadores
         Charger charger1 = new Charger();
         charger1.operator = operatorA;
         charger1.connections.add(connection1);
@@ -63,6 +66,7 @@ public class MainPresenterTest {
         charger4.operator = operatorB;
         charger4.connections.add(connection3);
 
+        // Se crean las listas de cargadores
         List<Charger> chargers1 = new ArrayList<Charger>();
         chargers1.add(charger2);
         chargers1.add(charger1);
@@ -94,49 +98,67 @@ public class MainPresenterTest {
         chargersResult3.add(charger3);
         chargersResult3.add(charger1);
 
-        // List of 3 chargers ordered
+        // Lista de 3 cargadores que se ordenan de forma ascendente
         repository = Repositories.getFake(chargers1);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
+        // Se muestra la lista ordenada
         verify(mockView).showChargers(chargersResult1);
 
+        // Lista de 3 cargadores que se ordena de forma descendente
         sut.onSortedClicked("POTENCIA", false);
+        // Se muestra la lista ordenada
         verify(mockView).showChargers(chargersResult2);
 
-
-        sut.onSortedClicked("POTENCIA", Boolean.parseBoolean("A"));
+        // No se selecciona si ordenar ascendentemente ni ascendentemente
+        sut.onSortedClicked("POTENCIA", null);
         verify(mockView).showChargers(chargers1);
+        // Salta la alerta al usuario
+        verify(mockView).showAscDescEmpty();
 
+        // Lista de 3 cargadores ya ordenada
         repository = Repositories.getFake(chargers2);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
+        // Se vuelve a mostrar la misma lista
         verify(mockView, atLeast(2)).showChargers(chargers2);
 
-
+        // Lista de un solo cargador
         repository = Repositories.getFake(chargers3);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
+        // Se vuelve a mostrar la misma lista
         verify(mockView, atLeast(2)).showChargers(chargers3);
 
+        // Lista de 4 cargadores con 2 cargadores de misma potencia
         repository = Repositories.getFake(chargers4);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
+        // Se muestra la lista ordenada y en caso de empate se hace por orden alfabetico
         verify(mockView).showChargers(chargersResult3);
 
+        // Lista sin cargadores
         repository = Repositories.getFake(chargers5);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
-        verify(mockView).showChargers(chargers5);
+        // Se muestra la lista sin cargadores de nuevo
+        verify(mockView, atLeast(2)).showChargers(chargers5);
+        // Se alerta al usuario
+        verify(mockView).showSortedEmpty();
 
+        // No se aplica un criterio de ordenacion
         repository = Repositories.getFake(chargers1);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("NINGUNO", true);
+        // Se muestra la misma lista de nuevo
         verify(mockView, atLeast(2)).showChargers(chargers1);
+        // Se alerta al usuario
+        verify(mockView).showRuleEmpty();
     }
 }
