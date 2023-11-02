@@ -208,7 +208,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         Connection connection = (Connection) v.getTag();
 
         // Change her properties
-        tvResConnectorType.setText(connection.connectionType.formalName);
+        tvResConnectorType.setText(connection.connectionType.title);
         tvResPower.setText(String.format(connection.powerKW + " KW"));
         tvResDisponibility.setText(String.valueOf(connection.quantity));
     }
