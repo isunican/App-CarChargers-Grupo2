@@ -108,7 +108,7 @@ public class MainPresenter implements IMainContract.Presenter {
                         if(ch1.maxPower() == ch2.maxPower()) {
                             return collator.compare(ch1.operator.title, ch2.operator.title);
                         }
-                        return (int) (ch1.maxPower() - ch2.maxPower());
+                        return Double.compare(ch1.maxPower(), ch2.maxPower());
                     }
                 }).collect(Collectors.toList());
             } else if (ascendente == false) {
@@ -119,7 +119,7 @@ public class MainPresenter implements IMainContract.Presenter {
                         if(ch1.maxPower() == ch2.maxPower()) {
                             return collator.compare(ch1.operator.title, ch2.operator.title);
                         }
-                        return (int) (ch2.maxPower() - ch1.maxPower());
+                        return Double.compare(ch2.maxPower(), ch1.maxPower());
                     }
                 }).collect(Collectors.toList());
             } else {
