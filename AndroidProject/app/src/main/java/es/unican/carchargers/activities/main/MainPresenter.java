@@ -120,7 +120,7 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showFilterDialog(provinces);
     }
 
-    protected static Map<String, Set<String>> mappingProvinces(List<Charger> chargers) {
+    public static Map<String, Set<String>> mappingProvinces(List<Charger> chargers) {
 
         Map<String, Set<String>> mapProvinces = new HashMap<>();
 
