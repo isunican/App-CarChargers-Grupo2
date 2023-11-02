@@ -92,6 +92,8 @@ public interface IMainContract {
          */
         public void showLoadError();
 
+        void showSortedEmpty();
+
         /**
          * The view is requested to display the detailed view of the given charging station.
          * Only the Presenter should call this method
