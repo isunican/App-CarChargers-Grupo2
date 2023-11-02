@@ -1,5 +1,6 @@
 package es.unican.carchargers.activities.main;
 
+import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -96,36 +97,66 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void onShowChargersFiltered(){
+    public void onShowChargersFiltered() {
         filteredChargers = shownChargers;
         view.showChargers(shownChargers);
     }
 
-    public void onSortedClicked(String criterio, boolean ascendente) {
-
-        if (ascendente) {
-            filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
-                @Override
-                public int compare(Charger ch1, Charger ch2) {
-                    return (int) (ch1.maxPower() - ch2.maxPower());
-                }
-            }).collect(Collectors.toList());
-        } else {
-            filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
-                @Override
-                public int compare(Charger ch1, Charger ch2) {
-                    return (int) (ch2.maxPower() - ch1.maxPower());
-                }
-            }).collect(Collectors.toList());
+    @Override
+    public void onSortedClicked(String criterio, Boolean ascendente) {
+        if (criterio.equals("NINGUNO")) {
+            view.showRuleEmpty();
         }
-        view.showChargers(filteredChargers);
+        if (criterio.equals("POTENCIA")) {
+            if (ascendente == null) {
+                view.showChargers(filteredChargers);
+                view.showAscDescEmpty();
+            }
+            else if (ascendente == true) {
+                filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
+                    Collator collator = Collator.getInstance();
+                    @Override
+                    public int compare(Charger ch1, Charger ch2) {
+                        if(ch1.maxPower() == ch2.maxPower()) {
+                            return collator.compare(ch1.operator.title, ch2.operator.title);
+                        }
+                        return Double.compare(ch1.maxPower(), ch2.maxPower());
+                    }
+                }).collect(Collectors.toList());
+            } else if (ascendente == false) {
+                filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
+                    Collator collator = Collator.getInstance();
+                    @Override
+                    public int compare(Charger ch1, Charger ch2) {
+                        if(ch1.maxPower() == ch2.maxPower()) {
+                            return collator.compare(ch1.operator.title, ch2.operator.title);
+                        }
+                        return Double.compare(ch2.maxPower(), ch1.maxPower());
+                    }
+                }).collect(Collectors.toList());
+            } else {
+                filteredChargers = (List<Charger>) filteredChargers.stream().collect(Collectors.toList());
+            }
+            if (filteredChargers.isEmpty()) {
+                view.showSortedEmpty();
+            }
+            view.showChargers(filteredChargers);
+        } else {
+            if (filteredChargers.isEmpty()) {
+                view.showSortedEmpty();
+            }
+            view.showChargers(filteredChargers);
+        }
+
     }
 
     @Override
     public void onShowChargersSorted() {
         filteredChargers = shownChargers;
+
         view.showChargers((shownChargers));
     }
+
 }
 
 

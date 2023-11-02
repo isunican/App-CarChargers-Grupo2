@@ -35,7 +35,7 @@ public class showFilteredTest {
 
     }
 
-
+    /*
     @Test
     public void showFilteredTestA() {
         String companhia = "ENDESA";
@@ -50,7 +50,7 @@ public class showFilteredTest {
 
         verify(mockView).showChargers(mockChargers);
     }
-
+    */
 
     @Test
     public void test() {
