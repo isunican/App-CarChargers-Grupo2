@@ -37,9 +37,13 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        void showFiltered(String companhia);
+        public void onFilteredClicked(String companhia);
 
-        void showChargers();
+        public void onShowChargersFiltered();
+
+        public void onSortedClicked(String criterio, Boolean ascendente);
+
+        public void onShowChargersSorted();
     }
 
     /**
@@ -88,6 +92,8 @@ public interface IMainContract {
          */
         public void showLoadError();
 
+        void showFilterEmpty();
+
         /**
          * The view is requested to display the detailed view of the given charging station.
          * Only the Presenter should call this method
@@ -100,6 +106,5 @@ public interface IMainContract {
          * Only the Presenter should call this method
          */
         public void showInfoActivity();
-
     }
 }

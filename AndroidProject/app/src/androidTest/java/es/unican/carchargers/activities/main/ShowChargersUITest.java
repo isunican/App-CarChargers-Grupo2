@@ -2,26 +2,18 @@ package es.unican.carchargers.activities.main;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
-import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anything;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
 
-import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.espresso.DataInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -44,8 +36,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  */
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
-public class FiltroCompanhiaUITest {
-
+public class ShowChargersUITest {
 
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
@@ -53,34 +44,21 @@ public class FiltroCompanhiaUITest {
     @Rule(order = 1)
     public ActivityScenarioRule<MainView> activityRule = new ActivityScenarioRule(MainView.class);
 
-
     // necesito el context para acceder a recursos, por ejemplo un json con datos fake
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
     // inject a fake repository that loads the data from a local json file
     // IMPORTANT: all the tests in this class must use this repository
-    @BindValue
-    IRepository repository = Repositories
+    @BindValue IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
 
-
     @Test
-    public void filtroCompanhiaTest() throws InterruptedException {
+    public void showChargersTest() {
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
-        onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
-        onView(withId(R.id.btnFilters)).perform(click());
-        onView(withId(R.id.spnCompanhia)).perform(click());
-        //onView(withText("ENDESA")).perform(click());
-        Thread.sleep(1000);
-        onData(allOf(is(instanceOf(String.class)),is("REPSOL - ibil (ES)"))).inRoot(isPlatformPopup()).perform(click());
-        Thread.sleep(1000);
-        onView(withId(R.id.btnBuscar)).perform(click());
-        //Es necesario corregir el test para que compruebe el numero de cargadores
-        onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
-        //onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).onChildView(withId(R.id.tvId)).
-                //check(matches(withText("203416")));
+
+        DataInteraction interaction = onData(anything())
+                .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
+        interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
     }
 
 }
-
-

@@ -31,4 +31,14 @@ public class Charger {
         this.operator = new Operator();
         this.address = new Address();
     }
+
+    public double maxPower() {
+        double potenciaMax = 0;
+        for (int i = 0; i < connections.size(); i++) {
+            if (connections.get(i).powerKW > potenciaMax) {
+                potenciaMax = connections.get(i).powerKW;
+            }
+        }
+        return potenciaMax;
+    }
 }

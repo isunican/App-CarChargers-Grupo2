@@ -1,6 +1,11 @@
 package es.unican.carchargers.activities.main;
 
+import android.content.Context;
+import android.widget.Toast;
+import android.content.Context;
+import java.text.Collator;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +16,7 @@ import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.service.APIArguments;
+import hilt_aggregated_deps._dagger_hilt_android_internal_modules_ApplicationContextModule;
 
 public class MainPresenter implements IMainContract.Presenter {
 
@@ -20,6 +26,9 @@ public class MainPresenter implements IMainContract.Presenter {
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
     private List<Charger> filteredChargers;
+    private List<Charger> sortedChargers;
+    Charger charger1 = new Charger();
+    Charger charger2 = new Charger();
 
     @Override
     public void init(IMainContract.View view) {
@@ -47,6 +56,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
                 filteredChargers = shownChargers;
+                //sortedChargers = shownChargers;
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -69,6 +79,12 @@ public class MainPresenter implements IMainContract.Presenter {
             Charger charger = filteredChargers.get(index);
             view.showChargerDetails(charger);
         }
+        /*
+        if (sortedChargers != null && index < sortedChargers.size()) {
+            Charger charger = sortedChargers.get(index);
+            view.showChargerDetails(charger);
+        }
+        */
     }
 
     @Override
@@ -77,16 +93,68 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void showFiltered(String companhia){
-        filteredChargers = shownChargers.stream().filter
-                        (charger -> charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
-                .collect(Collectors.toList());
+    public void onFilteredClicked(String companhia){
+        if (companhia.equals("-")) {
+            filteredChargers = shownChargers;
+        } else if (companhia.equals("OTROS")) {
+            filteredChargers = shownChargers.stream().filter
+                            (charger -> charger.operator.title.toLowerCase().equals("(Business Owner at Location)".toLowerCase()))
+                    .collect(Collectors.toList());
+        } else {
+            filteredChargers = shownChargers.stream().filter
+                            (charger -> charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
         view.showChargers(filteredChargers);
     }
 
     @Override
-    public void showChargers(){
+    public void onShowChargersFiltered() {
         filteredChargers = shownChargers;
         view.showChargers(shownChargers);
     }
+
+    @Override
+    public void onSortedClicked(String criterio, Boolean ascendente) {
+        if (criterio.equals("POTENCIA")) {
+            if (ascendente == true) {
+                filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
+                    Collator collator = Collator.getInstance();
+                    @Override
+                    public int compare(Charger ch1, Charger ch2) {
+                        if(ch1.maxPower() == ch2.maxPower()) {
+                            return collator.compare(ch1.operator.title, ch2.operator.title);
+                        }
+                        return (int) (ch1.maxPower() - ch2.maxPower());
+                    }
+                }).collect(Collectors.toList());
+            } else if (ascendente == false) {
+                filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
+                    Collator collator = Collator.getInstance();
+                    @Override
+                    public int compare(Charger ch1, Charger ch2) {
+                        if(ch1.maxPower() == ch2.maxPower()) {
+                            return collator.compare(ch1.operator.title, ch2.operator.title);
+                        }
+                        return (int) (ch2.maxPower() - ch1.maxPower());
+                    }
+                }).collect(Collectors.toList());
+            } else {
+                filteredChargers = (List<Charger>) filteredChargers.stream().collect(Collectors.toList());
+            }
+            view.showChargers(filteredChargers);
+        } else {
+            view.showChargers(filteredChargers);
+        }
+
+    }
+
+    @Override
+    public void onShowChargersSorted() {
+        filteredChargers = shownChargers;
+        view.showChargers((shownChargers));
+    }
 }
+
+
+

@@ -35,6 +35,7 @@ public class showFilteredTest {
 
     }
 
+
     /*
     @Test
     public void showFilteredTestA() {
@@ -46,9 +47,9 @@ public class showFilteredTest {
         repository = Repositories.getFake(mockChargers);
         when(mockView.getRepository()).thenReturn(repository);
 
-        sut.showFiltered("ENDESA");
+        sut.onFilteredClicked("ENDESA");
 
-        verify(mockView).showChargers();
+        verify(mockView).showChargers(mockChargers);
     }
     */
 
