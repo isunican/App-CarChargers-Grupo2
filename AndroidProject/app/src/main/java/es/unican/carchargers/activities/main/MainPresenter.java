@@ -130,8 +130,14 @@ public class MainPresenter implements IMainContract.Presenter {
             } else {
                 filteredChargers = (List<Charger>) filteredChargers.stream().collect(Collectors.toList());
             }
+            if (filteredChargers.isEmpty()) {
+                view.showSortedEmpty();
+            }
             view.showChargers(filteredChargers);
         } else {
+            if (filteredChargers.isEmpty()) {
+                view.showSortedEmpty();
+            }
             view.showChargers(filteredChargers);
         }
 
@@ -140,9 +146,7 @@ public class MainPresenter implements IMainContract.Presenter {
     @Override
     public void onShowChargersSorted() {
         filteredChargers = shownChargers;
-        if (filteredChargers.isEmpty()) {
-            view.showSortedEmpty();
-        }
+
         view.showChargers((shownChargers));
     }
 
