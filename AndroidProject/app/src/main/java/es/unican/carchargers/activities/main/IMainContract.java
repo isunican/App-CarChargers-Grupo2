@@ -94,6 +94,10 @@ public interface IMainContract {
 
         void showSortedEmpty();
 
+        void showRuleEmpty();
+
+        void showAscDescEmpty();
+
         /**
          * The view is requested to display the detailed view of the given charging station.
          * Only the Presenter should call this method

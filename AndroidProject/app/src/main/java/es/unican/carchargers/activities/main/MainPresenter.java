@@ -99,8 +99,15 @@ public class MainPresenter implements IMainContract.Presenter {
 
     @Override
     public void onSortedClicked(String criterio, Boolean ascendente) {
+        if (criterio.equals("NINGUNO")) {
+            view.showRuleEmpty();
+        }
         if (criterio.equals("POTENCIA")) {
-            if (ascendente == true) {
+            if (ascendente == null) {
+                view.showChargers(filteredChargers);
+                view.showAscDescEmpty();
+            }
+            else if (ascendente == true) {
                 filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
                     Collator collator = Collator.getInstance();
                     @Override
