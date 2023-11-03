@@ -43,6 +43,7 @@ class ConnectionType {
 class StatusType {
     + String id
     + boolean isOperational
+}
 
 Charger -down-> "1" Address : address
 Charger -down-> "1" Operator : operator
