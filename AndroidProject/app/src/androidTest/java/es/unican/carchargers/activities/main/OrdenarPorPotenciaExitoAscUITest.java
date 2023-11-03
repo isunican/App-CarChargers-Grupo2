@@ -50,6 +50,17 @@ public class OrdenarPorPotenciaExitoAscUITest {
     // necesito el context para acceder a recursos, por ejemplo un json con datos fake
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
+    @BeforeClass
+    public static void setupClass() {
+        // si usamos un repository fake que realmente no accede por HTTP, no necesitamos
+        // activar este Idling Resource. Lo dejo para tener una referencia.
+        HTTPIdlingResource.getInstance().init();
+    }
+
+    @AfterClass
+    public static void teardownClass() {
+        HTTPIdlingResource.getInstance().finish();
+    }
 
     // inject a fake repository that loads the data from a local json file
     // IMPORTANT: all the tests in this class must use this repository
@@ -57,7 +68,7 @@ public class OrdenarPorPotenciaExitoAscUITest {
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_10));
 
     @Test
-    public void ordenarPotenciaExitoAscTest() throws InterruptedException {
+    public void ordenarPotenciaExitoAscTest() {
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
 
         onView(withId(R.id.btnOrdenar)).perform(click());
