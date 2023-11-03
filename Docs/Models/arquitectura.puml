@@ -28,17 +28,19 @@ interface IMainContract#View {
     showAscDescEmpty()
     showChargerDetails(Charger charger)
     showInfoActivity()
+    showFilterDialog(Map<String, Set<String>> provinces)
 }
 
 interface IMainContract#Presenter {
    init(View view);
    onChargerClicked(int index)
    onMenuInfoClicked();
-
-   showFilteredClicked(String comapnhia)
-   showChargersFiltered()
-   onSortedClicked(String criterio)
+   onFilteredClicked(String comapnhia, String localidad)
+   onShowChargersFiltered()
+   onSortedClicked(String criterio, Boolean ascendente)
    onShowChargersSorted()
+   showChargers()
+   onDialogRequested()
 }
 
 interface IRepository {
@@ -52,13 +54,14 @@ interface ICallBack {
 
 class MainPresenter {
     -load()
+    +mappingProvinces(List<Charger> chargers) : Map<String, Set<String>> 
 }
 
 class MainView {
     +filterDialog()
     -setFilter(String companhia)
     +sortDialog()
-    -setOrdenacion(Boolean ascendente)
+    -setOrdenacion(Boolean ascendente) 
 }
 
 @enduml
