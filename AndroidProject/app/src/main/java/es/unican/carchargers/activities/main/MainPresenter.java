@@ -132,6 +132,9 @@ public class MainPresenter implements IMainContract.Presenter {
                         charger -> charger.address.town != null && charger.address.town.toLowerCase().equals(localidad.toLowerCase()))
                 .collect(Collectors.toList());
 
+        if (filteredChargers.isEmpty()) {
+            view.showFilterEmpty();
+        }
         view.showChargers(filteredChargers);
     }
 
