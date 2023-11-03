@@ -113,9 +113,9 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         tvInfoAddress.setText(strInfoAddress);
 
         String strAddress = String.format("%s", charger.address.addressLine1);
-        if (strAddress.equals(null)){
+        if (strAddress == null) {
             strAddress = String.format("%s", charger.address.addressLine2);
-            if (strAddress.equals(null)) {
+            if (strAddress == null) {
                 strAddress = "Dirección no disponible";
             }
         }

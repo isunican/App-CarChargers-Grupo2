@@ -11,6 +11,9 @@ public class Favourite {
 
     public List<String> listaFavoritos = new ArrayList<>();
 
+    /**
+     *  This constrcutor does not need an implementation at the moment.
+     */
     public Favourite(){}
 
     public String addCharger(String id) {
