@@ -76,13 +76,18 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
 
         String strWebsite = null;
-        if (charger.operator.website != null) {
-            strWebsite = String.format(charger.operator.website);
+        if (charger.operator != null) {
+            if (charger.operator.website != null) {
+                strWebsite = String.format(charger.operator.website);
+            }
         }
 
         String finalStrWebsite = strWebsite;
         // Set logo
-        int resourceId = EOperator.fromId(charger.operator.id).logo;
+        int resourceId = EOperator.fromId(-1).logo;
+        if (charger.operator != null) {
+            resourceId = EOperator.fromId(charger.operator.id).logo;
+        }
         ivLogo.setImageResource(resourceId);
         ivLogo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +103,11 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         });
 
         // Set Infos
-        tvTitle.setText(charger.operator.title);
+        if (charger.operator != null) {
+            tvTitle.setText(charger.operator.title);
+        } else {
+            tvTitle.setText("Operador no disponible");
+        }
         tvId.setText(charger.id);
         String strInfoAddress = String.format("%s, (%s, %s)", charger.address.title, charger.address.town, charger.address.province);
         tvInfoAddress.setText(strInfoAddress);

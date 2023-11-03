@@ -1,6 +1,8 @@
 package es.unican.carchargers.activities.main;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -37,13 +39,21 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        public void onFilteredClicked(String companhia);
+        public void onFilteredClicked(String companhia, String localidad);
 
         public void onShowChargersFiltered();
 
         public void onSortedClicked(String criterio, Boolean ascendente);
 
         public void onShowChargersSorted();
+
+        public void showChargers();
+
+        /**
+         *
+         *
+         */
+        public void onDialogRequested();
     }
 
     /**
@@ -112,5 +122,13 @@ public interface IMainContract {
          * Only the Presenter should call this method
          */
         public void showInfoActivity();
+
+        /**
+         * The view is requested to display the alert dialog for filtering chargers.
+         * Only the Presenter should call this method
+         * @param provinces map with each province with at least a charger on the database,
+         * with a list of every different location from the province that has a charger.
+         */
+        public void showFilterDialog(Map<String, Set<String>> provinces);
     }
 }

@@ -6,9 +6,16 @@ import android.content.Context;
 import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import es.unican.carchargers.model.Address;
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
@@ -26,11 +33,30 @@ public class MainPresenter implements IMainContract.Presenter {
     /** a cached list of charging stations currently shown */
     private List<Charger> shownChargers;
     private List<Charger> filteredChargers;
+
+    private Map<String, Set<String>> provinces;
+
     @Override
     public void init(IMainContract.View view) {
         this.view = view;
         view.init();
         load();
+    }
+
+    /**
+     * Constructor used for unit testing porpuses.
+     * @param view MainView for testing the class.
+     * @param shownChargers list of chargers for testing the class.
+     */
+    protected MainPresenter(MainView view, List<Charger> shownChargers) {
+        this.view = view;
+        this.shownChargers = shownChargers;
+    }
+
+    /**
+     * The regular empty constructor
+     */
+    public MainPresenter() {
     }
 
     /**
@@ -44,7 +70,7 @@ public class MainPresenter implements IMainContract.Presenter {
         APIArguments args = APIArguments.builder()
                 .setCountryCode(ECountry.SPAIN.code)
                 .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                .setMaxResults(50);
+                .setMaxResults(500);
 
         ICallBack callback = new ICallBack() {
             @Override
@@ -52,6 +78,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
                 filteredChargers = shownChargers;
+                provinces = mappingProvinces(chargers);
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -87,19 +114,24 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showInfoActivity();
     }
 
+
     @Override
-    public void onFilteredClicked(String companhia){
+    public void onFilteredClicked(String companhia, String localidad) {
         if (companhia.equals("-")) {
             filteredChargers = shownChargers;
         } else if (companhia.equals("OTROS")) {
             filteredChargers = shownChargers.stream().filter
-                            (charger -> charger.operator.title.toLowerCase().equals("(Business Owner at Location)".toLowerCase()))
+                            (charger -> charger.operator != null && charger.operator.title.toLowerCase().equals("(Business Owner at Location)".toLowerCase()))
                     .collect(Collectors.toList());
         } else {
             filteredChargers = shownChargers.stream().filter
-                            (charger -> charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
+                            (charger -> charger.operator != null && charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
                     .collect(Collectors.toList());
         }
+        filteredChargers = filteredChargers.stream().filter(
+                        charger -> charger.address.town != null && charger.address.town.toLowerCase().equals(localidad.toLowerCase()))
+                .collect(Collectors.toList());
+
         view.showChargers(filteredChargers);
     }
 
@@ -125,7 +157,11 @@ public class MainPresenter implements IMainContract.Presenter {
                     @Override
                     public int compare(Charger ch1, Charger ch2) {
                         if(ch1.maxPower() == ch2.maxPower()) {
-                            return collator.compare(ch1.operator.title, ch2.operator.title);
+                            if (ch1.operator == null || ch2.operator == null) {
+                                return -1;
+                            } else {
+                                return collator.compare(ch1.operator.title, ch2.operator.title);
+                            }
                         }
                         return Double.compare(ch1.maxPower(), ch2.maxPower());
                     }
@@ -136,7 +172,11 @@ public class MainPresenter implements IMainContract.Presenter {
                     @Override
                     public int compare(Charger ch1, Charger ch2) {
                         if(ch1.maxPower() == ch2.maxPower()) {
-                            return collator.compare(ch1.operator.title, ch2.operator.title);
+                            if(ch1.operator == null || ch2.operator == null) {
+                                return -1;
+                            } else {
+                                return collator.compare(ch1.operator.title, ch2.operator.title);
+                            }
                         }
                         return Double.compare(ch2.maxPower(), ch1.maxPower());
                     }
@@ -163,7 +203,40 @@ public class MainPresenter implements IMainContract.Presenter {
 
         view.showChargers((shownChargers));
     }
+
+    @Override
+    public void showChargers(){
+        filteredChargers = shownChargers;
+        view.showChargers(shownChargers);
+    }
+
+    public void onDialogRequested() {
+        view.showFilterDialog(provinces);
+    }
+
+    public static Map<String, Set<String>> mappingProvinces(List<Charger> chargers) {
+
+        Map<String, Set<String>> mapProvinces = new HashMap<>();
+        List<Charger> tmp = new ArrayList<Charger>(chargers);
+        /* Get rid of chargers with no information about its province or town */
+        tmp.removeIf(charger -> {
+            Address address = charger.address;
+            return address == null || address.province == null || address.town == null;
+        });
+
+        for (Charger c: tmp) {
+            String province = c.address.province;
+            String town = c.address.town;
+            if (mapProvinces.containsKey(province)) {
+                Set<String> setTowns = mapProvinces.get(province);
+                setTowns.add(town);
+            } else {
+                Set<String> setTowns = new HashSet<>();
+                setTowns.add(town);
+                mapProvinces.put(province, setTowns);
+            }
+        }
+        return mapProvinces;
+    }
 }
-
-
 

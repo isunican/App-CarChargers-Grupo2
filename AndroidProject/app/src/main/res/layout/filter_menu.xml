@@ -17,42 +17,119 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:background="#E0E0E0"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvFiltrarCompañia"
+                android:id="@+id/tvFiltrar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Filtrar por compañía"
-                android:textSize="25sp" />
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:background="#1565C0"
+                android:gravity="center"
+                android:text="Filtrar"
+                android:textColor="#FFFFE0"
+                android:textSize="21sp"
+                android:textStyle="bold" />
 
-            <Spinner
-                android:id="@+id/spnCompanhia"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="40dp">
+
+                <TextView
+                    android:id="@+id/tvFiltroCompanhia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|left"
+                    android:text="Compañía"
+                    android:textSize="19sp" />
+
+                <Spinner
+                    android:id="@+id/spnCompanhia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="32dp"
+                    android:dropDownWidth="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="40dp">
+
+                <TextView
+                    android:id="@+id/tvProvincia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Provincia"
+                    android:textSize="19sp" />
+
+                <Spinner
+                    android:id="@+id/spnProvincia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="32dp"
+                    android:dropDownWidth="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:backgroundTintMode="add"
+                android:orientation="vertical"
+                android:paddingLeft="40dp">
+
+                <TextView
+                    android:id="@+id/tvLocalidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Localidad"
+                    android:textSize="19sp" />
+
+                <Spinner
+                    android:id="@+id/spnLocalidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="32dp"
+                    android:dropDownWidth="match_parent" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_weight="7"
+            android:orientation="horizontal"
+            android:paddingLeft="140dp">
 
             <Button
                 android:id="@+id/btnBuscar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="2dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:text="Buscar" />
 
             <Button
                 android:id="@+id/btnBuscarTodos"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="2dp"
                 android:layout_weight="1"
-                android:text="Buscar todos" />
+                android:text="Buscar todos"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>
