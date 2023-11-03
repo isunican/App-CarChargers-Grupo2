@@ -1,4 +1,4 @@
-package es.unican.carchargers;
+package es.unican.carchargers.activities.model;
 
 import static org.junit.Assert.assertEquals;
 

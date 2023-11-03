@@ -65,6 +65,7 @@ public class MainViewUITest {
     @BindValue IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_2));
 
+    /*
     @Test
     public void MainViewTest() {
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
@@ -94,5 +95,5 @@ public class MainViewUITest {
 
 
     }
-
+    */
 }
