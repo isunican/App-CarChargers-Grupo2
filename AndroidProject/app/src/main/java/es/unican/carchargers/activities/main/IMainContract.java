@@ -39,7 +39,7 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        public void onFilteredClicked(String companhia, String localidad);
+        public void onFilteredClicked(String companhia);
 
         public void onShowChargersFiltered();
 
@@ -126,9 +126,7 @@ public interface IMainContract {
         /**
          * The view is requested to display the alert dialog for filtering chargers.
          * Only the Presenter should call this method
-         * @param provinces map with each province with at least a charger on the database,
-         * with a list of every different location from the province that has a charger.
          */
-        public void showFilterDialog(Map<String, Set<String>> provinces);
+        public void showFilterDialog();
     }
 }

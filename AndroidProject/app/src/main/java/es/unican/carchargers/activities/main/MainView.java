@@ -168,7 +168,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     @Override
-    public void showFilterDialog(Map<String, Set<String>> provinces) {
+    public void showFilterDialog() {
         final Context context = this;
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.filter_menu, null);
@@ -186,31 +186,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnCompanhia.setAdapter(adapter);
 
-        spnProvincia = (Spinner)view.findViewById(R.id.spnProvincia);
-
-        ArrayAdapter<String> adapterProvincia = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(provinces.keySet()));
-        adapterProvincia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnProvincia.setAdapter(adapterProvincia);
-
-        spnLocalidad = (Spinner)view.findViewById(R.id.spnLocalidad);
-
-        spnProvincia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedProvince = spnProvincia.getSelectedItem().toString();
-                Set<String> localities = provinces.get(selectedProvince);
-                String[] localityArray = localities.toArray(new String[0]);
-                ArrayAdapter<String> localityAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, localityArray);
-                localityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spnLocalidad.setAdapter(localityAdapter);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                ArrayAdapter<String> emptyAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-                spnLocalidad.setAdapter(emptyAdapter);
-            }
-        });
-
         filterDialog.show();
 
         Button btnBuscar = (Button)view.findViewById(R.id.btnBuscar);
@@ -224,12 +199,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filterDialog.dismiss();
             presenter.showChargers();
         });
-
     }
+
     private void setFilter() {
         String companhia = spnCompanhia.getSelectedItem().toString();
-        String localidad = spnLocalidad.getSelectedItem().toString();
-        presenter.onFilteredClicked(companhia, localidad);
+        presenter.onFilteredClicked(companhia);
     }
 
     public void sortDialog() {
