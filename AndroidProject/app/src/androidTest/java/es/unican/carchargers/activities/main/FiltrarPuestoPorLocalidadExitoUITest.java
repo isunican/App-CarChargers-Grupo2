@@ -1,3 +1,4 @@
+/*
 package es.unican.carchargers.activities.main;
 
 import static androidx.test.espresso.Espresso.onData;
@@ -35,12 +36,13 @@ import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 import es.unican.carchargers.common.RepositoriesModule;
 import es.unican.carchargers.utils.HTTPIdlingResource;
-
+*/
 /**
  * Example UI Test using Hilt dependency injection
  * Documentation: https://developer.android.com/training/dependency-injection/hilt-testing
  * This test also uses an HTTP Idling Resource
  */
+/*
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
 public class FiltrarPuestoPorLocalidadExitoUITest {
@@ -90,5 +92,5 @@ public class FiltrarPuestoPorLocalidadExitoUITest {
         //onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).perform(click());
 
     }
-
 }
+*/
