@@ -78,7 +78,6 @@ public class MainPresenter implements IMainContract.Presenter {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
                 filteredChargers = shownChargers;
-                provinces = mappingProvinces(chargers);
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -116,7 +115,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
 
     @Override
-    public void onFilteredClicked(String companhia, String localidad) {
+    public void onFilteredClicked(String companhia) {
         if (companhia.equals("-")) {
             filteredChargers = shownChargers;
         } else if (companhia.equals("OTROS")) {
@@ -128,9 +127,6 @@ public class MainPresenter implements IMainContract.Presenter {
                             (charger -> charger.operator != null && charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
                     .collect(Collectors.toList());
         }
-        filteredChargers = filteredChargers.stream().filter(
-                        charger -> charger.address.town != null && charger.address.town.toLowerCase().equals(localidad.toLowerCase()))
-                .collect(Collectors.toList());
 
         if (filteredChargers.isEmpty()) {
             view.showFilterEmpty();
@@ -214,32 +210,7 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     public void onDialogRequested() {
-        view.showFilterDialog(provinces);
-    }
-
-    public static Map<String, Set<String>> mappingProvinces(List<Charger> chargers) {
-
-        Map<String, Set<String>> mapProvinces = new HashMap<>();
-        List<Charger> tmp = new ArrayList<Charger>(chargers);
-        /* Get rid of chargers with no information about its province or town */
-        tmp.removeIf(charger -> {
-            Address address = charger.address;
-            return address == null || address.province == null || address.town == null;
-        });
-
-        for (Charger c: tmp) {
-            String province = c.address.province;
-            String town = c.address.town;
-            if (mapProvinces.containsKey(province)) {
-                Set<String> setTowns = mapProvinces.get(province);
-                setTowns.add(town);
-            } else {
-                Set<String> setTowns = new HashSet<>();
-                setTowns.add(town);
-                mapProvinces.put(province, setTowns);
-            }
-        }
-        return mapProvinces;
+        view.showFilterDialog();
     }
 }
 

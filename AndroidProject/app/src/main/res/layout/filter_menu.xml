@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -39,69 +40,45 @@
                 android:orientation="vertical"
                 android:paddingLeft="40dp">
 
-                <TextView
-                    android:id="@+id/tvFiltroCompanhia"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal|left"
-                    android:text="Compañía"
-                    android:textSize="19sp" />
+                    android:orientation="vertical">
 
-                <Spinner
-                    android:id="@+id/spnCompanhia"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="32dp"
-                    android:dropDownWidth="match_parent" />
+                    <TextView
+                        android:id="@+id/tvFiltroCompanhia3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal|left"
+                        android:text="Compañía"
+                        android:textSize="19sp" />
 
-            </LinearLayout>
+                    <Spinner
+                        android:id="@+id/spnCompanhia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="32dp"
+                        android:dropDownWidth="match_parent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingLeft="40dp">
+                    <TextView
+                        android:id="@+id/tvPotencia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal|left"
+                        android:text="Potencia"
+                        android:textSize="19sp" />
 
-                <TextView
-                    android:id="@+id/tvProvincia"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Provincia"
-                    android:textSize="19sp" />
+                    <org.florescu.android.rangeseekbar.RangeSeekBar
+                        android:id="@+id/seekBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        app:absoluteMaxValue="999"
+                        app:absoluteMinValue="0" />
 
-                <Spinner
-                    android:id="@+id/spnProvincia"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="32dp"
-                    android:dropDownWidth="match_parent" />
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:backgroundTintMode="add"
-                android:orientation="vertical"
-                android:paddingLeft="40dp">
-
-                <TextView
-                    android:id="@+id/tvLocalidad"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Localidad"
-                    android:textSize="19sp" />
-
-                <Spinner
-                    android:id="@+id/spnLocalidad"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="32dp"
-                    android:dropDownWidth="match_parent" />
             </LinearLayout>
 
         </LinearLayout>
