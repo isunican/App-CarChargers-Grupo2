@@ -149,6 +149,7 @@ public class MainPresenter implements IMainContract.Presenter {
         if (criterio.equals("NINGUNO")) {
             view.showRuleEmpty();
         }
+
         if (criterio.equals("POTENCIA")) {
             if (ascendente == null) {
                 view.showChargers(filteredChargers);
@@ -187,6 +188,7 @@ public class MainPresenter implements IMainContract.Presenter {
             } else {
                 filteredChargers = (List<Charger>) filteredChargers.stream().collect(Collectors.toList());
             }
+
             if (filteredChargers.isEmpty()) {
                 view.showSortedEmpty();
             }
@@ -197,7 +199,6 @@ public class MainPresenter implements IMainContract.Presenter {
             }
             view.showChargers(filteredChargers);
         }
-
     }
 
     @Override

@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000C0000">
+    android:background="#000C0000"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
 
     <TextView
         android:id="@+id/tvOrdenarTitulo"
@@ -41,12 +43,12 @@
         android:id="@+id/btnBuscarOrden"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="24dp"
         android:text="Buscar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.518"
+        app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/rgAscDesc" />
 
     <Spinner
         android:id="@+id/spnCriterio"
@@ -58,40 +60,84 @@
         app:layout_constraintStart_toStartOf="@+id/tvCriterio"
         app:layout_constraintTop_toBottomOf="@+id/tvCriterio" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <RadioGroup
+        android:id="@+id/rgAscDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:gravity="center|center_horizontal"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintHorizontal_bias="0.572"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spnCriterio">
+        app:layout_constraintTop_toBottomOf="@+id/etPorcentajeBateria">
 
-        <RadioGroup
-            android:id="@+id/rgAscDesc"
+        <RadioButton
+            android:id="@+id/radioButtonAsc"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:text="Ascendente"
+            android:textSize="16dp" />
 
-            <RadioButton
-                android:id="@+id/radioButtonAsc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:text="Ascendente"
-                android:textSize="16dp" />
+        <RadioButton
+            android:id="@+id/radioButtonDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="Descendente"
+            android:textSize="16dp" />
 
-            <RadioButton
-                android:id="@+id/radioButtonDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="Descendente"
-                android:textSize="16dp" />
-        </RadioGroup>
-    </LinearLayout>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvCapacidadBateria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Capacidad batería"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/etCapacidadBateria"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spnCriterio"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/etCapacidadBateria"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ems="5"
+        android:inputType="numberDecimal"
+        android:visibility="invisible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvCapacidadBateria"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvCapacidadBateria"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tvPorcentajeBateria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Porcentaje batería"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/tvCapacidadBateria"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@+id/tvCapacidadBateria"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/etPorcentajeBateria"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:ems="3"
+        android:inputType="number"
+        android:visibility="invisible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvPorcentajeBateria"
+        app:layout_constraintStart_toStartOf="@+id/etCapacidadBateria"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
