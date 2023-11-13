@@ -2,21 +2,24 @@ package es.unican.carchargers.activities.main;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withTagKey;
+import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 import androidx.test.espresso.DataInteraction;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -28,7 +31,6 @@ import es.unican.carchargers.R;
 import es.unican.carchargers.common.RepositoriesModule;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
-import es.unican.carchargers.utils.HTTPIdlingResource;
 
 /**
  * Example UI Test using Hilt dependency injection
@@ -37,7 +39,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  */
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
-public class MainViewUITest {
+public class MostrarInformacionDePuestoExitoUITest {
 
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
@@ -53,35 +55,39 @@ public class MainViewUITest {
     @BindValue IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_2));
 
-    /*
     @Test
-    public void MainViewTest() {
+    public void MostrarInformacionDePuestoExitoTest() {
+
+        /* Comprobar que las estaciones de carga aparecen en la lista con sus datos */
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
 
         DataInteraction interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(1);
 
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
-        interaction.onChildView(withId(R.id.tvInfoAddress))
+        interaction.onChildView(withId(R.id.tvAddress))
+                .check(matches(withText("Torre-Pacheco Club de Golf (Zunder) " +
+                        "(Región de Murcia)")));
+
+        /* Hacer click en la segunda estacion de la lista y comprobar la pantalla
+           que se despliega tras presionarla */
+        onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(1).perform(click());
+        onView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
+        onView(withId(R.id.tvInfoAddress))
                 .check(matches(withText("Torre-Pacheco Club de Golf (Zunder)," +
-                        "(Torre Pacheco, Región de Murcia)")));
-        interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("213053")));
-        interaction.onChildView(withId(R.id.tvInfoNumberOfPoints)).check(matches(withText("4")));
-        interaction.onChildView(withId(R.id.tvPrecio)).check(matches(withText("0,30€/kWh AC")));
-        interaction.onChildView(withId(R.id.tvInfoNumberOfPoints)).check(matches(withText("4")));
-        interaction.onChildView(withId(R.id.tvPower)).check(matches(withText("Tipo conector:")));
-        interaction.onChildView(withId(R.id.tvConnectorType))
-                .check(matches(withText("Potencia")));
-        interaction.onChildView(withId(R.id.tvQuantity)).check(matches(withText("Cantidad")));
-    //    interaction.onChildView(withId(R.id.tvResPower)).check(matches(withText("22")));
-    //    interaction.onChildView(withId(R.id.tvResConnectorType))
-    //            .check(matches(withText("IEC 62196-2 Type 2")));
-    //    interaction.onChildView(withId(R.id.tvResQuantity)).check(matches(withText("4")));
+                        " (Torre Pacheco, Región de Murcia)")));
+        onView(withId(R.id.tvInfoNumberOfPoints)).check(matches(withText("NumberOfPoints")));
+        onView(withId(R.id.tvConnectorType)).check(matches(withText("Tipo conector:")));
+        onView(withId(R.id.tvPower)).check(matches(withText("Potencia")));
+        onView(withId(R.id.tvQuantity)).check(matches(withText("Cantidad:")));
+        onView(withId(R.id.tvId)).check(matches(withText("213053")));
+        onView(withId(R.id.ivLogo)).check(matches(withTagKey(R.drawable.zunder)));
 
-
-
-
+        /* Presionar en un punto de carga de la estacion y comprobar sus datos */
+        onView(withContentDescription("tvChargerConnection1")).perform(click());
+        onView(withId((R.id.tvResConnectorType))).check(matches(withText("Type 2 (Socket Only)")));
+        onView(withId((R.id.tvResPower))).check(matches(withText("22.0 KW")));
+        onView(withId((R.id.tvResQuantity))).check(matches(withText("4")));
 
     }
-    */
 }

@@ -89,6 +89,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             resourceId = EOperator.fromId(charger.operator.id).logo;
         }
         ivLogo.setImageResource(resourceId);
+        ivLogo.setTag(resourceId, charger.operator.title);
         ivLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,6 +131,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             tv.setText(Integer.toString(i + 1));
             Connection connection = charger.connections.get(i);
             tv.setTag(connection);
+            tv.setContentDescription("tvChargerConnection" + Integer.toString(i+1));
             tv.setGravity(Gravity.CENTER);
 
             // Set a background for the connection
