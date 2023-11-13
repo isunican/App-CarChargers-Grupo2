@@ -203,7 +203,6 @@ public class MainPresenter implements IMainContract.Presenter {
     @Override
     public void onShowChargersSorted() {
         filteredChargers = shownChargers;
-
         view.showChargers((shownChargers));
     }
 
