@@ -119,9 +119,7 @@ public class MainPresenter implements IMainContract.Presenter {
         if (companhia.equals("-")) {
             filteredChargers = shownChargers;
         } else if (companhia.equals("OTROS")) {
-            filteredChargers = shownChargers.stream().filter
-                            (charger -> charger.operator != null && charger.operator.title.toLowerCase().equals("(Business Owner at Location)".toLowerCase()))
-                    .collect(Collectors.toList());
+            filterByOtherBusinesses();
         } else {
             filteredChargers = shownChargers.stream().filter
                             (charger -> charger.operator != null && charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
@@ -132,6 +130,12 @@ public class MainPresenter implements IMainContract.Presenter {
             view.showFilterEmpty();
         }
         view.showChargers(filteredChargers);
+    }
+
+    private void filterByOtherBusinesses() {
+        filteredChargers = shownChargers.stream().filter
+                        (charger -> charger.operator != null && charger.operator.title.toLowerCase().equals("(Business Owner at Location)".toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     @Override
