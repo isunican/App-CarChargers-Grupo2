@@ -154,15 +154,16 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
 
 
         String strPrecio;
-        if (charger.usageCost == null) {
+        if (charger.usageCost == null  || charger.usageCost.equals("")) {
             strPrecio = String.format("Precio No Disponible");
         } else {
             strPrecio = String.format(charger.usageCost);
 
-
+        /*
             if (strPrecio.equals("") || strPrecio == null) {
                 strPrecio = String.format("Precio No Disponible");
             }
+            */
         }
         tvPrecio.setText(strPrecio);
 
