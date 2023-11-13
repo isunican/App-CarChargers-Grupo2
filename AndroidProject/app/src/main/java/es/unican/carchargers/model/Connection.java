@@ -17,4 +17,5 @@ public class Connection {
         this.connectionType = new ConnectionType();
         this.statusType = new StatusType();
     }
+
 }

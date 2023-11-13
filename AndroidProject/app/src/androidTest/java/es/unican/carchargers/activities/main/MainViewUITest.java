@@ -2,8 +2,10 @@ package es.unican.carchargers.activities.main;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withTagKey;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
@@ -26,6 +28,7 @@ import dagger.hilt.android.testing.HiltAndroidTest;
 import dagger.hilt.android.testing.UninstallModules;
 import es.unican.carchargers.R;
 import es.unican.carchargers.common.RepositoriesModule;
+import es.unican.carchargers.model.Connection;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 import es.unican.carchargers.utils.HTTPIdlingResource;
@@ -73,26 +76,24 @@ public class MainViewUITest {
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(1);
 
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
-        interaction.onChildView(withId(R.id.tvInfoAddress))
+        interaction.onChildView(withId(R.id.tvAddress))
+                .check(matches(withText("Torre-Pacheco Club de Golf (Zunder) " +
+                        "(Región de Murcia)")));
+        onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(1).perform(click());
+        onView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
+        onView(withId(R.id.tvInfoAddress))
                 .check(matches(withText("Torre-Pacheco Club de Golf (Zunder)," +
-                        "(Torre Pacheco, Región de Murcia)")));
-        interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("213053")));
-        interaction.onChildView(withId(R.id.tvInfoNumberOfPoints)).check(matches(withText("4")));
-        interaction.onChildView(withId(R.id.tvPrecio)).check(matches(withText("0,30€/kWh AC")));
-        interaction.onChildView(withId(R.id.tvInfoNumberOfPoints)).check(matches(withText("4")));
-        interaction.onChildView(withId(R.id.tvPower)).check(matches(withText("Tipo conector:")));
-        interaction.onChildView(withId(R.id.tvConnectorType))
-                .check(matches(withText("Potencia")));
-        interaction.onChildView(withId(R.id.tvQuantity)).check(matches(withText("Cantidad")));
-    //    interaction.onChildView(withId(R.id.tvResPower)).check(matches(withText("22")));
-    //    interaction.onChildView(withId(R.id.tvResConnectorType))
-    //            .check(matches(withText("IEC 62196-2 Type 2")));
-    //    interaction.onChildView(withId(R.id.tvResQuantity)).check(matches(withText("4")));
+                        " (Torre Pacheco, Región de Murcia)")));
+        onView(withId(R.id.tvInfoNumberOfPoints)).check(matches(withText("NumberOfPoints")));
+        onView(withId(R.id.tvConnectorType)).check(matches(withText("Tipo conector:")));
+        onView(withId(R.id.tvPower)).check(matches(withText("Potencia")));
+        onView(withId(R.id.tvQuantity)).check(matches(withText("Cantidad:")));
+        onView(withId(R.id.tvId)).check(matches(withText("213053")));
 
-
-
-
-
+        onView(withTagKey(R.id.connection_tag)).perform(click());
+        onView(withId((R.id.tvResConnectorType))).check(matches(withText("IEC 62196-2 Type 2")));
+        onView(withId((R.id.tvResPower))).check(matches(withText("22.0 KW")));
+        onView(withId((R.id.tvResQuantity))).check(matches(withText("4")));
     }
 
 }

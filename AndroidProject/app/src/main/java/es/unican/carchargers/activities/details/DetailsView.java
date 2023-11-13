@@ -87,7 +87,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             TextView tv = new TextView(this);
             tv.setText(Integer.toString(i + 1));
             Connection connection = charger.connections.get(i);
-            tv.setTag(connection);
+            tv.setTag(R.id.connection_tag,connection);
             tv.setGravity(Gravity.CENTER);
 
             // Set a background for the connection
@@ -108,6 +108,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             tv.setLayoutParams(params);
             tv.setOnClickListener(this);
             linearLayout.addView(tv);
+
         }
 
 
@@ -146,7 +147,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         TextView tvResDisponibility = findViewById(R.id.tvResQuantity);
 
         // Get the connection clicked
-        Connection connection = (Connection) v.getTag();
+        Connection connection = (Connection) v.getTag(R.id.connection_tag);
 
         // Change her properties
         tvResConnectorType.setText(connection.connectionType.formalName);
