@@ -39,7 +39,7 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        public void onFilteredClicked(String companhia);
+        public void onFilteredClicked(String companhia, int minPower, int maxPower);
 
         public void onShowChargersFiltered();
 
@@ -54,6 +54,8 @@ public interface IMainContract {
          *
          */
         public void onDialogRequested();
+
+
     }
 
     /**
@@ -126,7 +128,9 @@ public interface IMainContract {
         /**
          * The view is requested to display the alert dialog for filtering chargers.
          * Only the Presenter should call this method
+         * @param minPower the minimun power of the chargers
+         * @param maxPower the maximun power of the chargers
          */
-        public void showFilterDialog();
+        public void showFilterDialog(Double minPower, Double maxPower);
     }
 }

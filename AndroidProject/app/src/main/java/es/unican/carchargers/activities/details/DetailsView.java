@@ -36,11 +36,14 @@ import es.unican.carchargers.model.Favourite;
 
 import es.unican.carchargers.model.Connection;
 
+import java.util.logging.Logger;
 
 /**
  * Charging station details view. Shows the basic information of a charging station.
  */
 public class DetailsView extends AppCompatActivity implements View.OnClickListener {
+
+    Logger logger = Logger.getLogger("lgDetailsView");
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
 
@@ -89,16 +92,13 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             resourceId = EOperator.fromId(charger.operator.id).logo;
         }
         ivLogo.setImageResource(resourceId);
-        ivLogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (finalStrWebsite != null) {
-                    Uri _link = Uri.parse(finalStrWebsite);
-                    Intent i = new Intent(Intent.ACTION_VIEW, _link);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(getApplicationContext(), "El proveedor no tiene enlace web", Toast.LENGTH_LONG).show();
-                }
+        ivLogo.setOnClickListener(v ->  {
+            if (finalStrWebsite != null) {
+                Uri _link = Uri.parse(finalStrWebsite);
+                Intent i = new Intent(Intent.ACTION_VIEW, _link);
+                startActivity(i);
+            } else {
+                Toast.makeText(getApplicationContext(), "El proveedor no tiene enlace web", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -144,7 +144,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             } catch(NullPointerException n) {
                 // Gray when we do not know
                 tv.setBackgroundColor(Color.GRAY);
-                System.out.println("NullPointerException thrown");
+                logger.info("NullPointerException thrown");
             }
             params.setMargins(20,0,0,0);
             tv.setLayoutParams(params);
@@ -193,17 +193,14 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             ivFavoritos.setImageResource(R.drawable.favoritosnoactivo);
         }
 
-        ivFavoritos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                charger.isFavourite = !charger.isFavourite;
-                if (charger.isFavourite) {
-                    ivFavoritos.setImageResource(R.drawable.favoritoactivo);
-                    editor.putBoolean(charger.id, true);
-                    editor.apply();
-                    favourite.addCharger(charger.id);
-                    Toast.makeText(getApplicationContext(), "Anhadido correctamente a favoritos", Toast.LENGTH_LONG).show();
-                }
+        ivFavoritos.setOnClickListener(v ->  {
+            charger.isFavourite = !charger.isFavourite;
+            if (charger.isFavourite) {
+                ivFavoritos.setImageResource(R.drawable.favoritoactivo);
+                editor.putBoolean(charger.id, true);
+                editor.apply();
+                favourite.addCharger(charger.id);
+                Toast.makeText(getApplicationContext(), "Anhadido correctamente a favoritos", Toast.LENGTH_LONG).show();
             }
         });
     }

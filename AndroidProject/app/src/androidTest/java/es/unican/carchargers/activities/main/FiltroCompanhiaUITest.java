@@ -71,9 +71,7 @@ public class FiltroCompanhiaUITest {
         onView(withId(R.id.btnFilters)).perform(click());
         onView(withId(R.id.spnCompanhia)).perform(click());
         //onView(withText("ENDESA")).perform(click());
-        Thread.sleep(1000);
         onData(allOf(is(instanceOf(String.class)),is("IBERDROLA"))).inRoot(isPlatformPopup()).perform(click());
-        Thread.sleep(1000);
         onView(withId(R.id.btnBuscar)).perform(click());
         //Es necesario corregir el test para que compruebe el numero de cargadores
         //onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
