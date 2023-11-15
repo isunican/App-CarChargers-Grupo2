@@ -54,8 +54,6 @@ public interface IMainContract {
          *
          */
         public void onDialogRequested();
-
-
     }
 
     /**

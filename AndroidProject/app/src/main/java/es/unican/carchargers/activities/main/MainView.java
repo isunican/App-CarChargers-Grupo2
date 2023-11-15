@@ -221,7 +221,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filterDialog.dismiss();
             minPowerNow = seekBar.getSelectedMinValue();
             maxPowerNow = seekBar.getSelectedMaxValue();
-            setFilter(minPowerNow, maxPowerNow);
+            setFilter();
         });
 
         btnBuscarTodos.setOnClickListener(v -> {
@@ -232,9 +232,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
     }
 
-    private void setFilter(Integer minPower, Integer maxPower) {
+    private void setFilter() {
         String companhia = spnCompanhia.getSelectedItem().toString();
-        presenter.onFilteredClicked(companhia, minPower, maxPower);
+        presenter.onFilteredClicked(companhia, minPowerNow, maxPowerNow);
     }
 
     public void sortDialog() {
