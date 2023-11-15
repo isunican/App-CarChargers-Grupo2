@@ -79,8 +79,6 @@ android {
 }
 
 dependencies {
-
-
     implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
 
     implementation 'androidx.appcompat:appcompat:1.4.1'

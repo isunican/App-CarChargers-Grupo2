@@ -34,9 +34,11 @@ public class Charger {
 
     public double maxPower() {
         double potenciaMax = 0;
+        double pontenciaActual;
         for (int i = 0; i < connections.size(); i++) {
-            if (connections.get(i).powerKW > potenciaMax) {
-                potenciaMax = connections.get(i).powerKW;
+            pontenciaActual = connections.get(i).powerKW;
+            if (pontenciaActual > potenciaMax) {
+                potenciaMax = pontenciaActual;
             }
         }
         return potenciaMax;
