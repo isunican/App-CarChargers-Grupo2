@@ -1,7 +1,8 @@
 package es.unican.carchargers.activities.main;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -23,14 +24,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.internal.bind.MapTypeAdapterFactory;
-
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -67,11 +63,15 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     EditText etCapacidadBateria;
     EditText etPorcentajeBateria;
 
+    double capacidadBateria;
+    double porcentajeBateria;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         // Initialize presenter-view connection
         presenter = new MainPresenter();
         presenter.init(this);
@@ -161,6 +161,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     @Override
+    public void showEtOrderTotalCostEmpty() {
+        Toast.makeText(this, "No se han introducido los datos", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void showChargerDetails(Charger charger) {
         Intent intent = new Intent(this, DetailsView.class);
         intent.putExtra(DetailsView.INTENT_CHARGER, Parcels.wrap(charger));
@@ -174,8 +179,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     @Override
-    public void showFilterDialog(Map<String, Set<String>> provinces) {
-        final Context context = this;
+    public void showFilterDialog() {
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.filter_menu, null);
 
@@ -191,32 +195,29 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnCompanhia.setAdapter(adapter);
+/*
+        LinearLayout linearLayout = findViewById(R.id.llFiltrarPotencia);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        spnProvincia = (Spinner)view.findViewById(R.id.spnProvincia);
+        RangeSeekBar<Double> seekBar = findViewById(R.id.rangeSeekbar);
+        seekBar.setRangeValues(0.0, 100.0);
 
-        ArrayAdapter<String> adapterProvincia = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(provinces.keySet()));
-        adapterProvincia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnProvincia.setAdapter(adapterProvincia);
-
-        spnLocalidad = (Spinner)view.findViewById(R.id.spnLocalidad);
-
-        spnProvincia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        seekBar.setForegroundGravity(Gravity.CENTER);
+        seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Double>() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedProvince = spnProvincia.getSelectedItem().toString();
-                Set<String> localities = provinces.get(selectedProvince);
-                String[] localityArray = localities.toArray(new String[0]);
-                ArrayAdapter<String> localityAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, localityArray);
-                localityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spnLocalidad.setAdapter(localityAdapter);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                ArrayAdapter<String> emptyAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-                spnLocalidad.setAdapter(emptyAdapter);
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Double minValue, Double maxValue) {
+                //Now you have the minValue and maxValue of your RangeSeekbar
+                Toast.makeText(getApplicationContext(), minValue + "-" + maxValue, Toast.LENGTH_LONG).show();
             }
         });
 
+        // Get noticed while dragging
+        seekBar.setNotifyWhileDragging(true);
+
+        seekBar.setLayoutParams(params);
+        linearLayout.addView(seekBar);
+*/
         filterDialog.show();
 
         Button btnBuscar = (Button)view.findViewById(R.id.btnBuscar);
@@ -230,12 +231,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filterDialog.dismiss();
             presenter.showChargers();
         });
-
     }
+
     private void setFilter() {
         String companhia = spnCompanhia.getSelectedItem().toString();
-        String localidad = spnLocalidad.getSelectedItem().toString();
-        presenter.onFilteredClicked(companhia, localidad);
+        presenter.onFilteredClicked(companhia);
     }
 
     public void sortDialog() {
@@ -276,12 +276,19 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                     etCapacidadBateria.setVisibility(View.INVISIBLE);
                     etPorcentajeBateria.setVisibility(View.INVISIBLE);
                 }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 //  tu código
             }
         });
+
+        /*
+        Intent intent = new Intent(MainView.this, MainPresenter.class);
+        intent.putExtra("valor_edittext", etPorcentajeBateria.getText().toString());
+        startActivity(intent);
+        */
 
         radioButtonAsc = (RadioButton) view.findViewById(R.id.radioButtonAsc);
         radioButtonDesc = (RadioButton) view.findViewById(R.id.radioButtonDesc);
@@ -310,5 +317,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private void setOrdenacion(Boolean ascendente) {
         String criterio = spnCriterio.getSelectedItem().toString();
         presenter.onSortedClicked(criterio, ascendente);
+    }
+
+    @Override
+    public double returnCapacidadBateria() {
+        if (etCapacidadBateria.getText() == null) {
+            return -1;
+        }
+        return Double.parseDouble(etCapacidadBateria.getText().toString());
+    }
+
+    @Override
+    public double returnPorcentajeBateria() {
+        if (etPorcentajeBateria.getText() == null) {
+            return -1;
+        }
+        return Double.parseDouble(etPorcentajeBateria.getText().toString());
     }
 }

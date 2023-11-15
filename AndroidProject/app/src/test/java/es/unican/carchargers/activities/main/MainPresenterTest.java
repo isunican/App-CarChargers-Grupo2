@@ -1,5 +1,6 @@
 package es.unican.carchargers.activities.main;
 
+import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -14,21 +15,29 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.activities.main.MainPresenter;
+import es.unican.carchargers.constants.ECountry;
+import es.unican.carchargers.constants.ELocation;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
 import es.unican.carchargers.model.Operator;
+import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
+import es.unican.carchargers.repository.service.APIArguments;
+
 @RunWith(MockitoJUnitRunner.class)
 public class MainPresenterTest {
     @Mock
     IMainContract.View mockView;
     IMainContract.Presenter sut;
     IRepository repository;
+    MainPresenter mp = new MainPresenter();
 
     @Before
     public void setup() {
@@ -187,4 +196,59 @@ public class MainPresenterTest {
         verify(mockView).showInfoActivity();
     }
     */
+
+    /*
+    //Test realizado por Adrián Ceballos
+    @Test
+    public void loadTest() {
+        //Creo cargadores y les añado a una lista
+        Charger charger1 = new Charger();
+        Charger charger2 = new Charger();
+        Charger charger3 = new Charger();
+        Charger charger4 = new Charger();
+        List<Charger> chargers = new ArrayList<>();
+        chargers.add(charger1);
+        chargers.add(charger2);
+        chargers.add(charger3);
+        chargers.add(charger4);
+        //Creo un repositorio fake con los cargadores creados
+        repository = Repositories.getFake(chargers);
+        when(mockView.getRepository()).thenReturn(repository);
+        APIArguments args = APIArguments.builder()
+                .setCountryCode(ECountry.SPAIN.code)
+                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
+                .setMaxResults(500);
+    }
+    */
+
+    @Test
+    public void getChargerComparatorTest() {
+        //Caso de prueba por potencia y ascendente
+        // Se crean las companhias
+        Operator operatorA = new Operator();
+        operatorA.title = "A";
+        Operator operatorB = new Operator();
+        operatorB.title = "B";
+
+        // Se crean las conexiones
+        Connection connection1 = new Connection();
+        connection1.powerKW = 1.5;
+        Connection connection2 = new Connection();
+        connection2.powerKW = 2.0;
+
+        // Se crean los cargadores
+        Charger charger1 = new Charger();
+        charger1.operator = operatorA;
+        charger1.connections.add(connection1);
+        Charger charger2 = new Charger();
+        charger2.operator = operatorB;
+        charger2.connections.add(connection2);
+
+        Comparator<Charger> comparator = mp.getChargerComparator("POTENCIA", true);
+
+        int result = comparator.compare(charger1, charger2);
+        //como charger1 tiene menos potencia que charger2, el compare devuelve <0
+        assert result < 0;
+    }
+
 }

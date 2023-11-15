@@ -1,29 +1,19 @@
 package es.unican.carchargers.activities.main;
 
-import android.content.Context;
-import android.widget.Toast;
-import android.content.Context;
 import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import es.unican.carchargers.model.Address;
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
-import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.service.APIArguments;
-import hilt_aggregated_deps._dagger_hilt_android_internal_modules_ApplicationContextModule;
 
 public class MainPresenter implements IMainContract.Presenter {
 
@@ -78,7 +68,6 @@ public class MainPresenter implements IMainContract.Presenter {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
                 filteredChargers = shownChargers;
-                provinces = mappingProvinces(chargers);
                 view.showChargers(MainPresenter.this.shownChargers);
                 view.showLoadCorrect(MainPresenter.this.shownChargers.size());
             }
@@ -116,7 +105,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
 
     @Override
-    public void onFilteredClicked(String companhia, String localidad) {
+    public void onFilteredClicked(String companhia) {
         if (companhia.equals("-")) {
             filteredChargers = shownChargers;
         } else if (companhia.equals("OTROS")) {
@@ -128,9 +117,6 @@ public class MainPresenter implements IMainContract.Presenter {
                             (charger -> charger.operator != null && charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
                     .collect(Collectors.toList());
         }
-        filteredChargers = filteredChargers.stream().filter(
-                        charger -> charger.address.town != null && charger.address.town.toLowerCase().equals(localidad.toLowerCase()))
-                .collect(Collectors.toList());
 
         if (filteredChargers.isEmpty()) {
             view.showFilterEmpty();
@@ -144,6 +130,7 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showChargers(shownChargers);
     }
 
+    /*
     @Override
     public void onSortedClicked(String criterio, Boolean ascendente) {
         if (criterio.equals("NINGUNO")) {
@@ -193,12 +180,146 @@ public class MainPresenter implements IMainContract.Presenter {
                 view.showSortedEmpty();
             }
             view.showChargers(filteredChargers);
+        }
+
+        if (criterio.equals("COSTE TOTAL")) {
+            filteredChargers = shownChargers.stream().filter
+                            (charger -> charger.usageCost != null && !charger.usageCost.equals(""))
+                    .collect(Collectors.toList());
+            if (ascendente == null) {
+                view.showChargers(filteredChargers);
+                view.showAscDescEmpty();
+            }
+            else if (ascendente == true) {
+                /*
+                //Obtiene valor!
+                String valorRecibido = bundle.getStringExtra("valor_edittext");
+
+                final View view = inflater.inflate(R.layout.list_item ,null);
+                final EditText et1 = (EditText)view.findViewById(R.id.et1);
+
+                et1.setText(valorRecibido); //asigna valor a EditText.
+                */
+                /*
+                filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
+                    Collator collator = Collator.getInstance();
+                    @Override
+                    public int compare(Charger ch1, Charger ch2) {
+                        if(ch1.costeTotalCarga(view.returnCapacidadBateria(), view.returnPorcentajeBateria()) ==
+                                ch2.costeTotalCarga(view.returnCapacidadBateria(), view.returnPorcentajeBateria())) {
+                            if (ch1.operator == null || ch2.operator == null) {
+                                return -1;
+                            } else {
+                                return collator.compare(ch1.operator.title, ch2.operator.title);
+                            }
+                        }
+                        return Double.compare(ch1.costeTotalCarga(view.returnCapacidadBateria(), view.returnPorcentajeBateria()),
+                                ch2.costeTotalCarga(view.returnCapacidadBateria(), view.returnPorcentajeBateria()));
+                    }
+                }).collect(Collectors.toList());
+
+            } else if (ascendente == false) {
+            filteredChargers = (List<Charger>) filteredChargers.stream().sorted(new Comparator<Charger>() {
+                Collator collator = Collator.getInstance();
+                @Override
+                public int compare(Charger ch1, Charger ch2) {
+                    if(ch1.costeTotalCarga(view.returnCapacidadBateria(), view.returnPorcentajeBateria()) ==
+                            ch2.costeTotalCarga(view.returnCapacidadBateria(), view.returnPorcentajeBateria())) {
+                        if (ch1.operator == null || ch2.operator == null) {
+                            return -1;
+                        } else {
+                            return collator.compare(ch1.operator.title, ch2.operator.title);
+                        }
+                    }
+                    return Double.compare(ch2.costeTotalCarga(view.returnCapacidadBateria(), view.returnPorcentajeBateria()),
+                            ch1.costeTotalCarga(view.returnCapacidadBateria(), view.returnPorcentajeBateria()));
+                }
+            }).collect(Collectors.toList());
         } else {
+            filteredChargers = (List<Charger>) filteredChargers.stream().collect(Collectors.toList());
+        }
             if (filteredChargers.isEmpty()) {
                 view.showSortedEmpty();
             }
             view.showChargers(filteredChargers);
         }
+    }
+    */
+
+    @Override
+    public void onSortedClicked(String criterio, Boolean ascendente) {
+        if (criterio.equals("NINGUNO")) {
+            view.showRuleEmpty();
+            return;
+        }
+
+        if (ascendente == null) {
+            view.showChargers(filteredChargers);
+            view.showAscDescEmpty();
+            return;
+        }
+
+        if (criterio.equals("COSTE TOTAL")) {
+            if (view.returnCapacidadBateria() == -1 || view.returnPorcentajeBateria() == -1) {
+
+            }
+            filteredChargers = shownChargers.stream()
+                    .filter(charger -> charger.usageCost != null && !charger.usageCost.equals(""))
+                    .sorted(getChargerComparator(criterio, ascendente))
+                    .collect(Collectors.toList());
+            view.showChargers(filteredChargers);
+        } else {
+            Comparator<Charger> chargerComparator = getChargerComparator(criterio, ascendente);
+
+            filteredChargers = filteredChargers.stream()
+                    .sorted(chargerComparator)
+                    .collect(Collectors.toList());
+
+            if (filteredChargers.isEmpty()) {
+                view.showSortedEmpty();
+            }
+            view.showChargers(filteredChargers);
+        }
+    }
+
+    //Hago el método público para poder probarlo en los test
+    public Comparator<Charger> getChargerComparator(String criterio, Boolean ascendente) {
+        Comparator<Charger> comparator = null;
+
+        if (criterio.equals("POTENCIA")) {
+            comparator = Comparator.comparingDouble(Charger::maxPower);
+
+            if (ascendente != null && !ascendente) {
+                comparator = comparator.reversed();
+            }
+
+            comparator = comparator.thenComparing((ch1, ch2) -> {
+                Collator collator = Collator.getInstance();
+                if (ch1.operator == null || ch2.operator == null) {
+                    return -1;
+                }
+                return collator.compare(ch1.operator.title, ch2.operator.title);
+            });
+
+        } else if (criterio.equals("COSTE TOTAL")) {
+            comparator = Comparator.comparingDouble(ch ->
+                    ch.costeTotalCarga(view.returnCapacidadBateria(), view.returnPorcentajeBateria()));
+
+            if (ascendente != null && !ascendente) {
+                comparator = comparator.reversed();
+            }
+
+            comparator = comparator.thenComparing((ch1, ch2) -> {
+                Collator collator = Collator.getInstance();
+                if (ch1.operator == null || ch2.operator == null) {
+                    return -1;
+                }
+                return collator.compare(ch1.operator.title, ch2.operator.title);
+            });
+
+        }
+
+        return comparator;
     }
 
     @Override
@@ -214,32 +335,6 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     public void onDialogRequested() {
-        view.showFilterDialog(provinces);
-    }
-
-    public static Map<String, Set<String>> mappingProvinces(List<Charger> chargers) {
-
-        Map<String, Set<String>> mapProvinces = new HashMap<>();
-        List<Charger> tmp = new ArrayList<Charger>(chargers);
-        /* Get rid of chargers with no information about its province or town */
-        tmp.removeIf(charger -> {
-            Address address = charger.address;
-            return address == null || address.province == null || address.town == null;
-        });
-
-        for (Charger c: tmp) {
-            String province = c.address.province;
-            String town = c.address.town;
-            if (mapProvinces.containsKey(province)) {
-                Set<String> setTowns = mapProvinces.get(province);
-                setTowns.add(town);
-            } else {
-                Set<String> setTowns = new HashSet<>();
-                setTowns.add(town);
-                mapProvinces.put(province, setTowns);
-            }
-        }
-        return mapProvinces;
+        view.showFilterDialog();
     }
 }
-
