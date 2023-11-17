@@ -53,9 +53,10 @@ public class MainViewUITest {
     @BindValue IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_2));
 
-    /*
+
     @Test
     public void MainViewTest() {
+        /*
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
 
         DataInteraction interaction = onData(anything())
@@ -77,11 +78,6 @@ public class MainViewUITest {
     //    interaction.onChildView(withId(R.id.tvResConnectorType))
     //            .check(matches(withText("IEC 62196-2 Type 2")));
     //    interaction.onChildView(withId(R.id.tvResQuantity)).check(matches(withText("4")));
-
-
-
-
-
-    }
     */
+    }
 }
