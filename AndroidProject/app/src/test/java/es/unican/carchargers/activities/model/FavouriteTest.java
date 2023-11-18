@@ -37,14 +37,14 @@ public class FavouriteTest {
         listaCargadores.add(charger3);
 
         // Probamos sin cargadores favoritos
-        assertEquals(favorito.listaFavoritos.size(), 0);
+        assertEquals(0, favorito.listaFavoritos.size());
 
         // Anhadir a favoritos el cargador 2 y 3
         favorito.addCharger(charger2.id);
         favorito.addCharger(charger3.id);
 
         // Probamos que se han anahdido correctamente
-        assertEquals(favorito.listaFavoritos.size(), 2);
+        assertEquals(2, favorito.listaFavoritos.size());
         assertEquals(favorito.listaFavoritos.get(0), charger2.id);
         assertEquals(favorito.listaFavoritos.get(1), charger3.id);
 
@@ -52,9 +52,9 @@ public class FavouriteTest {
         assertFalse(favorito.listaFavoritos.contains(charger1));
 
         // Probamos a anhadir a favoritos un cargador ya en favoritos
-        assertEquals(favorito.addCharger(charger2.id), "REPETIDO");
+        assertEquals("REPETIDO", favorito.addCharger(charger2.id));
 
         // Verificamos que al anahdir un cargador a favoritos devuelve el id de dicho cargador
-        assertEquals(favorito.addCharger(charger1.id), "1");
+        assertEquals("1", favorito.addCharger(charger1.id));
     }
 }

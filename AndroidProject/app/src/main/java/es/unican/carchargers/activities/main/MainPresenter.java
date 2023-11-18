@@ -34,7 +34,6 @@ public class MainPresenter implements IMainContract.Presenter {
     private List<Charger> shownChargers;
     private List<Charger> filteredChargers;
 
-    private Map<String, Set<String>> provinces;
 
     @Override
     public void init(IMainContract.View view) {

@@ -79,10 +79,8 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
 
         String strWebsite = null;
-        if (charger.operator != null) {
-            if (charger.operator.website != null) {
-                strWebsite = String.format(charger.operator.website);
-            }
+        if (charger.operator != null && charger.operator.website != null) {
+            strWebsite = String.format(charger.operator.website);
         }
 
         String finalStrWebsite = strWebsite;

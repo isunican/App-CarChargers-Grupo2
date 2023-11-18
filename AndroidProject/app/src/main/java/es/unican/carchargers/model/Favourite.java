@@ -14,7 +14,9 @@ public class Favourite {
     /**
      *  This constrcutor does not need an implementation at the moment.
      */
-    public Favourite(){}
+    public Favourite(){
+        //No se implementa nada por ahora
+    }
 
     public String addCharger(String id) {
         if (listaFavoritos.contains(id)) {
