@@ -212,6 +212,11 @@ public class MainPresenterTest {
         charger6_2.connections.add(connectionPower2);
         charger_1_2.connections.add(connectionPower2);
 
+        charger4_1.usageCost = "4,00€/kWh";
+        charger4_2.usageCost = "4,00€/kWh";
+        charger5_2.usageCost = "5,00€/kWh";
+        charger6_2.usageCost = "6,00€/kWh";
+
         //Listas de argumentos y resultados para estas pruebas (Carlos Silva)
         List<Charger> chargers1A = new ArrayList<Charger>();
         chargers1A.add(charger4_2);
@@ -286,6 +291,8 @@ public class MainPresenterTest {
         //UT.1a (Orden ascendente) (Carlos Silva)
         repository = Repositories.getFake(chargers1A);
         when(mockView.getRepository()).thenReturn(repository);
+        when(mockView.returnCapacidadBateria()).thenReturn(100.0);
+        when(mockView.returnPorcentajeBateria()).thenReturn(99.0);
         sut.init(mockView);
         sut.onSortedClicked("COSTE TOTAL", true);
         verify(mockView).showChargers(chargerResults1A);
@@ -293,6 +300,8 @@ public class MainPresenterTest {
         //UT.1b (Orden descendente) (Carlos Silva)
         repository = Repositories.getFake(chargers1B);
         when(mockView.getRepository()).thenReturn(repository);
+        when(mockView.returnCapacidadBateria()).thenReturn(100.0);
+        when(mockView.returnPorcentajeBateria()).thenReturn(99.0);
         sut.init(mockView);
         sut.onSortedClicked("COSTE TOTAL", false);
         verify(mockView).showChargers(chargerResults1B);
@@ -307,6 +316,8 @@ public class MainPresenterTest {
         //UT.1d (Orden ascendente con empate) (Carlos Silva)
         repository = Repositories.getFake(chargers1D);
         when(mockView.getRepository()).thenReturn(repository);
+        when(mockView.returnCapacidadBateria()).thenReturn(100.0);
+        when(mockView.returnPorcentajeBateria()).thenReturn(99.0);
         sut.init(mockView);
         sut.onSortedClicked("COSTE TOTAL", true);
         verify(mockView).showChargers(chargerResults1D);
@@ -314,6 +325,8 @@ public class MainPresenterTest {
         //UT.1e (Orden descendente con empate) (Carlos Silva)
         repository = Repositories.getFake(chargers1E);
         when(mockView.getRepository()).thenReturn(repository);
+        when(mockView.returnCapacidadBateria()).thenReturn(100.0);
+        when(mockView.returnPorcentajeBateria()).thenReturn(99.0);
         sut.init(mockView);
         sut.onSortedClicked("COSTE TOTAL", false);
         verify(mockView).showChargers(chargerResults1E);
@@ -321,6 +334,8 @@ public class MainPresenterTest {
         //UT.1f (Orden ascendente con un coste indefinido) (Carlos Silva)
         repository = Repositories.getFake(chargers1F);
         when(mockView.getRepository()).thenReturn(repository);
+        when(mockView.returnCapacidadBateria()).thenReturn(100.0);
+        when(mockView.returnPorcentajeBateria()).thenReturn(99.0);
         sut.init(mockView);
         sut.onSortedClicked("COSTE TOTAL", true);
         verify(mockView).showChargers(chargerResults1F);
@@ -328,6 +343,8 @@ public class MainPresenterTest {
         //UT.1g (Orden descendente con un coste indefinido) (Carlos Silva)
         repository = Repositories.getFake(chargers1G);
         when(mockView.getRepository()).thenReturn(repository);
+        when(mockView.returnCapacidadBateria()).thenReturn(100.0);
+        when(mockView.returnPorcentajeBateria()).thenReturn(99.0);
         sut.init(mockView);
         sut.onSortedClicked("COSTE TOTAL", false);
         verify(mockView).showChargers(chargerResults1G);
