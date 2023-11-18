@@ -1,15 +1,21 @@
 package es.unican.carchargers.activities.main;
 
 import static org.hamcrest.CoreMatchers.any;
+import static org.junit.Assert.assertSame;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -30,19 +36,34 @@ import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 import es.unican.carchargers.repository.service.APIArguments;
+import es.unican.carchargers.repository.service.FakeCall;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MainPresenterTest {
     @Mock
     IMainContract.View mockView;
     IMainContract.Presenter sut;
-    IRepository repository;
     MainPresenter mp = new MainPresenter();
+
+    @Mock
+    private MainView view;
+
+    @Mock
+    private MainPresenter presenter;
+
+    private IRepository repository;
+    @Mock
+    private IRepository repository2;
+    private ICallBack cb;
+
+    private APIArguments args = APIArguments.builder();
 
     @Before
     public void setup() {
         MockitoAnnotations.openMocks(this);
         sut = new MainPresenter();
+        view = mock(MainView.class);
+        presenter = mock(MainPresenter.class);
     }
     // Metodo realizado por Isaac Berrouet y Carlos Silva
     @Test
@@ -313,6 +334,42 @@ public class MainPresenterTest {
 
     }
 
+    /**
+     * Metodo realizado por Sergio Algorri.
+     */
+    @Test
+    public void onChargerClickedTest() {
+
+        Charger charger1 = new Charger();
+        Charger charger2 = new Charger();
+        Charger charger3 = new Charger();
+
+        List<Charger> listaCargadores = new ArrayList<>();
+        listaCargadores.add(charger1);
+        listaCargadores.add(charger2);
+        listaCargadores.add(charger3);
+
+        repository = Repositories.getFake(listaCargadores);
+        when(mockView.getRepository()).thenReturn(repository);
+        sut.init(mockView);
+
+        sut.onChargerClicked(0);
+        verify(mockView).showChargerDetails(charger1);
+        sut.onChargerClicked(1);
+        verify(mockView).showChargerDetails(charger2);
+        sut.onChargerClicked(2);
+        verify(mockView).showChargerDetails(charger3);
+
+        /*
+            Se comprueba que cuando el parametro index es mayor o igual que el tamanho de la
+            lista de cargadores, no se produce ninguna llamada extra a ningun cargador de la lista.
+         */
+        sut.onChargerClicked(3);
+        verify(mockView, times(1)).showChargerDetails(charger1);
+        verify(mockView, times(1)).showChargerDetails(charger2);
+        verify(mockView, times(1)).showChargerDetails(charger3);
+    }
+
     // Metodos realizados por Carlos Silva
     /*
     @Test
@@ -338,10 +395,10 @@ public class MainPresenterTest {
     }
     */
 
-    /*
     //Test realizado por Adrián Ceballos
     @Test
     public void loadTest() {
+
         //Creo cargadores y les añado a una lista
         Charger charger1 = new Charger();
         Charger charger2 = new Charger();
@@ -352,19 +409,34 @@ public class MainPresenterTest {
         chargers.add(charger2);
         chargers.add(charger3);
         chargers.add(charger4);
-        //Creo un repositorio fake con los cargadores creados
+
+        //Caso válido, se llama al método requestChargers con éxito
+
+        //Creo el repositorio fake, se accede correctamente al repositorio
         repository = Repositories.getFake(chargers);
         when(mockView.getRepository()).thenReturn(repository);
-        APIArguments args = APIArguments.builder()
-                .setCountryCode(ECountry.SPAIN.code)
-                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                .setMaxResults(500);
-    }
-    */
 
+        //Caso válido, se llama al método requestChargers con éxito
+        //Llamo al load
+        sut.init(mockView);
+
+        //Verifico que se llama a los métodos
+        verify(mockView).showChargers(chargers);
+        verify(mockView).showLoadCorrect(chargers.size());
+        verify(mockView, never()).showLoadError();
+
+        //Caso no válido, se llama al método requestChargers pero con un fail
+        repository = Repositories.getFail();
+        when(mockView.getRepository()).thenReturn(repository);
+
+        sut.init(mockView);
+
+        //Verifico que se llama al método correspondiente
+        verify(mockView).showLoadError();
+    }
     @Test
     public void getChargerComparatorTest() {
-        //Caso de prueba por potencia y ascendente
+
         // Se crean las companhias
         Operator operatorA = new Operator();
         operatorA.title = "A";
@@ -385,11 +457,19 @@ public class MainPresenterTest {
         charger2.operator = operatorB;
         charger2.connections.add(connection2);
 
+        //Caso de prueba por potencia y ascendente
         Comparator<Charger> comparator = mp.getChargerComparator("POTENCIA", true);
 
         int result = comparator.compare(charger1, charger2);
         //como charger1 tiene menos potencia que charger2, el compare devuelve <0
         assert result < 0;
+
+        //Caso de prueba por potencia y descendente
+        comparator = mp.getChargerComparator("POTENCIA", false);
+
+        result = comparator.compare(charger1, charger2);
+        //charger 1 tiene mas potencia que charger2 en descendente
+        assert result > 0;
     }
 
 }

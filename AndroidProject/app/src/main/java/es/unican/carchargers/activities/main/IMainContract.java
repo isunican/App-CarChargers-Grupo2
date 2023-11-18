@@ -26,6 +26,9 @@ public interface IMainContract {
          */
         public void init(View view);
 
+        //Hago el método público para poder probarlo en los test
+        void load();
+
         /**
          * The presenter is informed that a charging station has been clicked
          * Only the View should call this method
@@ -41,18 +44,10 @@ public interface IMainContract {
 
         public void onFilteredClicked(String companhia);
 
-        public void onShowChargersFiltered();
-
         void onSortedClicked(String criterio, Boolean ascendente);
 
-        public void onShowChargersSorted();
+        public void onShowChargersClicked();
 
-        public void showChargers();
-
-        /**
-         *
-         *
-         */
         public void onDialogRequested();
     }
 
