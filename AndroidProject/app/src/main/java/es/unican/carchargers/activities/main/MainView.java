@@ -321,7 +321,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public double returnCapacidadBateria() {
-        if (etCapacidadBateria.getText() == null) {
+        if (etCapacidadBateria.getText().toString().equals("")) {
             return -1;
         }
         return Double.parseDouble(etCapacidadBateria.getText().toString());
@@ -329,7 +329,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public double returnPorcentajeBateria() {
-        if (etPorcentajeBateria.getText() == null) {
+        if (etPorcentajeBateria.getText().toString().equals("")) {
             return -1;
         }
         return Double.parseDouble(etPorcentajeBateria.getText().toString());

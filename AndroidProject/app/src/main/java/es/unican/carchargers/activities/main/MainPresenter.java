@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.main;
 
 import java.text.Collator;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -21,8 +22,10 @@ public class MainPresenter implements IMainContract.Presenter {
     private IMainContract.View view;
 
     /** a cached list of charging stations currently shown */
-    private List<Charger> shownChargers;
-    private List<Charger> filteredChargers;
+
+    //Lo pongo público para probarlo en los tests
+    public List<Charger> shownChargers;
+    public List<Charger> filteredChargers;
 
     private Map<String, Set<String>> provinces;
 
@@ -53,7 +56,9 @@ public class MainPresenter implements IMainContract.Presenter {
      * This method requests a list of charging stations from the repository, and requests
      * the view to show them.
      */
-    private void load() {
+    //Hago el método público para poder probarlo en los test
+    @Override
+    public void load() {
         IRepository repository = view.getRepository();
 
         // set API arguments to retrieve charging stations that match some criteria
@@ -81,7 +86,6 @@ public class MainPresenter implements IMainContract.Presenter {
         };
 
         repository.requestChargers(args, callback);
-
     }
 
     @Override
@@ -102,7 +106,6 @@ public class MainPresenter implements IMainContract.Presenter {
     public void onMenuInfoClicked() {
         view.showInfoActivity();
     }
-
 
     @Override
     public void onFilteredClicked(String companhia) {
@@ -253,22 +256,37 @@ public class MainPresenter implements IMainContract.Presenter {
             return;
         }
 
-        if (ascendente == null) {
-            view.showChargers(filteredChargers);
-            view.showAscDescEmpty();
-            return;
-        }
-
         if (criterio.equals("COSTE TOTAL")) {
             if (view.returnCapacidadBateria() == -1 || view.returnPorcentajeBateria() == -1) {
-
+                view.showChargers(filteredChargers);
+                view.showEtOrderTotalCostEmpty();
+                ascendente = null;
+                return;
+            } else if (ascendente == null) {
+                view.showChargers(filteredChargers);
+                view.showAscDescEmpty();
+                ascendente = null;
+                return;
             }
+
             filteredChargers = shownChargers.stream()
                     .filter(charger -> charger.usageCost != null && !charger.usageCost.equals(""))
                     .sorted(getChargerComparator(criterio, ascendente))
                     .collect(Collectors.toList());
-            view.showChargers(filteredChargers);
+            List<Charger> chargersWithoutPrice = shownChargers.stream()
+                            .filter(charger -> charger.usageCost == null || charger.usageCost.equals(""))
+                                    .collect(Collectors.toList());
+            List<Charger> combinedChargers = new ArrayList<>();
+            combinedChargers.addAll(filteredChargers);
+            combinedChargers.addAll(chargersWithoutPrice);
+            view.showChargers(combinedChargers);
+            ascendente = null;
         } else {
+            if (ascendente == null) {
+                view.showChargers(filteredChargers);
+                view.showAscDescEmpty();
+                return;
+            }
             Comparator<Charger> chargerComparator = getChargerComparator(criterio, ascendente);
 
             filteredChargers = filteredChargers.stream()
@@ -314,11 +332,10 @@ public class MainPresenter implements IMainContract.Presenter {
                 if (ch1.operator == null || ch2.operator == null) {
                     return -1;
                 }
-                return collator.compare(ch1.operator.title, ch2.operator.title);
+                return  Double.compare(ch2.maxPower(), ch1.maxPower());
             });
 
         }
-
         return comparator;
     }
 
