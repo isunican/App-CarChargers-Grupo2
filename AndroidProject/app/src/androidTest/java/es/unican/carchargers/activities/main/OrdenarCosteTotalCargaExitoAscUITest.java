@@ -70,7 +70,7 @@ public class OrdenarCosteTotalCargaExitoAscUITest {
       CHARGER4:
            -UsageCost = ""
            -Title (OperatorInfo) = (Business Owner at Location)
-           -PowerKW = 3.7
+           -Address = Hotel Las Dehesillas (Extremadura)
 
       CHARGER5:
            -UsageCost = 0,40€/kWh DC - 0,30€/kWh AC
@@ -79,7 +79,7 @@ public class OrdenarCosteTotalCargaExitoAscUITest {
       CHARGER6:
            -UsageCost = parking fee
            -Title (OperatorInfo) = (Business Owner at Location)
-           -PowerKW = 4.7
+           -Address = Hotel Catalonia Giralda (Andalucía)
      */
     @Test
     public void ordenarCosteTotalCargaExitoAscTest() {
@@ -103,56 +103,57 @@ public class OrdenarCosteTotalCargaExitoAscUITest {
         onView(withId(R.id.btnBuscarOrden)).perform(click());
 
         /*
-            Comprobamos que los primeros cargadores que salen en la lista son aquellos que no tienen
-            usageCost (como Charger4 que es "") y que no tienen el precio en su usageCost (como
-            Charger6 que es "parking fee"). Como ambos van a tener el mismo coste total de carga (""),
-            su orden vendrá determinado por su potencia maxima. De este modo, el primer cargador que sale en
-            la lista es Charger6 (powerKW 4.7) y el segundo es Charger4 (powerKw 3.7)
+            Comprobamos que el primer cargador que sale en la lista es aquel que
+            no tiene el precio en su usageCost (como Charger6 que es "parking fee").
+            Por lo tanto, el primer cargador que aparece es Charger6.
          */
+
         DataInteraction interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("(Business Owner at Location)")));
-        interaction.onChildView(withId(R.id.tvCosteTotalCarga)).check(matches(withText("")));
-        interaction.onChildView(withId(R.id.tvResPower)).check(matches(withText("4.7")));
-        interaction.onChildView(withId(R.id.tvResPower)).check(matches(not(withText("3.7"))));
-
-        interaction = onData(anything())
-                .inAdapterView(withId(R.id.lvChargers)).atPosition(1);
-        interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("(Business Owner at Location)")));
-        interaction.onChildView(withId(R.id.tvCosteTotalCarga)).check(matches(withText("")));
-        interaction.onChildView(withId(R.id.tvPower)).check(matches(withText("3.7")));
+        interaction.onChildView(withId(R.id.tvCosteTotalCarga)).check(matches(withText(" ")));
+        interaction.onChildView(withId(R.id.tvAddress)).check(matches(withText("Hotel Catalonia Giralda (Andalucía)")));
 
         /*
             Comprobamos que el tercer cargador es el Charger2, que tiene como coste total de carga 2.9€.
             Comprobamos que el cuarto cargador es el Charger5, que tiene como coste total de carga 3.0€.
          */
         interaction = onData(anything())
-                .inAdapterView(withId(R.id.lvChargers)).atPosition(2);
+                .inAdapterView(withId(R.id.lvChargers)).atPosition(1);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Endesa")));
         interaction.onChildView(withId(R.id.tvCosteTotalCarga)).check(matches(withText("Coste Total de Carga: 2.9€")));
 
         interaction = onData(anything())
-                .inAdapterView(withId(R.id.lvChargers)).atPosition(3);
+                .inAdapterView(withId(R.id.lvChargers)).atPosition(2);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("GIC")));
         interaction.onChildView(withId(R.id.tvCosteTotalCarga)).check(matches(withText("Coste Total de Carga: 3.0€")));
 
         /*
-            Para la comprobacion de los ultimos dos cargadores, sucede lo mismo que en los dos primeros,
+            Para la comprobacion de los dos siguientes cargadores, sucede lo mismo que en los dos primeros,
             el coste total de carga es el mismo (3.9€). Por ello, al igual que antes, se mostrara primero
             aquel cargador con mayor potencia de carga. El Charger1 tiene potencia de 22, mientras que
             el Charger3 tiene potencia de 22 y 90, por lo tanto, el Charger3 tendrá que aparecer primero.
          */
         interaction = onData(anything())
-                .inAdapterView(withId(R.id.lvChargers)).atPosition(4);
+                .inAdapterView(withId(R.id.lvChargers)).atPosition(3);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Iberdrola")));
-        interaction.onChildView(withId(R.id.tvCosteTotalCarga)).check(matches(withText("Coste Total de Carga: 3.9€")));
-        interaction.onChildView(withId(R.id.tvResPower)).check(matches(withText("90")));
+        interaction.onChildView(withId(R.id.tvCosteTotalCarga)).check(matches(withText("Coste Total de Carga: 3.90€")));
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(not(withText("Zunder"))));
 
         interaction = onData(anything())
+                .inAdapterView(withId(R.id.lvChargers)).atPosition(4);
+        interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("Zunder")));
+        interaction.onChildView(withId(R.id.tvCosteTotalCarga)).check(matches(withText("Coste Total de Carga: 3.90€")));
+
+        /*
+            Los últimos cargadores deben ser aquellos donde el usageCost es nulo o vacío, donde no
+            hay ninguna información sobre el precio. Es el caso del Charger4, cuyo usageCost es "".
+         */
+        interaction = onData(anything())
                 .inAdapterView(withId(R.id.lvChargers)).atPosition(5);
         interaction.onChildView(withId(R.id.tvTitle)).check(matches(withText("(Business Owner at Location)")));
-        interaction.onChildView(withId(R.id.tvCosteTotalCarga)).check(matches(withText("Coste Total de Carga: 3.9€")));
-        interaction.onChildView(withId(R.id.tvPower)).check(matches(withText("22")));
+        interaction.onChildView(withId(R.id.tvCosteTotalCarga)).check(matches(withText(" ")));
+        interaction.onChildView(withId(R.id.tvAddress)).check(matches(withText("Hotel Las Dehesillas (Extremadura)")));
+
     }
 }

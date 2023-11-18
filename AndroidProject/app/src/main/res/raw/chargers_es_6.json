@@ -156,8 +156,8 @@
       "Title": "Open Charge Map Contributors"
     },
     "OperatorInfo": {
-      "WebsiteURL": "https://www.zunder.com/en/",
-      "Comments": "formerly known as EasyCharger",
+      "WebsiteURL": "http://www.endesa.es/",
+      "Comments": null,
       "PhonePrimaryContact": null,
       "PhoneSecondaryContact": null,
       "IsPrivateIndividual": false,
@@ -166,7 +166,7 @@
       "ContactEmail": null,
       "FaultReportEmail": null,
       "IsRestrictedEdit": false,
-      "ID": 3324,
+      "ID": 207,
       "Title": "Endesa"
     },
     "UsageType": {
@@ -177,10 +177,10 @@
       "Title": "Public - Membership Required"
     },
     "StatusType": {
-      "IsOperational": true,
+      "IsOperational": false,
       "IsUserSelectable": true,
-      "ID": 50,
-      "Title": "Operational"
+      "ID": 100,
+      "Title": "Not Operational"
     },
     "SubmissionStatus": {
       "IsLive": true,
@@ -191,24 +191,24 @@
     "PercentageSimilarity": null,
     "MediaItems": null,
     "IsRecentlyVerified": true,
-    "DateLastVerified": "2023-01-30T17:47:00Z",
-    "ID": 213053,
-    "UUID": "748F91E2-4C2C-47C5-A49F-6E4285C2255B",
+    "DateLastVerified": "2023-01-27T12:05:00Z",
+    "ID": 212966,
+    "UUID": "A4541DCB-038C-42D3-A62A-EBC08F4A0FA8",
     "ParentChargePointID": null,
     "DataProviderID": 1,
     "DataProvidersReference": null,
-    "OperatorID": 3324,
+    "OperatorID": 207,
     "OperatorsReference": null,
     "UsageTypeID": 4,
-    "UsageCost": " 0,29€/kWh AC",
+    "UsageCost": "0.29€/kWh",
     "AddressInfo": {
-      "ID": 213433,
-      "Title": "Torre-Pacheco Club de Golf (Zunder)",
-      "AddressLine1": "Plaza Severiano Ballesteros",
+      "ID": 213346,
+      "Title": "CEPSA Pozoblanco",
+      "AddressLine1": "CO-6411",
       "AddressLine2": null,
-      "Town": "Torre Pacheco",
-      "StateOrProvince": "Región de Murcia",
-      "Postcode": "30594",
+      "Town": "Pozoblanco",
+      "StateOrProvince": "Andalucía",
+      "Postcode": "14400",
       "CountryID": 210,
       "Country": {
         "ISOCode": "ES",
@@ -216,8 +216,8 @@
         "ID": 210,
         "Title": "Spain"
       },
-      "Latitude": 37.740620784280864,
-      "Longitude": -0.9606869220191925,
+      "Latitude": 38.370188171505816,
+      "Longitude": -4.844925771281311,
       "ContactTelephone1": null,
       "ContactTelephone2": null,
       "ContactEmail": null,
@@ -228,186 +228,7 @@
     },
     "Connections": [
       {
-        "ID": 354870,
-        "ConnectionTypeID": 25,
-        "ConnectionType": {
-          "FormalName": "IEC 62196-2 Type 2",
-          "IsDiscontinued": false,
-          "IsObsolete": false,
-          "ID": 25,
-          "Title": "Type 2 (Socket Only)"
-        },
-        "Reference": null,
-        "StatusTypeID": 50,
-        "StatusType": {
-          "IsOperational": true,
-          "IsUserSelectable": true,
-          "ID": 50,
-          "Title": "Operational"
-        },
-        "LevelID": 2,
-        "Level": {
-          "Comments": "Over 2 kW, usually non-domestic socket type",
-          "IsFastChargeCapable": false,
-          "ID": 2,
-          "Title": "Level 2 : Medium (Over 2kW)"
-        },
-        "Amps": null,
-        "Voltage": null,
-        "PowerKW": 22,
-        "CurrentTypeID": 20,
-        "CurrentType": {
-          "Description": "Alternating Current - Three Phase",
-          "ID": 20,
-          "Title": "AC (Three-Phase)"
-        },
-        "Quantity": 4,
-        "Comments": null
-      }
-    ],
-    "NumberOfPoints": 4,
-    "GeneralComments": null,
-    "DatePlanned": null,
-    "DateLastConfirmed": null,
-    "StatusTypeID": 50,
-    "DateLastStatusUpdate": "2023-01-30T17:47:00Z",
-    "MetadataValues": null,
-    "DataQualityLevel": 1,
-    "DateCreated": "2023-01-30T17:47:00Z",
-    "SubmissionStatusTypeID": 200
-  },
-
-  {
-    "DataProvider": {
-      "WebsiteURL": "http://openchargemap.org",
-      "Comments": null,
-      "DataProviderStatusType": {
-        "IsProviderEnabled": true,
-        "ID": 1,
-        "Title": "Manual Data Entry"
-      },
-      "IsRestrictedEdit": false,
-      "IsOpenDataLicensed": true,
-      "IsApprovedImport": true,
-      "License": "Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)",
-      "DateLastImported": null,
-      "ID": 1,
-      "Title": "Open Charge Map Contributors"
-    },
-    "OperatorInfo": {
-      "WebsiteURL": "https://www.zunder.com/en/",
-      "Comments": "formerly known as EasyCharger",
-      "PhonePrimaryContact": null,
-      "PhoneSecondaryContact": null,
-      "IsPrivateIndividual": false,
-      "AddressInfo": null,
-      "BookingURL": null,
-      "ContactEmail": null,
-      "FaultReportEmail": null,
-      "IsRestrictedEdit": false,
-      "ID": 3324,
-      "Title": "Iberdrola"
-    },
-    "UsageType": {
-      "IsPayAtLocation": false,
-      "IsMembershipRequired": true,
-      "IsAccessKeyRequired": true,
-      "ID": 4,
-      "Title": "Public - Membership Required"
-    },
-    "StatusType": {
-      "IsOperational": true,
-      "IsUserSelectable": true,
-      "ID": 50,
-      "Title": "Operational"
-    },
-    "SubmissionStatus": {
-      "IsLive": true,
-      "ID": 200,
-      "Title": "Submission Published"
-    },
-    "UserComments": null,
-    "PercentageSimilarity": null,
-    "MediaItems": [
-      {
-        "ID": 36463,
-        "ChargePointID": 213052,
-        "ItemURL": "https://s3-ap-southeast-2.amazonaws.com/openchargemap/images/ES/OCM213052/OCM-213052.orig.2023013017444499.jpg",
-        "ItemThumbnailURL": "https://s3-ap-southeast-2.amazonaws.com/openchargemap/images/ES/OCM213052/OCM-213052.thmb.2023013017444499.jpg",
-        "Comment": "",
-        "IsEnabled": true,
-        "IsVideo": false,
-        "IsFeaturedItem": false,
-        "IsExternalResource": false,
-        "MetadataValue": null,
-        "User": {
-          "ID": 40036,
-          "IdentityProvider": null,
-          "Identifier": null,
-          "CurrentSessionToken": null,
-          "Username": "lmjgarcia",
-          "Profile": null,
-          "Location": null,
-          "WebsiteURL": null,
-          "ReputationPoints": 16473,
-          "Permissions": null,
-          "PermissionsRequested": null,
-          "DateCreated": null,
-          "DateLastLogin": null,
-          "IsProfilePublic": null,
-          "IsEmergencyChargingProvider": null,
-          "IsPublicChargingProvider": null,
-          "Latitude": null,
-          "Longitude": null,
-          "EmailAddress": null,
-          "EmailHash": null,
-          "ProfileImageURL": "https://www.gravatar.com/avatar/49ca0e06cd559a7051f3059536a42218?s=80&d=robohash",
-          "IsCurrentSessionTokenValid": null,
-          "APIKey": null,
-          "SyncedSettings": null
-        },
-        "DateCreated": "2023-01-30T17:45:00Z"
-      }
-    ],
-    "IsRecentlyVerified": true,
-    "DateLastVerified": "2023-01-30T17:45:00Z",
-    "ID": 213052,
-    "UUID": "47F93D9D-9949-4826-885A-FFDA7002467E",
-    "ParentChargePointID": null,
-    "DataProviderID": 1,
-    "DataProvidersReference": null,
-    "OperatorID": 3324,
-    "OperatorsReference": null,
-    "UsageTypeID": 4,
-    "UsageCost": "0,55€/kWh DC - 0,39€/kWh AC",
-    "AddressInfo": {
-      "ID": 213432,
-      "Title": "Torre-Pacheco - Calle Cartagena (Zunder)",
-      "AddressLine1": "Calle Poseidón",
-      "AddressLine2": null,
-      "Town": "Torre Pacheco",
-      "StateOrProvince": "Región de Murcia",
-      "Postcode": "30395",
-      "CountryID": 210,
-      "Country": {
-        "ISOCode": "ES",
-        "ContinentCode": "EU",
-        "ID": 210,
-        "Title": "Spain"
-      },
-      "Latitude": 37.73448253979706,
-      "Longitude": -0.9523541549733068,
-      "ContactTelephone1": null,
-      "ContactTelephone2": null,
-      "ContactEmail": null,
-      "AccessComments": null,
-      "RelatedURL": null,
-      "Distance": null,
-      "DistanceUnit": 0
-    },
-    "Connections": [
-      {
-        "ID": 354868,
+        "ID": 354715,
         "ConnectionTypeID": 33,
         "ConnectionType": {
           "FormalName": "IEC 62196-3 Configuration FF",
@@ -431,20 +252,57 @@
           "ID": 3,
           "Title": "Level 3:  High (Over 40kW)"
         },
-        "Amps": 350,
-        "Voltage": 1000,
-        "PowerKW": 90,
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 50,
         "CurrentTypeID": 30,
         "CurrentType": {
           "Description": "Direct Current",
           "ID": 30,
           "Title": "DC"
         },
-        "Quantity": 2,
-        "Comments": "The DC charger allows charging one vehicle at 90kW, or two simultaneous charges at 45kW. "
+        "Quantity": 1,
+        "Comments": null
       },
       {
-        "ID": 354869,
+        "ID": 354716,
+        "ConnectionTypeID": 2,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-3 Configuration AA",
+          "IsDiscontinued": null,
+          "IsObsolete": null,
+          "ID": 2,
+          "Title": "CHAdeMO"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
+        "Quantity": 1,
+        "Comments": null
+      },
+      {
+        "ID": 354717,
         "ConnectionTypeID": 25,
         "ConnectionType": {
           "FormalName": "IEC 62196-2 Type 2",
@@ -477,19 +335,195 @@
           "ID": 20,
           "Title": "AC (Three-Phase)"
         },
+        "Quantity": 1,
+        "Comments": null
+      }
+    ],
+    "NumberOfPoints": 2,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 100,
+    "DateLastStatusUpdate": "2023-01-27T12:05:00Z",
+    "MetadataValues": null,
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-01-27T12:05:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+
+  {
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "OperatorInfo": {
+      "WebsiteURL": "https://www.iberdrola.es/clientes/hogar/movilidad-verde/recarga",
+      "Comments": null,
+      "PhonePrimaryContact": "900 22 45 22",
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": null,
+      "FaultReportEmail": null,
+      "IsRestrictedEdit": false,
+      "ID": 2247,
+      "Title": "Iberdrola"
+    },
+    "UsageType": {
+      "IsPayAtLocation": false,
+      "IsMembershipRequired": true,
+      "IsAccessKeyRequired": true,
+      "ID": 4,
+      "Title": "Public - Membership Required"
+    },
+    "StatusType": {
+      "IsOperational": false,
+      "IsUserSelectable": true,
+      "ID": 150,
+      "Title": "Planned For Future Date"
+    },
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 200,
+      "Title": "Submission Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "MediaItems": null,
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2023-01-27T12:10:00Z",
+    "ID": 212967,
+    "UUID": "66488C91-876A-4C23-BB06-2FE5924E853F",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvidersReference": null,
+    "OperatorID": 2247,
+    "OperatorsReference": null,
+    "UsageTypeID": 4,
+    "UsageCost": "0,55€/kWh DC - 0,39€/kWh AC",
+    "AddressInfo": {
+      "ID": 213347,
+      "Title": "Hotel Mirador de Azuaga",
+      "AddressLine1": "aga",
+      "AddressLine2": null,
+      "Town": "Azuaga",
+      "StateOrProvince": "Extremadura",
+      "Postcode": "06920",
+      "CountryID": 210,
+      "Country": {
+        "ISOCode": "ES",
+        "ContinentCode": "EU",
+        "ID": 210,
+        "Title": "Spain"
+      },
+      "Latitude": 38.25993532424013,
+      "Longitude": -5.702911350178624,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": null,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 354718,
+        "ConnectionTypeID": 33,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-3 Configuration FF",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 33,
+          "Title": "CCS (Type 2)"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 22,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
+        "Quantity": 2,
+        "Comments": null
+      },
+      {
+        "ID": 354719,
+        "ConnectionTypeID": 2,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-3 Configuration AA",
+          "IsDiscontinued": null,
+          "IsObsolete": null,
+          "ID": 2,
+          "Title": "CHAdeMO"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 90,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
         "Quantity": 2,
         "Comments": null
       }
     ],
-    "NumberOfPoints": 4,
+    "NumberOfPoints": 2,
     "GeneralComments": null,
     "DatePlanned": null,
     "DateLastConfirmed": null,
-    "StatusTypeID": 50,
-    "DateLastStatusUpdate": "2023-01-30T17:45:00Z",
+    "StatusTypeID": 150,
+    "DateLastStatusUpdate": "2023-01-27T12:10:00Z",
     "MetadataValues": null,
     "DataQualityLevel": 1,
-    "DateCreated": "2023-01-30T17:44:00Z",
+    "DateCreated": "2023-01-27T12:10:00Z",
     "SubmissionStatusTypeID": 200
   },
   {
@@ -556,13 +590,13 @@
     "UsageTypeID": 6,
     "UsageCost": "",
     "AddressInfo": {
-      "ID": 213420,
-      "Title": "Hotel Catalonia Giralda",
-      "AddressLine1": "Calle Sierra Nevada",
-      "AddressLine2": "Casco Antiguo",
+      "ID": 213348,
+      "Title": "Hotel Las Dehesillas",
+      "AddressLine1": "De Fuente de Cantos a Hoya de Santa María por Montemolín",
+      "AddressLine2": null,
       "Town": null,
-      "StateOrProvince": "Andalucía",
-      "Postcode": "41004",
+      "StateOrProvince": "Extremadura",
+      "Postcode": null,
       "CountryID": 210,
       "Country": {
         "ISOCode": "ES",
