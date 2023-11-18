@@ -44,17 +44,17 @@ public class MainPresenterTest {
         MockitoAnnotations.openMocks(this);
         sut = new MainPresenter();
     }
-    // Metodo realizado por Isaac Berrouet
+    // Metodo realizado por Isaac Berrouet y Carlos Silva
     @Test
     public void onSortedClickedTest() {
 
-        // Se crean las companhias
+        // Se crean las companhias (Isaac Berrouet)
         Operator operatorA = new Operator();
         operatorA.title = "A";
         Operator operatorB = new Operator();
         operatorB.title = "B";
 
-        // Se crean las conexiones
+        // Se crean las conexiones (Isaac Berrouet)
         Connection connection1 = new Connection();
         connection1.powerKW = 600.1;
         Connection connection2 = new Connection();
@@ -62,7 +62,7 @@ public class MainPresenterTest {
         Connection connection3 = new Connection();
         connection3.powerKW = 0;
 
-        // Se crean los cargadores
+        // Se crean los cargadores (Isaac Berrouet)
         Charger charger1 = new Charger();
         charger1.operator = operatorA;
         charger1.connections.add(connection1);
@@ -76,7 +76,7 @@ public class MainPresenterTest {
         charger4.operator = operatorB;
         charger4.connections.add(connection3);
 
-        // Se crean las listas de cargadores
+        // Se crean las listas de cargadores (Isaac Berrouet)
         List<Charger> chargers1 = new ArrayList<Charger>();
         chargers1.add(charger2);
         chargers1.add(charger1);
@@ -108,7 +108,7 @@ public class MainPresenterTest {
         chargersResult3.add(charger3);
         chargersResult3.add(charger1);
 
-        // Lista de 3 cargadores que se ordenan de forma ascendente
+        // Lista de 3 cargadores que se ordenan de forma ascendente (Isaac Berrouet)
         repository = Repositories.getFake(chargers1);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
@@ -116,26 +116,26 @@ public class MainPresenterTest {
         // Se muestra la lista ordenada
         verify(mockView).showChargers(chargersResult1);
 
-        // Lista de 3 cargadores que se ordena de forma descendente
+        // Lista de 3 cargadores que se ordena de forma descendente (Isaac Berrouet)
         sut.onSortedClicked("POTENCIA", false);
         // Se muestra la lista ordenada
         verify(mockView).showChargers(chargersResult2);
 
-        // No se selecciona si ordenar ascendentemente ni ascendentemente
+        // No se selecciona si ordenar ascendentemente ni ascendentemente (Isaac Berrouet)
         sut.onSortedClicked("POTENCIA", null);
         verify(mockView).showChargers(chargers1);
         // Salta la alerta al usuario
         verify(mockView).showAscDescEmpty();
 
-        // Lista de 3 cargadores ya ordenada
+        // Lista de 3 cargadores ya ordenada (Isaac Berrouet)
         repository = Repositories.getFake(chargers2);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
-        // Se vuelve a mostrar la misma lista
+        // Se vuelve a mostrar la misma lista (Isaac Berrouet)
         verify(mockView, atLeast(2)).showChargers(chargers2);
 
-        // Lista de un solo cargador
+        // Lista de un solo cargador (Isaac Berrouet)
         repository = Repositories.getFake(chargers3);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
@@ -143,7 +143,7 @@ public class MainPresenterTest {
         // Se vuelve a mostrar la misma lista
         verify(mockView, atLeast(2)).showChargers(chargers3);
 
-        // Lista de 4 cargadores con 2 cargadores de misma potencia
+        // Lista de 4 cargadores con 2 cargadores de misma potencia (Isaac Berrouet)
         repository = Repositories.getFake(chargers4);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
@@ -151,7 +151,7 @@ public class MainPresenterTest {
         // Se muestra la lista ordenada y en caso de empate se hace por orden alfabetico
         verify(mockView).showChargers(chargersResult3);
 
-        // Lista sin cargadores
+        // Lista sin cargadores (Isaac Berrouet)
         repository = Repositories.getFake(chargers5);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
@@ -161,7 +161,7 @@ public class MainPresenterTest {
         // Se alerta al usuario
         verify(mockView).showSortedEmpty();
 
-        // No se aplica un criterio de ordenacion
+        // No se aplica un criterio de ordenacion (Isaac Berrouet)
         repository = Repositories.getFake(chargers1);
         when(mockView.getRepository()).thenReturn(repository);
         sut.init(mockView);
@@ -170,6 +170,147 @@ public class MainPresenterTest {
         verify(mockView, atLeast(2)).showChargers(chargers1);
         // Se alerta al usuario
         verify(mockView).showRuleEmpty();
+
+        /* Aqui empiezan las pruebas del criterio CosteTotal */
+
+        //Cargadores para estas pruebas (Carlos Silva)
+        Charger charger4_1 = new Charger();
+        Charger charger4_2 = new Charger();
+        Charger charger5_2 = new Charger();
+        Charger charger6_2 = new Charger();
+        Charger charger_1_2 = new Charger();
+
+        Connection connectionPower1 = new Connection();
+        connectionPower1.powerKW = 1;
+        Connection connectionPower2 = new Connection();
+        connectionPower2.powerKW = 2;
+
+        charger4_1.connections.add(connectionPower1);
+        charger4_2.connections.add(connectionPower2);
+        charger5_2.connections.add(connectionPower2);
+        charger6_2.connections.add(connectionPower2);
+        charger_1_2.connections.add(connectionPower2);
+
+        //Listas de argumentos y resultados para estas pruebas (Carlos Silva)
+        List<Charger> chargers1A = new ArrayList<Charger>();
+        chargers1A.add(charger4_2);
+        chargers1A.add(charger6_2);
+        chargers1A.add(charger5_2);
+
+        List<Charger> chargers1B = new ArrayList<Charger>();
+        chargers1B.add(charger4_2);
+        chargers1B.add(charger6_2);
+        chargers1B.add(charger5_2);
+
+        List<Charger> chargers1C = new ArrayList<Charger>();
+
+        List<Charger> chargers1D = new ArrayList<Charger>();
+        chargers1D.add(charger6_2);
+        chargers1D.add(charger4_1);
+        chargers1D.add(charger4_2);
+        chargers1D.add(charger5_2);
+
+        List<Charger> chargers1E = new ArrayList<Charger>();
+        chargers1E.add(charger6_2);
+        chargers1E.add(charger4_1);
+        chargers1E.add(charger4_2);
+        chargers1E.add(charger5_2);
+
+        List<Charger> chargers1F = new ArrayList<Charger>();
+        chargers1F.add(charger_1_2);
+        chargers1F.add(charger4_1);
+        chargers1F.add(charger4_2);
+        chargers1F.add(charger5_2);
+
+        List<Charger> chargers1G = new ArrayList<Charger>();
+        chargers1G.add(charger_1_2);
+        chargers1G.add(charger4_1);
+        chargers1G.add(charger4_2);
+        chargers1G.add(charger5_2);
+
+        List<Charger> chargerResults1A = new ArrayList<Charger>();
+        chargerResults1A.add(charger4_2);
+        chargerResults1A.add(charger5_2);
+        chargerResults1A.add(charger6_2);
+
+        List<Charger> chargerResults1B = new ArrayList<Charger>();
+        chargerResults1B.add(charger6_2);
+        chargerResults1B.add(charger5_2);
+        chargerResults1B.add(charger4_2);
+
+        List<Charger> chargerResults1D = new ArrayList<Charger>();
+        chargerResults1D.add(charger4_2);
+        chargerResults1D.add(charger4_1);
+        chargerResults1D.add(charger5_2);
+        chargerResults1D.add(charger6_2);
+
+        List<Charger> chargerResults1E = new ArrayList<Charger>();
+        chargerResults1E.add(charger6_2);
+        chargerResults1E.add(charger5_2);
+        chargerResults1E.add(charger4_2);
+        chargerResults1E.add(charger4_1);
+
+        List<Charger> chargerResults1F = new ArrayList<Charger>();
+        chargerResults1F.add(charger4_2);
+        chargerResults1F.add(charger4_1);
+        chargerResults1F.add(charger5_2);
+        chargerResults1F.add(charger_1_2);
+
+        List<Charger> chargerResults1G = new ArrayList<Charger>();
+        chargerResults1G.add(charger5_2);
+        chargerResults1G.add(charger4_2);
+        chargerResults1G.add(charger4_1);
+        chargerResults1G.add(charger_1_2);
+
+        //UT.1a (Orden ascendente) (Carlos Silva)
+        repository = Repositories.getFake(chargers1A);
+        when(mockView.getRepository()).thenReturn(repository);
+        sut.init(mockView);
+        sut.onSortedClicked("COSTE TOTAL", true);
+        verify(mockView).showChargers(chargerResults1A);
+
+        //UT.1b (Orden descendente) (Carlos Silva)
+        repository = Repositories.getFake(chargers1B);
+        when(mockView.getRepository()).thenReturn(repository);
+        sut.init(mockView);
+        sut.onSortedClicked("COSTE TOTAL", false);
+        verify(mockView).showChargers(chargerResults1B);
+
+        //UT.1c (Orden no escogido) (Carlos Silva)
+        repository = Repositories.getFake(chargers1C);
+        when(mockView.getRepository()).thenReturn(repository);
+        sut.init(mockView);
+        sut.onSortedClicked("COSTE TOTAL", null);
+        verify(mockView).showRuleEmpty();
+
+        //UT.1d (Orden ascendente con empate) (Carlos Silva)
+        repository = Repositories.getFake(chargers1D);
+        when(mockView.getRepository()).thenReturn(repository);
+        sut.init(mockView);
+        sut.onSortedClicked("COSTE TOTAL", true);
+        verify(mockView).showChargers(chargerResults1D);
+
+        //UT.1e (Orden descendente con empate) (Carlos Silva)
+        repository = Repositories.getFake(chargers1E);
+        when(mockView.getRepository()).thenReturn(repository);
+        sut.init(mockView);
+        sut.onSortedClicked("COSTE TOTAL", false);
+        verify(mockView).showChargers(chargerResults1E);
+
+        //UT.1f (Orden ascendente con un coste indefinido) (Carlos Silva)
+        repository = Repositories.getFake(chargers1F);
+        when(mockView.getRepository()).thenReturn(repository);
+        sut.init(mockView);
+        sut.onSortedClicked("COSTE TOTAL", true);
+        verify(mockView).showChargers(chargerResults1F);
+
+        //UT.1g (Orden descendente con un coste indefinido) (Carlos Silva)
+        repository = Repositories.getFake(chargers1G);
+        when(mockView.getRepository()).thenReturn(repository);
+        sut.init(mockView);
+        sut.onSortedClicked("COSTE TOTAL", false);
+        verify(mockView).showChargers(chargerResults1G);
+
     }
 
     // Metodos realizados por Carlos Silva
