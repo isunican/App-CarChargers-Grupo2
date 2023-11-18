@@ -5,7 +5,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
-import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -21,9 +20,6 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -35,7 +31,7 @@ import es.unican.carchargers.R;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 import es.unican.carchargers.common.RepositoriesModule;
-import es.unican.carchargers.utils.HTTPIdlingResource;
+import es.unican.carchargers.utils.Matchers;
 
 /**
  * Example UI Test using Hilt dependency injection
@@ -44,7 +40,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  */
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
-public class FiltroCompanhiaUITest {
+public class FiltroCompanhiaExitoUITest {
 
 
     @Rule(order = 0)  // the Hilt rule must execute first
@@ -63,7 +59,6 @@ public class FiltroCompanhiaUITest {
     IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
 
-
     @Test
     public void filtroCompanhiaTest() throws InterruptedException {
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
@@ -72,9 +67,11 @@ public class FiltroCompanhiaUITest {
         onView(withId(R.id.spnCompanhia)).perform(click());
         //onView(withText("ENDESA")).perform(click());
         Thread.sleep(1000);
-        onData(allOf(is(instanceOf(String.class)),is("IBERDROLA"))).inRoot(isPlatformPopup()).perform(click());
+        onData(allOf(is(instanceOf(String.class)),is("REPSOL - ibil (ES)"))).inRoot(isPlatformPopup()).perform(click());
         Thread.sleep(1000);
         onView(withId(R.id.btnBuscar)).perform(click());
+        onView(withId(R.id.lvChargers)).check(matches(Matchers.hasElements(19)));
+
         //Es necesario corregir el test para que compruebe el numero de cargadores
         //onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
         //onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).onChildView(withId(R.id.tvId)).

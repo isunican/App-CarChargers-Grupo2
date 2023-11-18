@@ -3,7 +3,6 @@ package es.unican.carchargers.activities.main;
 import static android.app.PendingIntent.getActivity;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -29,13 +28,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.internal.bind.MapTypeAdapterFactory;
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -71,6 +66,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     TextView tvPorcentajeBateria;
     EditText etCapacidadBateria;
     EditText etPorcentajeBateria;
+
+    double capacidadBateria;
+    double porcentajeBateria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +162,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public void showAscDescEmpty() {
         Toast.makeText(this, "No se ha elegido si la ordenación es ascendente o descendente",
                 Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showEtOrderTotalCostEmpty() {
+        Toast.makeText(this, "No se han introducido los datos", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -277,12 +280,19 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                     etCapacidadBateria.setVisibility(View.INVISIBLE);
                     etPorcentajeBateria.setVisibility(View.INVISIBLE);
                 }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 //  tu código
             }
         });
+
+        /*
+        Intent intent = new Intent(MainView.this, MainPresenter.class);
+        intent.putExtra("valor_edittext", etPorcentajeBateria.getText().toString());
+        startActivity(intent);
+        */
 
         radioButtonAsc = (RadioButton) view.findViewById(R.id.radioButtonAsc);
         radioButtonDesc = (RadioButton) view.findViewById(R.id.radioButtonDesc);
@@ -311,5 +321,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private void setOrdenacion(Boolean ascendente) {
         String criterio = spnCriterio.getSelectedItem().toString();
         presenter.onSortedClicked(criterio, ascendente);
+    }
+
+    @Override
+    public double returnCapacidadBateria() {
+        if (etCapacidadBateria.getText().toString().equals("")) {
+            return -1;
+        }
+        return Double.parseDouble(etCapacidadBateria.getText().toString());
+    }
+
+    @Override
+    public double returnPorcentajeBateria() {
+        if (etPorcentajeBateria.getText().toString().equals("")) {
+            return -1;
+        }
+        return Double.parseDouble(etPorcentajeBateria.getText().toString());
     }
 }

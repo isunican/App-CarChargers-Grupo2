@@ -1,40 +1,71 @@
 package es.unican.carchargers.activities.main;
 
+import static org.hamcrest.CoreMatchers.any;
+import static org.junit.Assert.assertSame;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.activities.main.MainPresenter;
+import es.unican.carchargers.constants.ECountry;
+import es.unican.carchargers.constants.ELocation;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.Connection;
 import es.unican.carchargers.model.Operator;
+import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
+import es.unican.carchargers.repository.service.APIArguments;
+import es.unican.carchargers.repository.service.FakeCall;
+
 @RunWith(MockitoJUnitRunner.class)
 public class MainPresenterTest {
     @Mock
     IMainContract.View mockView;
     IMainContract.Presenter sut;
-    IRepository repository;
+    MainPresenter mp = new MainPresenter();
+
+    @Mock
+    private MainView view;
+
+    @Mock
+    private MainPresenter presenter;
+
+    private IRepository repository;
+    @Mock
+    private IRepository repository2;
+    private ICallBack cb;
+
+    private APIArguments args = APIArguments.builder();
 
     @Before
     public void setup() {
         MockitoAnnotations.openMocks(this);
         sut = new MainPresenter();
+        view = mock(MainView.class);
+        presenter = mock(MainPresenter.class);
     }
+
     // Metodo realizado por Isaac Berrouet
     @Test
     public void onSortedClickedTest() {
@@ -187,4 +218,82 @@ public class MainPresenterTest {
         verify(mockView).showInfoActivity();
     }
     */
+
+    //Test realizado por Adrián Ceballos
+    @Test
+    public void loadTest() {
+
+        //Creo cargadores y les añado a una lista
+        Charger charger1 = new Charger();
+        Charger charger2 = new Charger();
+        Charger charger3 = new Charger();
+        Charger charger4 = new Charger();
+        List<Charger> chargers = new ArrayList<>();
+        chargers.add(charger1);
+        chargers.add(charger2);
+        chargers.add(charger3);
+        chargers.add(charger4);
+
+        //Caso válido, se llama al método requestChargers con éxito
+
+        //Creo el repositorio fake, se accede correctamente al repositorio
+        repository = Repositories.getFake(chargers);
+        when(mockView.getRepository()).thenReturn(repository);
+
+        //Caso válido, se llama al método requestChargers con éxito
+        //Llamo al load
+        sut.init(mockView);
+
+        //Verifico que se llama a los métodos
+        verify(mockView).showChargers(chargers);
+        verify(mockView).showLoadCorrect(chargers.size());
+        verify(mockView, never()).showLoadError();
+
+        //Caso no válido, se llama al método requestChargers pero con un fail
+        repository = Repositories.getFail();
+        when(mockView.getRepository()).thenReturn(repository);
+
+        sut.init(mockView);
+
+        //Verifico que se llama al método correspondiente
+        verify(mockView).showLoadError();
+    }
+    @Test
+    public void getChargerComparatorTest() {
+
+        // Se crean las companhias
+        Operator operatorA = new Operator();
+        operatorA.title = "A";
+        Operator operatorB = new Operator();
+        operatorB.title = "B";
+
+        // Se crean las conexiones
+        Connection connection1 = new Connection();
+        connection1.powerKW = 1.5;
+        Connection connection2 = new Connection();
+        connection2.powerKW = 2.0;
+
+        // Se crean los cargadores
+        Charger charger1 = new Charger();
+        charger1.operator = operatorA;
+        charger1.connections.add(connection1);
+        Charger charger2 = new Charger();
+        charger2.operator = operatorB;
+        charger2.connections.add(connection2);
+
+        //Caso de prueba por potencia y ascendente
+        Comparator<Charger> comparator = mp.getChargerComparator("POTENCIA", true);
+
+        int result = comparator.compare(charger1, charger2);
+        //como charger1 tiene menos potencia que charger2, el compare devuelve <0
+        assert result < 0;
+
+        //Caso de prueba por potencia y descendente
+        comparator = mp.getChargerComparator("POTENCIA", false);
+
+        result = comparator.compare(charger1, charger2);
+        //charger 1 tiene mas potencia que charger2 en descendente
+        assert result > 0;
+    }
+
 }

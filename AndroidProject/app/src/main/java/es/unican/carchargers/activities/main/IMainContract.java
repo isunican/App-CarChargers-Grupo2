@@ -26,6 +26,9 @@ public interface IMainContract {
          */
         public void init(View view);
 
+        //Hago el método público para poder probarlo en los test
+        void load();
+
         /**
          * The presenter is informed that a charging station has been clicked
          * Only the View should call this method
@@ -43,7 +46,7 @@ public interface IMainContract {
 
         public void onShowChargersFiltered();
 
-        public void onSortedClicked(String criterio, Boolean ascendente);
+        void onSortedClicked(String criterio, Boolean ascendente);
 
         public void onShowChargersSorted();
 
@@ -110,6 +113,8 @@ public interface IMainContract {
 
         void showAscDescEmpty();
 
+        void showEtOrderTotalCostEmpty();
+
         /**
          * The view is requested to display the detailed view of the given charging station.
          * Only the Presenter should call this method
@@ -128,5 +133,9 @@ public interface IMainContract {
          * Only the Presenter should call this method
          */
         public void showFilterDialog();
+
+        double returnCapacidadBateria();
+
+        double returnPorcentajeBateria();
     }
 }
