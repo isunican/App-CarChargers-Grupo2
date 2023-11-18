@@ -41,18 +41,10 @@ public interface IMainContract {
 
         public void onFilteredClicked(String companhia);
 
-        public void onShowChargersFiltered();
-
         void onSortedClicked(String criterio, Boolean ascendente);
 
-        public void onShowChargersSorted();
+        public void onShowChargersClicked();
 
-        public void showChargers();
-
-        /**
-         *
-         *
-         */
         public void onDialogRequested();
     }
 

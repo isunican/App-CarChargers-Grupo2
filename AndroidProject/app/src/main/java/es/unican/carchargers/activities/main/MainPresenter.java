@@ -124,12 +124,6 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showChargers(filteredChargers);
     }
 
-    @Override
-    public void onShowChargersFiltered() {
-        filteredChargers = shownChargers;
-        view.showChargers(shownChargers);
-    }
-
     /*
     @Override
     public void onSortedClicked(String criterio, Boolean ascendente) {
@@ -323,15 +317,9 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void onShowChargersSorted() {
+    public void onShowChargersClicked() {
         filteredChargers = shownChargers;
         view.showChargers((shownChargers));
-    }
-
-    @Override
-    public void showChargers(){
-        filteredChargers = shownChargers;
-        view.showChargers(shownChargers);
     }
 
     public void onDialogRequested() {

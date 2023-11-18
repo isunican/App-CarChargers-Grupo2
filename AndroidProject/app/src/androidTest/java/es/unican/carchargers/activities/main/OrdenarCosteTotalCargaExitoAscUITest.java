@@ -105,7 +105,7 @@ public class OrdenarCosteTotalCargaExitoAscUITest {
         /*
             Comprobamos que los primeros cargadores que salen en la lista son aquellos que no tienen
             usageCost (como Charger4 que es "") y que no tienen el precio en su usageCost (como
-            Charger6 que es "parking fee"). Como ambos van a tener el mismo coste total de carga (vacio),
+            Charger6 que es "parking fee"). Como ambos van a tener el mismo coste total de carga (""),
             su orden vendrá determinado por su potencia maxima. De este modo, el primer cargador que sale en
             la lista es Charger6 (powerKW 4.7) y el segundo es Charger4 (powerKw 3.7)
          */

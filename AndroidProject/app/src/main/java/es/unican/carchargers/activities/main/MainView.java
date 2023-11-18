@@ -229,7 +229,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         btnBuscarTodos.setOnClickListener(v -> {
             filterDialog.dismiss();
-            presenter.showChargers();
+            presenter.onShowChargersClicked();
         });
     }
 

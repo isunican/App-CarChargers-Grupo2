@@ -2,6 +2,7 @@ package es.unican.carchargers.activities.main;
 
 import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -170,6 +171,42 @@ public class MainPresenterTest {
         verify(mockView, atLeast(2)).showChargers(chargers1);
         // Se alerta al usuario
         verify(mockView).showRuleEmpty();
+    }
+
+    /**
+     * Metodo realizado por Sergio Algorri.
+     */
+    @Test
+    public void onChargerClickedTest() {
+
+        Charger charger1 = new Charger();
+        Charger charger2 = new Charger();
+        Charger charger3 = new Charger();
+
+        List<Charger> listaCargadores = new ArrayList<>();
+        listaCargadores.add(charger1);
+        listaCargadores.add(charger2);
+        listaCargadores.add(charger3);
+
+        repository = Repositories.getFake(listaCargadores);
+        when(mockView.getRepository()).thenReturn(repository);
+        sut.init(mockView);
+
+        sut.onChargerClicked(0);
+        verify(mockView).showChargerDetails(charger1);
+        sut.onChargerClicked(1);
+        verify(mockView).showChargerDetails(charger2);
+        sut.onChargerClicked(2);
+        verify(mockView).showChargerDetails(charger3);
+
+        /*
+            Se comprueba que cuando el parametro index es mayor o igual que el tamanho de la
+            lista de cargadores, no se produce ninguna llamada extra a ningun cargador de la lista.
+         */
+        sut.onChargerClicked(3);
+        verify(mockView, times(1)).showChargerDetails(charger1);
+        verify(mockView, times(1)).showChargerDetails(charger2);
+        verify(mockView, times(1)).showChargerDetails(charger3);
     }
 
     // Metodos realizados por Carlos Silva
