@@ -66,9 +66,13 @@ public class FiltroCompanhiaExitoUITest {
         onView(withId(R.id.btnFilters)).perform(click());
         onView(withId(R.id.spnCompanhia)).perform(click());
         //onView(withText("ENDESA")).perform(click());
+<<<<<<< HEAD:AndroidProject/app/src/androidTest/java/es/unican/carchargers/activities/main/FiltroCompanhiaExitoUITest.java
         Thread.sleep(1000);
         onData(allOf(is(instanceOf(String.class)),is("REPSOL - ibil (ES)"))).inRoot(isPlatformPopup()).perform(click());
         Thread.sleep(1000);
+=======
+        onData(allOf(is(instanceOf(String.class)),is("IBERDROLA"))).inRoot(isPlatformPopup()).perform(click());
+>>>>>>> 4958f1d0f0f68d76dfbb35be6241cfc0f86ac0c8:AndroidProject/app/src/androidTest/java/es/unican/carchargers/activities/main/FiltroCompanhiaUITest.java
         onView(withId(R.id.btnBuscar)).perform(click());
         onView(withId(R.id.lvChargers)).check(matches(Matchers.hasElements(19)));
 

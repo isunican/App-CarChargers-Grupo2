@@ -113,23 +113,31 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void onFilteredClicked(String companhia) {
+    public void onFilteredClicked(String companhia, int minPower, int maxPower) {
         if (companhia.equals("-")) {
             filteredChargers = shownChargers;
         } else if (companhia.equals("OTROS")) {
-            filteredChargers = shownChargers.stream().filter
-                            (charger -> charger.operator != null && charger.operator.title.toLowerCase().equals("(Business Owner at Location)".toLowerCase()))
-                    .collect(Collectors.toList());
+            filterByOtherBusinesses();
         } else {
             filteredChargers = shownChargers.stream().filter
                             (charger -> charger.operator != null && charger.operator.title.toLowerCase().equals(companhia.toLowerCase()))
                     .collect(Collectors.toList());
         }
 
+        filteredChargers = filteredChargers.stream().filter
+                (charger -> charger.maxPower() >= minPower && charger.maxPower() <= maxPower).collect(Collectors.toList());
+
         if (filteredChargers.isEmpty()) {
             view.showFilterEmpty();
         }
+
         view.showChargers(filteredChargers);
+    }
+
+    public void filterByOtherBusinesses() {
+        filteredChargers = shownChargers.stream().filter
+                        (charger -> charger.operator != null && charger.operator.title.toLowerCase().equals("(Business Owner at Location)".toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -241,6 +249,10 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     public void onDialogRequested() {
-        view.showFilterDialog();
+        view.showFilterDialog(shownChargers.stream().map(f -> f.maxPower()).min(Comparator.comparing(Double::valueOf)).get(),
+                shownChargers.stream().map(f -> f.maxPower()).max(Comparator.comparing(Double::valueOf)).get());
     }
+
 }
+
+
