@@ -60,6 +60,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     Spinner spnLocalidad;
     TextView tvCapacidadBateria;
     TextView tvPorcentajeBateria;
+
     EditText etCapacidadBateria;
     EditText etPorcentajeBateria;
 

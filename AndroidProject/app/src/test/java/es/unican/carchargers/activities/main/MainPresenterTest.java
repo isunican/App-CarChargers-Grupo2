@@ -43,8 +43,11 @@ public class MainPresenterTest {
     @Mock
     IMainContract.View mockView;
     IMainContract.Presenter sut;
+    IMainContract.View sutView;
+
     MainPresenter mp = new MainPresenter();
-    MainView mv = new MainView();
+    MainView mv;
+
 
     @Mock
     private MainView view;
@@ -416,7 +419,6 @@ public class MainPresenterTest {
     //Test realizado por Adrián Ceballos
     @Test
     public void loadTest() {
-
         //Creo cargadores y les añado a una lista
         Charger charger1 = new Charger();
         Charger charger2 = new Charger();
@@ -435,7 +437,7 @@ public class MainPresenterTest {
         when(mockView.getRepository()).thenReturn(repository);
 
         //Caso válido, se llama al método requestChargers con éxito
-        //Llamo al load
+        //Llamo al init que a su vez llama al load()
         sut.init(mockView);
 
         //Verifico que se llama a los métodos
@@ -444,6 +446,7 @@ public class MainPresenterTest {
         verify(mockView, never()).showLoadError();
 
         //Caso no válido, se llama al método requestChargers pero con un fail
+
         repository = Repositories.getFail();
         when(mockView.getRepository()).thenReturn(repository);
 
@@ -456,21 +459,19 @@ public class MainPresenterTest {
     //Test realizado por Adrián Ceballos
     @Test
     public void getChargerComparatorTest() {
-
-        // Se crean las companhias
+        //Se crean las companhias
         Operator operatorA = new Operator();
         operatorA.title = "A";
         Operator operatorB = new Operator();
         operatorB.title = "B";
 
-        // Se crean las conexiones
+        //Se crean las conexiones
         Connection connection1 = new Connection();
         connection1.powerKW = 1.5;
         Connection connection2 = new Connection();
         connection2.powerKW = 2.0;
 
-        // Se crean los cargadores
-        Charger charger = new Charger();
+        //Se crean los cargadores
         Charger charger1 = new Charger();
         charger1.operator = operatorA;
         charger1.connections.add(connection1);
@@ -478,18 +479,24 @@ public class MainPresenterTest {
         charger2.operator = operatorB;
         charger2.connections.add(connection2);
 
+        //Tengo que hacer uso de mocks porque en uno de los test tengo que acceder a MainView
+        List<Charger> chargers = new ArrayList<>();
+        chargers.add(charger1);
+        chargers.add(charger2);
+        repository = Repositories.getFake(chargers);
+        when(mockView.getRepository()).thenReturn(repository);
+        mp.init(mockView);
+
         //Caso de prueba por potencia y ascendente
         Comparator<Charger> comparator = mp.getChargerComparator("POTENCIA", true);
-
         int result = comparator.compare(charger1, charger2);
-        //como charger1 tiene menos potencia que charger2, el compare devuelve <0
+        //como charger1 tiene menos potencia que charger2, el compare devuelve < 0
         assert result < 0;
 
         //Caso de prueba por potencia y descendente
         comparator = mp.getChargerComparator("POTENCIA", false);
-
         result = comparator.compare(charger1, charger2);
-        //charger 1 tiene mas potencia que charger2 en descendente
+        //charger 1 tiene menos potencia que charger2 pero aparece despues en orden descendente
         assert result > 0;
 
         //Caso de prueba cuando ascendente es nulo (ascendente por defecto)
@@ -503,35 +510,34 @@ public class MainPresenterTest {
         charger2.usageCost = "8.00€/kWh";
 
         //Anhado capacidadBateria y porcentajeBateria
-        mv.etCapacidadBateria.setText(100);
-        mv.etPorcentajeBateria.setText(90);
+        double capacidadBateria = 100.0;
+        double porcentajeBateria = 90.0;
+
+        when(mockView.returnPorcentajeBateria()).thenReturn(porcentajeBateria);
+        when(mockView.returnCapacidadBateria()).thenReturn(capacidadBateria);
 
         comparator = mp.getChargerComparator("COSTE TOTAL", true);
-
-        Double result1 = charger1.costeTotalCarga(mv.returnCapacidadBateria(), mv.returnPorcentajeBateria());
-        Double result2 = charger2.costeTotalCarga(mv.returnCapacidadBateria(), mv.returnPorcentajeBateria());
-        result = Double.compare(result1, result2);
+        result = comparator.compare(charger1, charger2);
         //Charger1 tiene un coste total mayor que charger2
         assert result > 0;
 
         //Caso de prueba por coste total y descendente
         comparator = mp.getChargerComparator("COSTE TOTAL", false);
-
         result = comparator.compare(charger1, charger2);
-        //Charger1 tiene un coste total mayor que charger2 en orden descendente
+        //Charger1 tiene un coste total mayor que charger2 pero aparece despues en orden descendente
         assert result < 0;
 
         //Caso de prueba por coste total y ascendente es nulo (ascendente por defecto)
         comparator = mp.getChargerComparator("COSTE TOTAL", null);
-
         result = comparator.compare(charger1, charger2);
-        //Charger1 tiene un coste total menor que charger2 en orden descendente por defecto
+        //Charger1 tiene un coste total mayor que charger 2, ascendente por defecto
         assert result > 0;
 
         //Caso de prueba por potencia en caso de empate (se ordena alfabéticamente)
         // Se crean las conexiones
 
         connection2 = new Connection();
+        //Estimo la misma potencia para los dos cargadores
         connection2.powerKW = 1.5;
 
         //Anhado la conexion empatada al charger2
@@ -553,7 +559,7 @@ public class MainPresenterTest {
 
         comparator = mp.getChargerComparator("COSTE TOTAL", true);
         result = comparator.compare(charger1, charger2);
-        //Charger1 y charger2 tienen el mismo coste total, pero charger 1 va después porque tiene menos potencia
+        //Charger1 tiene un coste total igual que charger 2, pero aparece después porque tiene menos potencia máxima
         assert result > 0;
     }
 }

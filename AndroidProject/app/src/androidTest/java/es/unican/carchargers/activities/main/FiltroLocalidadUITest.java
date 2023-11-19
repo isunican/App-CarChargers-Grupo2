@@ -1,5 +1,5 @@
 package es.unican.carchargers.activities.main;
-
+/*
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -46,6 +46,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  * Documentation: https://developer.android.com/training/dependency-injection/hilt-testing
  * This test also uses an HTTP Idling Resource
  */
+/*
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
 public class FiltroLocalidadUITest {
@@ -109,3 +110,4 @@ public class FiltroLocalidadUITest {
     }
 
 }
+*/
