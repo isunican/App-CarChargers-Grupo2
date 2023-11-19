@@ -1,7 +1,10 @@
 package es.unican.carchargers.activities.main;
 
 import static org.hamcrest.CoreMatchers.any;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
@@ -296,4 +299,154 @@ public class MainPresenterTest {
         assert result > 0;
     }
 
+    //Test realizado por Pablo Gomez
+    @Test
+    public void onFilteredClickedTest() {
+
+        // Se crean las companhias
+        Operator operatorA = new Operator();
+        operatorA.title = "A";
+        Operator operatorB = new Operator();
+        operatorB.title = "B";
+
+        // Se crean las conexiones
+        Connection connection1 = new Connection();
+        connection1.powerKW = 160;
+        Connection connection2 = new Connection();
+        connection2.powerKW = 100;
+        Connection connection3 = new Connection();
+        connection3.powerKW = 0;
+
+        // Se crean los cargadores
+        Charger charger1 = new Charger();
+        charger1.operator = operatorA;
+        charger1.connections.add(connection3);
+        Charger charger2 = new Charger();
+        charger2.operator = operatorA;
+        charger2.connections.add(connection2);
+        Charger charger3 = new Charger();
+        charger3.operator = operatorB;
+        charger3.connections.add(connection1);
+
+        // Se crean las listas de cargadores
+        List<Charger> chargers1 = new ArrayList<Charger>();
+        chargers1.add(charger1);
+        chargers1.add(charger2);
+        chargers1.add(charger3);
+
+        List<Charger> chargersResult1 = new ArrayList<Charger>();
+        chargersResult1.add(charger1);
+        chargersResult1.add(charger2);
+        chargersResult1.add(charger3);
+        List<Charger> chargersResult2 = new ArrayList<Charger>();
+        chargersResult2.add(charger2);
+        chargersResult2.add(charger3);
+        List<Charger> chargersResult3 = new ArrayList<Charger>();
+        chargersResult3.add(charger2);
+        List<Charger> chargersResult4 = new ArrayList<Charger>();
+
+        // Todos los cargadores cumplen el filtrado
+        repository = Repositories.getFake(chargers1);
+        when(mockView.getRepository()).thenReturn(repository);
+        sut.init(mockView);
+        sut.onFilteredClicked("-", 0, 200);
+        // Se muestra la lista filtrada
+        verify(mockView, atLeast(1)).showChargers(chargersResult1);
+
+        // Los dos cargadores con mas potencia cumplen el filtrado
+        sut.onFilteredClicked("-", 50, 200);
+        // Se muestra la lista filtrada
+        verify(mockView).showChargers(chargersResult2);
+
+        // Solo el cargador con 100 de potencia cumple el filtrado
+        sut.onFilteredClicked("A", 50, 200);
+        // Se muestra la lista filtrada
+        verify(mockView).showChargers(chargersResult3);
+
+        // Ningun cargador cumple el filtrado
+        sut.onFilteredClicked("-", 180, 200);
+
+        // Se muestra la lista filtrada, vacia en este caso
+        verify(mockView).showChargers(chargersResult4);
+        // Se alerta al usuario
+        verify(mockView).showFilterEmpty();
+    }
+
+    //Test realizado por Pablo Gomez
+    @Test
+    public void filterByOtherBusinessesTest(){
+        // Se crean las companhias
+        Operator operatorTesla = new Operator();
+        operatorTesla.title = "Tesla";
+        Operator operatorRepsol = new Operator();
+        operatorRepsol.title = "Repsol";
+        Operator operatorA = new Operator();
+        operatorA.title = "A";
+        Operator operatorB = new Operator();
+        operatorB.title = "B";
+
+        // Se crean las conexiones
+        Connection connection1 = new Connection();
+        connection1.powerKW = 160;
+        Connection connection2 = new Connection();
+        connection2.powerKW = 100;
+        Connection connection3 = new Connection();
+        connection3.powerKW = 0;
+
+        // Se crean los cargadores
+        Charger charger1 = new Charger();
+        charger1.operator = operatorRepsol;
+        charger1.connections.add(connection3);
+        Charger charger2 = new Charger();
+        charger2.operator = operatorRepsol;
+        charger2.connections.add(connection2);
+        Charger charger3 = new Charger();
+        charger3.operator = operatorTesla;
+        charger3.connections.add(connection1);
+        Charger charger4 = new Charger();
+        charger4.operator = operatorA;
+        charger4.connections.add(connection2);
+        Charger charger5 = new Charger();
+        charger5.operator = operatorB;
+        charger5.connections.add(connection1);
+
+        // Se crean las listas de cargadores
+        List<Charger> chargers1 = new ArrayList<Charger>();
+        chargers1.add(charger1);
+        chargers1.add(charger2);
+        chargers1.add(charger3);
+        chargers1.add(charger4);
+
+        List<Charger> chargers2 = new ArrayList<Charger>();
+        chargers2.add(charger1);
+        chargers2.add(charger4);
+        chargers2.add(charger5);
+
+        List<Charger> chargers3 = new ArrayList<Charger>();
+        chargers3.add(charger1);
+        chargers3.add(charger2);
+        chargers3.add(charger3);
+
+        List<Charger> chargersResult1 = new ArrayList<Charger>();
+        chargersResult1.add(charger4);
+        List<Charger> chargersResult2 = new ArrayList<Charger>();
+        chargersResult2.add(charger4);
+        chargersResult2.add(charger5);
+        List<Charger> chargersResult3 = new ArrayList<Charger>();
+
+        //Prueba 2.a
+        mp.shownChargers = chargers1;
+        mp.filterByOtherBusinesses();
+        assertEquals(mp.filteredChargers, chargersResult1);
+
+        //Prueba 2.b
+        mp.shownChargers = chargers2;
+        mp.filterByOtherBusinesses();
+        assertEquals(mp.filteredChargers, chargersResult2);
+
+        //Prueba 2.c
+        mp.shownChargers = chargers3;
+        mp.filterByOtherBusinesses();
+        assertEquals(mp.filteredChargers, chargersResult3);
+    }
 }
