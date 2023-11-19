@@ -71,11 +71,6 @@ public class FiltroCompanhiaExitoUITest {
         Thread.sleep(1000);
         onView(withId(R.id.btnBuscar)).perform(click());
         onView(withId(R.id.lvChargers)).check(matches(Matchers.hasElements(19)));
-
-        //Es necesario corregir el test para que compruebe el numero de cargadores
-        //onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
-        //onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).onChildView(withId(R.id.tvId)).
-                //check(matches(withText("203416")));
     }
 
 }

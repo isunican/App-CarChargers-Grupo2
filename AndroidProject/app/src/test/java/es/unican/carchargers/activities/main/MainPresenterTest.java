@@ -44,6 +44,7 @@ public class MainPresenterTest {
     IMainContract.View mockView;
     IMainContract.Presenter sut;
     MainPresenter mp = new MainPresenter();
+    MainView mv = new MainView();
 
     @Mock
     private MainView view;
@@ -451,6 +452,8 @@ public class MainPresenterTest {
         //Verifico que se llama al método correspondiente
         verify(mockView).showLoadError();
     }
+
+    //Test realizado por Adrián Ceballos
     @Test
     public void getChargerComparatorTest() {
 
@@ -467,6 +470,7 @@ public class MainPresenterTest {
         connection2.powerKW = 2.0;
 
         // Se crean los cargadores
+        Charger charger = new Charger();
         Charger charger1 = new Charger();
         charger1.operator = operatorA;
         charger1.connections.add(connection1);
@@ -487,6 +491,69 @@ public class MainPresenterTest {
         result = comparator.compare(charger1, charger2);
         //charger 1 tiene mas potencia que charger2 en descendente
         assert result > 0;
-    }
 
+        //Caso de prueba cuando ascendente es nulo (ascendente por defecto)
+        comparator = mp.getChargerComparator("POTENCIA", null);
+        result = comparator.compare(charger1, charger2);
+        //Charger1 tiene menos potencia que charger2
+        assert  result < 0;
+
+        //Caso de prueba por coste total y ascendente
+        charger1.usageCost = "10,00€/kWh";
+        charger2.usageCost = "8.00€/kWh";
+
+        //Anhado capacidadBateria y porcentajeBateria
+        mv.etCapacidadBateria.setText(100);
+        mv.etPorcentajeBateria.setText(90);
+
+        comparator = mp.getChargerComparator("COSTE TOTAL", true);
+
+        Double result1 = charger1.costeTotalCarga(mv.returnCapacidadBateria(), mv.returnPorcentajeBateria());
+        Double result2 = charger2.costeTotalCarga(mv.returnCapacidadBateria(), mv.returnPorcentajeBateria());
+        result = Double.compare(result1, result2);
+        //Charger1 tiene un coste total mayor que charger2
+        assert result > 0;
+
+        //Caso de prueba por coste total y descendente
+        comparator = mp.getChargerComparator("COSTE TOTAL", false);
+
+        result = comparator.compare(charger1, charger2);
+        //Charger1 tiene un coste total mayor que charger2 en orden descendente
+        assert result < 0;
+
+        //Caso de prueba por coste total y ascendente es nulo (ascendente por defecto)
+        comparator = mp.getChargerComparator("COSTE TOTAL", null);
+
+        result = comparator.compare(charger1, charger2);
+        //Charger1 tiene un coste total menor que charger2 en orden descendente por defecto
+        assert result > 0;
+
+        //Caso de prueba por potencia en caso de empate (se ordena alfabéticamente)
+        // Se crean las conexiones
+
+        connection2 = new Connection();
+        connection2.powerKW = 1.5;
+
+        //Anhado la conexion empatada al charger2
+        charger2.connections.add(connection2);
+
+        comparator = mp.getChargerComparator("POTENCIA", true);
+        result = comparator.compare(charger1, charger2);
+        //Charger1 tiene la misma potencia que charger2 pero aparece primero alfabéticamente
+        assert result < 0;
+
+        //Caso de prueba por coste total en caso de empate (se ordena por potencia máxima)
+        charger1.usageCost = "10,00€/kWh";
+        charger2.usageCost = "10.00€/kWh";
+        connection2 = new Connection();
+        connection2.powerKW = 2.0;
+
+        //Anhado la conexion empatada al charger2
+        charger2.connections.add(connection2);
+
+        comparator = mp.getChargerComparator("COSTE TOTAL", true);
+        result = comparator.compare(charger1, charger2);
+        //Charger1 y charger2 tienen el mismo coste total, pero charger 1 va después porque tiene menos potencia
+        assert result > 0;
+    }
 }
