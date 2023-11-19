@@ -12,10 +12,12 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
 
+import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -59,18 +61,21 @@ public class FiltroCompanhiaExitoUITest {
     IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
 
+    //Test realizado por Adrián Ceballos
     @Test
     public void filtroCompanhiaTest() throws InterruptedException {
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
         onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
         onView(withId(R.id.btnFilters)).perform(click());
         onView(withId(R.id.spnCompanhia)).perform(click());
-        //onView(withText("ENDESA")).perform(click());
-        Thread.sleep(1000);
         onData(allOf(is(instanceOf(String.class)),is("REPSOL - ibil (ES)"))).inRoot(isPlatformPopup()).perform(click());
-        Thread.sleep(1000);
         onView(withId(R.id.btnBuscar)).perform(click());
+        //He creado un matcher personalizado para calcular el número de elementos disponibles
         onView(withId(R.id.lvChargers)).check(matches(Matchers.hasElements(19)));
+        //Para darle más precisión al test, he comprobado que la dirección del primer cargador es la indicada
+        DataInteraction interaction = onData(anything())
+                .inAdapterView(withId(R.id.lvChargers)).atPosition(0);
+        interaction.onChildView(withId(R.id.tvAddress)).check(matches(not(withText("Calle Profesor García González"))));
     }
 
 }
