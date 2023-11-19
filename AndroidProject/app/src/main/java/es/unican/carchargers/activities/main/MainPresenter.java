@@ -18,14 +18,10 @@ import es.unican.carchargers.repository.service.APIArguments;
 
 public class MainPresenter implements IMainContract.Presenter {
 
-    /**
-     * the view controlled by this presenter
-     */
+    /** the view controlled by this presenter */
     private IMainContract.View view;
 
-    /**
-     * a cached list of charging stations currently shown
-     */
+    /** a cached list of charging stations currently shown */
 
     //Lo pongo público para probarlo en los tests
     public List<Charger> shownChargers;
@@ -42,8 +38,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
     /**
      * Constructor used for unit testing porpuses.
-     *
-     * @param view          MainView for testing the class.
+     * @param view MainView for testing the class.
      * @param shownChargers list of chargers for testing the class.
      */
     protected MainPresenter(MainView view, List<Charger> shownChargers) {
@@ -171,8 +166,8 @@ public class MainPresenter implements IMainContract.Presenter {
                     .sorted(getChargerComparator(criterio, ascendente))
                     .collect(Collectors.toList());
             List<Charger> chargersWithoutPrice = shownChargers.stream()
-                    .filter(charger -> charger.usageCost == null || charger.usageCost.equals(""))
-                    .collect(Collectors.toList());
+                            .filter(charger -> charger.usageCost == null || charger.usageCost.equals(""))
+                                    .collect(Collectors.toList());
             List<Charger> combinedChargers = new ArrayList<>();
             combinedChargers.addAll(filteredChargers);
             combinedChargers.addAll(chargersWithoutPrice);
@@ -229,7 +224,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 if (ch1.operator == null || ch2.operator == null) {
                     return -1;
                 }
-                return Double.compare(ch2.maxPower(), ch1.maxPower());
+                return  Double.compare(ch2.maxPower(), ch1.maxPower());
             });
 
         }
@@ -243,7 +238,7 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void showChargers() {
+    public void showChargers(){
         filteredChargers = shownChargers;
         view.showChargers(shownChargers);
     }
@@ -254,5 +249,3 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 }
-
-

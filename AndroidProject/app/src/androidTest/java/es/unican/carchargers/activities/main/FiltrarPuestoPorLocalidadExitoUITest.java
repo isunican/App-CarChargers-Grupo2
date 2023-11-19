@@ -1,6 +1,5 @@
-/*
 package es.unican.carchargers.activities.main;
-
+/*
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -36,7 +35,7 @@ import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 import es.unican.carchargers.common.RepositoriesModule;
 import es.unican.carchargers.utils.HTTPIdlingResource;
-*/
+
 /**
  * Example UI Test using Hilt dependency injection
  * Documentation: https://developer.android.com/training/dependency-injection/hilt-testing
@@ -46,6 +45,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
 public class FiltrarPuestoPorLocalidadExitoUITest {
+
 
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
@@ -60,6 +60,7 @@ public class FiltrarPuestoPorLocalidadExitoUITest {
     // IMPORTANT: all the tests in this class must use this repository
     @BindValue IRepository repository = Repositories
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_100));
+
 
     @Test
     public void FiltroProvinciaTest() throws InterruptedException {
@@ -92,5 +93,6 @@ public class FiltrarPuestoPorLocalidadExitoUITest {
         //onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).perform(click());
 
     }
+
 }
 */

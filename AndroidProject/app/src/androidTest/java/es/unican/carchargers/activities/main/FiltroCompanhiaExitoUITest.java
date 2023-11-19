@@ -65,21 +65,11 @@ public class FiltroCompanhiaExitoUITest {
         onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
         onView(withId(R.id.btnFilters)).perform(click());
         onView(withId(R.id.spnCompanhia)).perform(click());
-        //onView(withText("ENDESA")).perform(click());
-<<<<<<< HEAD:AndroidProject/app/src/androidTest/java/es/unican/carchargers/activities/main/FiltroCompanhiaExitoUITest.java
         Thread.sleep(1000);
         onData(allOf(is(instanceOf(String.class)),is("REPSOL - ibil (ES)"))).inRoot(isPlatformPopup()).perform(click());
         Thread.sleep(1000);
-=======
-        onData(allOf(is(instanceOf(String.class)),is("IBERDROLA"))).inRoot(isPlatformPopup()).perform(click());
->>>>>>> 4958f1d0f0f68d76dfbb35be6241cfc0f86ac0c8:AndroidProject/app/src/androidTest/java/es/unican/carchargers/activities/main/FiltroCompanhiaUITest.java
         onView(withId(R.id.btnBuscar)).perform(click());
         onView(withId(R.id.lvChargers)).check(matches(Matchers.hasElements(19)));
-
-        //Es necesario corregir el test para que compruebe el numero de cargadores
-        //onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
-        //onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).onChildView(withId(R.id.tvId)).
-                //check(matches(withText("203416")));
     }
 
 }
