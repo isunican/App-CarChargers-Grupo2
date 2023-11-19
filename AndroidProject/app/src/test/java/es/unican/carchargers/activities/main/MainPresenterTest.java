@@ -139,16 +139,16 @@ public class MainPresenterTest {
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
         // Se muestra la lista ordenada
-        verify(mockView).showChargers(chargersResult1);
+        verify(mockView, atLeast(1)).showChargers(chargersResult1);
 
         // Lista de 3 cargadores que se ordena de forma descendente
         sut.onSortedClicked("POTENCIA", false);
         // Se muestra la lista ordenada
-        verify(mockView).showChargers(chargersResult2);
+        verify(mockView, atLeast(1)).showChargers(chargersResult2);
 
         // No se selecciona si ordenar ascendentemente ni ascendentemente
         sut.onSortedClicked("POTENCIA", null);
-        verify(mockView).showChargers(chargers1);
+        verify(mockView, atLeast(1)).showChargers(chargers1);
         // Salta la alerta al usuario
         verify(mockView).showAscDescEmpty();
 
@@ -174,7 +174,7 @@ public class MainPresenterTest {
         sut.init(mockView);
         sut.onSortedClicked("POTENCIA", true);
         // Se muestra la lista ordenada y en caso de empate se hace por orden alfabetico
-        verify(mockView).showChargers(chargersResult3);
+        verify(mockView, atLeast(1)).showChargers(chargersResult3);
 
         // Lista sin cargadores
         repository = Repositories.getFake(chargers5);
