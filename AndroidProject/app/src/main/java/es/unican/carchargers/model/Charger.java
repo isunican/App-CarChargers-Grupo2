@@ -67,7 +67,7 @@ public class Charger {
 
     // Es public para poder realizar su prueba unitaria.
     public double obtenerMenorPrecio(String cadena) {
-        String patron = "(\\d+[,.]\\d{1,2})€/kWh";
+        String patron = "(\\d+[,.]\\d{1,2})";
         Pattern pattern = Pattern.compile(patron);
         Matcher matcher = pattern.matcher(cadena);
         List<Double> precios = new ArrayList<>();

@@ -285,12 +285,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             }
         });
 
-        /*
-        Intent intent = new Intent(MainView.this, MainPresenter.class);
-        intent.putExtra("valor_edittext", etPorcentajeBateria.getText().toString());
-        startActivity(intent);
-        */
-
         radioButtonAsc = (RadioButton) view.findViewById(R.id.radioButtonAsc);
         radioButtonDesc = (RadioButton) view.findViewById(R.id.radioButtonDesc);
 
