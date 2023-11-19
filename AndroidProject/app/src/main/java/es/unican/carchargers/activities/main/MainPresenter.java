@@ -99,12 +99,6 @@ public class MainPresenter implements IMainContract.Presenter {
             Charger charger = filteredChargers.get(index);
             view.showChargerDetails(charger);
         }
-        /*
-        if (sortedChargers != null && index < sortedChargers.size()) {
-            Charger charger = sortedChargers.get(index);
-            view.showChargerDetails(charger);
-        }
-        */
     }
 
     @Override

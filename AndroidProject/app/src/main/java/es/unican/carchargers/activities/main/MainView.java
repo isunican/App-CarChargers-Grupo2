@@ -100,15 +100,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         // initialize listener to react to touch selections in the list
         ListView lv = findViewById(R.id.lvChargers);
         lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
-        /*
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                presenter.onChargerClicked(position);
-            }
-        });
-
-         */
     }
 
     @Override
@@ -266,12 +257,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             }
         });
 
-        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ascendente = false;
-            }
-        });
+        radioButtonDesc.setOnClickListener(v -> ascendente = false);
 
         Button btnBuscarOrden = (Button)view.findViewById(R.id.btnBuscarOrden);
         btnBuscarOrden.setOnClickListener(v -> {

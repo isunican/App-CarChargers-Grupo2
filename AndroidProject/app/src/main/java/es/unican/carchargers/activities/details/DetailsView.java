@@ -79,8 +79,10 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
 
         String strWebsite = null;
-        if (charger.operator != null && charger.operator.website != null) {
-            strWebsite = String.format(charger.operator.website);
+        if (charger.operator != null) {
+            if (charger.operator.website != null) {
+                strWebsite = String.format(charger.operator.website);
+            }
         }
 
         String finalStrWebsite = strWebsite;
@@ -168,14 +170,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         String mapaString = "<iframe width=\"100%\" height=\"100%\" allowfullscreen=\"\" loading=\" lazy\" referrerpolicy=\"no-referrer-when-downgrade\" frameborder=\"0\" src=\"https://maps.google.com/maps?q=" + charger.address.latitude +"," + charger.address.longitude + "&hl=es;z=14&amp;output=embed\"></iframe>";
         wvMapa.loadData(mapaString, "text/html", null);
         wvMapa.getSettings().setJavaScriptEnabled(true);
-
-        wvMapa.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true; //True if the listener has consumed the event, false otherwise.
-            }
-        });
-
+        wvMapa.setOnTouchListener((v, event) -> true);
 
         // SharedPreferences
         SharedPreferences sharedPref = this.getSharedPreferences("favoritos",Context.MODE_PRIVATE);
