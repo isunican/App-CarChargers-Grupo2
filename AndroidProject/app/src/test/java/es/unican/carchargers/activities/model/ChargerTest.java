@@ -52,4 +52,56 @@ public class ChargerTest {
         // Check a charger without connections
         assertEquals(0, charger4.maxPower(), 0.001);
     }
+
+    /**
+     * Prueba unitaria realizada por Sergio Algorri.
+     * En esta prueba unitaria no se comprueba el paso correcto del parámetro
+     * debido a que esta llamada tiene como precondición que el String que se pasa como
+     * párametro es distinto de nulo y no es vacío. Dicha comprobación se realiza en el
+     * método costeTotalCarga.
+     */
+    @Test
+    public void obtenerMenorPrecioTest() {
+        // create the chargers with their usage cost for the test
+        // one usage cost
+        Charger charger1 = new Charger();
+        charger1.usageCost = "0,39€/kWh";
+
+        // two usage costs
+        Charger charger2 = new Charger();
+        charger2.usageCost = "0,39€/kWh DC - 0,29€/kWh AC";
+
+        // multiple usage costs
+        Charger charger3 = new Charger();
+        charger3.usageCost = "0,39€/kWh DC - 0,19€/kWh AC - 0,29€/kWh";
+
+        // usage cost without cost
+        Charger charger4 = new Charger();
+        charger4.usageCost = "parking fee";
+
+        assertEquals(0.39, charger1.obtenerMenorPrecio(charger1.usageCost), 0.001);
+        assertEquals(0.29, charger2.obtenerMenorPrecio(charger2.usageCost), 0.001);
+        assertEquals(0.19, charger3.obtenerMenorPrecio(charger3.usageCost), 0.001);
+        assertEquals(0.0, charger4.obtenerMenorPrecio(charger4.usageCost), 0.001);
+    }
+
+    /**
+     * Prueba unitaria realizada por Carlos Silva.
+     */
+    public void costeTotalCargaTest() {
+        Charger charger = new Charger();
+        charger.usageCost = "0,5€/kWh";
+
+        //Porcentaje restante y capacidad total normales
+        assertEquals(16.25, charger.costeTotalCarga(65.00,50), 0.001);
+
+        //Capacidad total negativa
+        //assertEquals(?, charger.costeTotalCarga(-75.00,50), 0.001);
+
+        //Porcentaje batería negativo. (Debe calcularlo como 0%)
+        //assertEquals(?, charger.costeTotalCarga(65.00,-25), 0.001);
+
+        //Porcentaje de batería mayor que 100. (Debe calcularlo como 100%).
+        assertEquals(0, charger.costeTotalCarga(65.00,200), 0.001);
+    }
 }

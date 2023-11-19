@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -21,8 +23,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import org.florescu.android.rangeseekbar.RangeSeekBar;
+
 import org.parceler.Parcels;
 
 import java.util.List;
@@ -57,8 +59,15 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     Spinner spnProvincia;
     Spinner spnLocalidad;
+    TextView tvCapacidadBateria;
+    TextView tvPorcentajeBateria;
+    EditText etCapacidadBateria;
+    EditText etPorcentajeBateria;
     int minPowerNow = -1;
     int maxPowerNow = -1;
+
+    double capacidadBateria;
+    double porcentajeBateria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +152,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public void showAscDescEmpty() {
         Toast.makeText(this, "No se ha elegido si la ordenación es ascendente o descendente",
                 Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showEtOrderTotalCostEmpty() {
+        Toast.makeText(this, "No se han introducido los datos", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -247,6 +261,39 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         sortDialog.show();
 
+        tvCapacidadBateria = view.findViewById(R.id.tvCapacidadBateria);
+        tvPorcentajeBateria = view.findViewById(R.id.tvPorcentajeBateria);
+        etCapacidadBateria = view.findViewById(R.id.etCapacidadBateria);
+        etPorcentajeBateria = view.findViewById(R.id.etPorcentajeBateria);
+
+        spnCriterio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 2) {
+                    tvPorcentajeBateria.setVisibility(View.VISIBLE);
+                    tvCapacidadBateria.setVisibility(View.VISIBLE);
+                    etCapacidadBateria.setVisibility(View.VISIBLE);
+                    etPorcentajeBateria.setVisibility(View.VISIBLE);
+                } else {
+                    tvPorcentajeBateria.setVisibility(View.INVISIBLE);
+                    tvCapacidadBateria.setVisibility(View.INVISIBLE);
+                    etCapacidadBateria.setVisibility(View.INVISIBLE);
+                    etPorcentajeBateria.setVisibility(View.INVISIBLE);
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                //  tu código
+            }
+        });
+
+        /*
+        Intent intent = new Intent(MainView.this, MainPresenter.class);
+        intent.putExtra("valor_edittext", etPorcentajeBateria.getText().toString());
+        startActivity(intent);
+        */
+
         radioButtonAsc = (RadioButton) view.findViewById(R.id.radioButtonAsc);
         radioButtonDesc = (RadioButton) view.findViewById(R.id.radioButtonDesc);
 
@@ -269,5 +316,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private void setOrdenacion(Boolean ascendente) {
         String criterio = spnCriterio.getSelectedItem().toString();
         presenter.onSortedClicked(criterio, ascendente);
+    }
+
+    @Override
+    public double returnCapacidadBateria() {
+        if (etCapacidadBateria.getText().toString().equals("")) {
+            return -1;
+        }
+        return Double.parseDouble(etCapacidadBateria.getText().toString());
+    }
+
+    @Override
+    public double returnPorcentajeBateria() {
+        if (etPorcentajeBateria.getText().toString().equals("")) {
+            return -1;
+        }
+        return Double.parseDouble(etPorcentajeBateria.getText().toString());
     }
 }

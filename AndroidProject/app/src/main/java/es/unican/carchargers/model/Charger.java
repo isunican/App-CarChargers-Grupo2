@@ -6,7 +6,10 @@ import org.parceler.Parcel;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A charging station according to the OpenChargeMap API
@@ -25,6 +28,7 @@ public class Charger {
     @SerializedName("Connections")          public List<Connection> connections;
 
     public boolean isFavourite = false;
+    public double costeTotal = -1;
 
     public Charger() {
         this.connections = new ArrayList<Connection>();
@@ -42,5 +46,45 @@ public class Charger {
             }
         }
         return potenciaMax;
+    }
+
+    public double costeTotalCarga(double capacidadBateria, double porcentajeBateriaActual) {
+
+        if (capacidadBateria <= 0 || porcentajeBateriaActual < 0 || porcentajeBateriaActual > 100) {
+            this.costeTotal = -1;
+        } else {
+
+            double bateriaRestante = capacidadBateria * ((100 - porcentajeBateriaActual)/100);
+
+            if (this.usageCost == null || this.usageCost.equals("")) {
+                this.costeTotal = -1;
+            } else {
+                double coste = obtenerMenorPrecio(this.usageCost);
+                this.costeTotal = bateriaRestante * coste;
+            }
+        }
+
+        return this.costeTotal;
+    }
+
+    // Es public para poder realizar su prueba unitaria.
+    public double obtenerMenorPrecio(String cadena) {
+        String patron = "(\\d+[,.]\\d{1,2})€/kWh";
+        Pattern pattern = Pattern.compile(patron);
+        Matcher matcher = pattern.matcher(cadena);
+        List<Double> precios = new ArrayList<>();
+
+        while (matcher.find()) {
+            String precioStr = matcher.group(1);
+            double precio = Double.parseDouble(precioStr.replace(",", "."));
+            precios.add(precio);
+        }
+
+        double precioMinimo = 0.0;
+        if (!precios.isEmpty()) {
+            precioMinimo = Collections.min(precios);
+        }
+
+        return precioMinimo;
     }
 }
