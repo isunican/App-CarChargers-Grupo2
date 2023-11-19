@@ -57,7 +57,7 @@ public class showFilteredTest {
     public void test() {
         Charger charger = new Charger();
         charger.numberOfPoints = 5;
-        assertEquals(charger.numberOfPoints, 5);
+        assertEquals(5, charger.numberOfPoints);
     }
 
 

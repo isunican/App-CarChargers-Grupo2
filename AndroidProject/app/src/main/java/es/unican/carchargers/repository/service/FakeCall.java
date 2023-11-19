@@ -66,7 +66,7 @@ public class FakeCall implements Call<List<Charger>> {
      *  This method does not need an implementation at the moment.
      */
     public void cancel() {
-
+        //No se borra por el momento
     }
 
     @Override
