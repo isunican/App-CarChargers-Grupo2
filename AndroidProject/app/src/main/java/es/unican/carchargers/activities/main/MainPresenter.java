@@ -27,7 +27,6 @@ public class MainPresenter implements IMainContract.Presenter {
     public List<Charger> shownChargers;
     public List<Charger> filteredChargers;
 
-    private Map<String, Set<String>> provinces;
 
     @Override
     public void init(IMainContract.View view) {
@@ -94,12 +93,6 @@ public class MainPresenter implements IMainContract.Presenter {
             Charger charger = filteredChargers.get(index);
             view.showChargerDetails(charger);
         }
-        /*
-        if (sortedChargers != null && index < sortedChargers.size()) {
-            Charger charger = sortedChargers.get(index);
-            view.showChargerDetails(charger);
-        }
-        */
     }
 
     @Override
@@ -242,7 +235,7 @@ public class MainPresenter implements IMainContract.Presenter {
         filteredChargers = shownChargers;
         view.showChargers(shownChargers);
     }
-
+    @Override
     public void onDialogRequested() {
         view.showFilterDialog(shownChargers.stream().map(f -> f.maxPower()).min(Comparator.comparing(Double::valueOf)).get(),
                 shownChargers.stream().map(f -> f.maxPower()).max(Comparator.comparing(Double::valueOf)).get());

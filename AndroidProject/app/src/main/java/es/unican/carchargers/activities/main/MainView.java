@@ -109,15 +109,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         // initialize listener to react to touch selections in the list
         ListView lv = findViewById(R.id.lvChargers);
         lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
-        /*
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                presenter.onChargerClicked(position);
-            }
-        });
-
-         */
     }
 
     @Override
@@ -235,7 +226,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filterDialog.dismiss();
             minPowerNow = seekBar.getSelectedMinValue();
             maxPowerNow = seekBar.getSelectedMaxValue();
-            setFilter(minPowerNow, maxPowerNow);
+            setFilter();
         });
 
         btnBuscarTodos.setOnClickListener(v -> {
@@ -246,9 +237,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
     }
 
-    private void setFilter(Integer minPower, Integer maxPower) {
+    private void setFilter() {
         String companhia = spnCompanhia.getSelectedItem().toString();
-        presenter.onFilteredClicked(companhia, minPower, maxPower);
+        presenter.onFilteredClicked(companhia, minPowerNow, maxPowerNow);
     }
 
     public void sortDialog() {
@@ -313,12 +304,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             }
         });
 
-        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ascendente = false;
-            }
-        });
+        radioButtonDesc.setOnClickListener(v -> ascendente = false);
 
         Button btnBuscarOrden = (Button)view.findViewById(R.id.btnBuscarOrden);
         btnBuscarOrden.setOnClickListener(v -> {
