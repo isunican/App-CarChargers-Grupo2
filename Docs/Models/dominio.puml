@@ -5,7 +5,12 @@ class Charger {
     + int numberOfPoints
     + String usageCost
     + boolean isFavorito
+    + double costeTotal
     + maxPower() : double
+    + costeTotalCarga(double capacidadBateria, double porcentajeBateriaActual) : double
+    + obtenerMenorPrecio(String cadena) : double
+    + hashCode() : int
+    + equals(Object obj) : boolean
 }
 
 class Operator {
@@ -26,6 +31,7 @@ class Address {
 }
 
 class Favourite {
+    + List<String> listaFavoritos
     + addCharger(String id) : String
 }
 
@@ -38,6 +44,7 @@ class Connection {
 class ConnectionType {
     + String id
     + String formalName
+    + String title
 }
 
 class StatusType {
@@ -48,8 +55,6 @@ class StatusType {
 Charger -down-> "1" Address : address
 Charger -down-> "1" Operator : operator
 Charger -down-> "*" Connection : connections
-
-Favourite -right-> "*" Charger: listaFavoritos
 
 Connection -down-> "1" ConnectionType : connectionType
 Connection -down-> "1" StatusType : connectionStatus
