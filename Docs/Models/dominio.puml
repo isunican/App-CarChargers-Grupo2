@@ -8,7 +8,7 @@ class Charger {
     + double costeTotal
     + maxPower() : double
     + costeTotalCarga(double capacidadBateria, double porcentajeBateriaActual) : double
-    + obtenerMenorPrecio(String cadena) : double
+    - obtenerMenorPrecio(String cadena) : double
     + hashCode() : int
     + equals(Object obj) : boolean
 }
