@@ -26,20 +26,24 @@ interface IMainContract#View {
     showSortedEmpty()
     showRuleEmpty()
     showAscDescEmpty()
+    showEtOrderTotalCostEmpty()
     showChargerDetails(Charger charger)
     showInfoActivity()
-    showFilterDialog(Map<String, Set<String>> provinces)
+    showFilterDialog(Double minPower, Double maxPower)
+    Double returnCapacidadBateria()
+    Double returnPorcentajeBateria()
 }
 
 interface IMainContract#Presenter {
-   init(View view);
+   init(View view)
+   load()
+   onMenuInfoClicked()
    onChargerClicked(int index)
-   onMenuInfoClicked();
-   onFilteredClicked(String comapnhia, String localidad)
-   onShowChargersFiltered()
+   onFilteredClicked(String comapnhia, int minPower, int maxPower)
+   filteredByOtherBusiness()
    onSortedClicked(String criterio, Boolean ascendente)
-   onShowChargersSorted()
-   showChargers()
+   Comparator<Charger> getChargerComparator(String criterio, Boolean ascendente) 
+   onShowChargersClicked()
    onDialogRequested()
 }
 
@@ -53,13 +57,11 @@ interface ICallBack {
 }
 
 class MainPresenter {
-    -load()
-    +mappingProvinces(List<Charger> chargers) : Map<String, Set<String>> 
+
 }
 
 class MainView {
-    +filterDialog()
-    -setFilter(String companhia)
+    -setFilter()
     +sortDialog()
     -setOrdenacion(Boolean ascendente) 
 }
