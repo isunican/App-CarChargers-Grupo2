@@ -61,6 +61,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     Spinner spnLocalidad;
     TextView tvCapacidadBateria;
     TextView tvPorcentajeBateria;
+
     EditText etCapacidadBateria;
     EditText etPorcentajeBateria;
     int minPowerNow = -1;
@@ -233,7 +234,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filterDialog.dismiss();
             minPowerNow = seekBar.getAbsoluteMinValue();
             maxPowerNow = seekBar.getAbsoluteMaxValue();
-            presenter.showChargers();
+            presenter.onShowChargersClicked();
         });
     }
 
@@ -288,15 +289,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             }
         });
 
-        /*
-        Intent intent = new Intent(MainView.this, MainPresenter.class);
-        intent.putExtra("valor_edittext", etPorcentajeBateria.getText().toString());
-        startActivity(intent);
-        */
-
         radioButtonAsc = (RadioButton) view.findViewById(R.id.radioButtonAsc);
         radioButtonDesc = (RadioButton) view.findViewById(R.id.radioButtonDesc);
-
         radioButtonAsc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,6 +305,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             sortDialog.dismiss();
             setOrdenacion(ascendente);
         });
+        ascendente = null;
     }
 
     private void setOrdenacion(Boolean ascendente) {

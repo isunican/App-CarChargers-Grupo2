@@ -88,20 +88,32 @@ public class ChargerTest {
     /**
      * Prueba unitaria realizada por Carlos Silva.
      */
+    @Test
     public void costeTotalCargaTest() {
-        Charger charger = new Charger();
-        charger.usageCost = "0,5€/kWh";
+        Charger chargerConCoste = new Charger();
+        chargerConCoste.usageCost = "4,00€/kWh";
+        Charger chargerCosteNulo = new Charger();
+        Charger chargerCosteCero = new Charger();
+        chargerCosteCero.usageCost = "0,00€/kWh";
+        Charger chargerCosteNegativo = new Charger();
+        chargerCosteNegativo.usageCost = "-1,00€/kWh";
 
-        //Porcentaje restante y capacidad total normales
-        assertEquals(16.25, charger.costeTotalCarga(65.00,50), 0.001);
+        //UT.2a (Valores normales)
+        assertEquals(312, chargerConCoste.costeTotalCarga(150.0,48.0), 0.001);
 
-        //Capacidad total negativa
-        //assertEquals(?, charger.costeTotalCarga(-75.00,50), 0.001);
+        //UT.2b (Capacidad de batería a 0)
+        assertEquals(-1, chargerConCoste.costeTotalCarga(0.0,48.0), 0.001);
 
-        //Porcentaje batería negativo. (Debe calcularlo como 0%)
-        //assertEquals(?, charger.costeTotalCarga(65.00,-25), 0.001);
+        //UT.2c (Porcentaje de batería negativo)
+        assertEquals(-1, chargerConCoste.costeTotalCarga(150.0,-1.0), 0.001);
 
-        //Porcentaje de batería mayor que 100. (Debe calcularlo como 100%).
-        assertEquals(0, charger.costeTotalCarga(65.00,200), 0.001);
+        //UT.2d (Cargador sin coste definido)
+        assertEquals(-1, chargerCosteNulo.costeTotalCarga(150.0,48.0), 0.001);
+
+        //UT.2e (Porcentaje de batería mayor que 100)
+        assertEquals(-1, chargerConCoste.costeTotalCarga(150.0,101.0), 0.001);
+
+        //UT.2f (Cargador con coste cero)
+        assertEquals(0, chargerCosteCero.costeTotalCarga(150.0,48.0), 0.001);
     }
 }

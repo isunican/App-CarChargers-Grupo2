@@ -128,11 +128,6 @@ public class MainPresenter implements IMainContract.Presenter {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void onShowChargersFiltered() {
-        filteredChargers = shownChargers;
-        view.showChargers(shownChargers);
-    }
 
     @Override
     public void onSortedClicked(String criterio, Boolean ascendente) {
@@ -142,7 +137,8 @@ public class MainPresenter implements IMainContract.Presenter {
         }
 
         if (criterio.equals("COSTE TOTAL")) {
-            if (view.returnCapacidadBateria() == -1 || view.returnPorcentajeBateria() == -1) {
+            if (view.returnCapacidadBateria() == -1 || view.returnPorcentajeBateria() == -1
+                    || view.returnPorcentajeBateria() > 100) {
                 view.showChargers(filteredChargers);
                 view.showEtOrderTotalCostEmpty();
                 ascendente = null;
@@ -155,16 +151,16 @@ public class MainPresenter implements IMainContract.Presenter {
             }
 
             filteredChargers = shownChargers.stream()
-                    .filter(charger -> charger.usageCost != null && !charger.usageCost.equals(""))
+                    .filter(charger -> charger.usageCost != null && !charger.usageCost.equals("")
+                            && !charger.usageCost.contains("day") && !charger.usageCost.contains("night"))
                     .sorted(getChargerComparator(criterio, ascendente))
                     .collect(Collectors.toList());
             List<Charger> chargersWithoutPrice = shownChargers.stream()
-                            .filter(charger -> charger.usageCost == null || charger.usageCost.equals(""))
+                            .filter(charger -> charger.usageCost == null || charger.usageCost.equals("")
+                                    || charger.usageCost.contains("day") || charger.usageCost.contains("night"))
                                     .collect(Collectors.toList());
-            List<Charger> combinedChargers = new ArrayList<>();
-            combinedChargers.addAll(filteredChargers);
-            combinedChargers.addAll(chargersWithoutPrice);
-            view.showChargers(combinedChargers);
+            filteredChargers.addAll(chargersWithoutPrice);
+            view.showChargers(filteredChargers);
             ascendente = null;
         } else {
             if (ascendente == null) {
@@ -225,16 +221,11 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     @Override
-    public void onShowChargersSorted() {
+    public void onShowChargersClicked() {
         filteredChargers = shownChargers;
         view.showChargers((shownChargers));
     }
 
-    @Override
-    public void showChargers(){
-        filteredChargers = shownChargers;
-        view.showChargers(shownChargers);
-    }
     @Override
     public void onDialogRequested() {
         view.showFilterDialog(shownChargers.stream().map(f -> f.maxPower()).min(Comparator.comparing(Double::valueOf)).get(),
