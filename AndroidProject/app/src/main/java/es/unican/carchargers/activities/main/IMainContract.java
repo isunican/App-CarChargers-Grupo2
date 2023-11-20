@@ -26,6 +26,9 @@ public interface IMainContract {
          */
         public void init(View view);
 
+        //Hago el método público para poder probarlo en los test
+        void load();
+
         /**
          * The presenter is informed that a charging station has been clicked
          * Only the View should call this method
@@ -39,20 +42,12 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        public void onFilteredClicked(String companhia, String localidad);
+        public void onFilteredClicked(String companhia, int minPower, int maxPower);
 
-        public void onShowChargersFiltered();
+        void onSortedClicked(String criterio, Boolean ascendente);
 
-        public void onSortedClicked(String criterio, Boolean ascendente);
+        public void onShowChargersClicked();
 
-        public void onShowChargersSorted();
-
-        public void showChargers();
-
-        /**
-         *
-         *
-         */
         public void onDialogRequested();
     }
 
@@ -110,6 +105,8 @@ public interface IMainContract {
 
         void showAscDescEmpty();
 
+        void showEtOrderTotalCostEmpty();
+
         /**
          * The view is requested to display the detailed view of the given charging station.
          * Only the Presenter should call this method
@@ -126,9 +123,16 @@ public interface IMainContract {
         /**
          * The view is requested to display the alert dialog for filtering chargers.
          * Only the Presenter should call this method
-         * @param provinces map with each province with at least a charger on the database,
-         * with a list of every different location from the province that has a charger.
+         * @param minPower the minimun power of the chargers
+         * @param maxPower the maximun power of the chargers
          */
-        public void showFilterDialog(Map<String, Set<String>> provinces);
+        public void showFilterDialog(Double minPower, Double maxPower);
+
+        double returnCapacidadBateria();
+
+        double returnPorcentajeBateria();
+
+
+
     }
 }

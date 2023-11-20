@@ -1,7 +1,7 @@
 package es.unican.carchargers.activities.main;
 
+
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -13,22 +13,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.internal.bind.MapTypeAdapterFactory;
+import org.florescu.android.rangeseekbar.RangeSeekBar;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -60,12 +59,23 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     Spinner spnProvincia;
     Spinner spnLocalidad;
+    TextView tvCapacidadBateria;
+    TextView tvPorcentajeBateria;
+
+    EditText etCapacidadBateria;
+    EditText etPorcentajeBateria;
+    int minPowerNow = -1;
+    int maxPowerNow = -1;
+
+    double capacidadBateria;
+    double porcentajeBateria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         // Initialize presenter-view connection
         presenter = new MainPresenter();
         presenter.init(this);
@@ -100,15 +110,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         // initialize listener to react to touch selections in the list
         ListView lv = findViewById(R.id.lvChargers);
         lv.setOnItemClickListener((parent, view, position, id) -> presenter.onChargerClicked(position));
-        /*
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                presenter.onChargerClicked(position);
-            }
-        });
-
-         */
     }
 
     @Override
@@ -155,6 +156,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     @Override
+    public void showEtOrderTotalCostEmpty() {
+        Toast.makeText(this, "No se han introducido los datos", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void showChargerDetails(Charger charger) {
         Intent intent = new Intent(this, DetailsView.class);
         intent.putExtra(DetailsView.INTENT_CHARGER, Parcels.wrap(charger));
@@ -168,8 +174,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
     @Override
-    public void showFilterDialog(Map<String, Set<String>> provinces) {
-        final Context context = this;
+    public void showFilterDialog(Double minPower, Double maxPower) {
         LayoutInflater inflater= LayoutInflater.from(this);
         View view=inflater.inflate(R.layout.filter_menu, null);
 
@@ -186,50 +191,56 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnCompanhia.setAdapter(adapter);
 
-        spnProvincia = (Spinner)view.findViewById(R.id.spnProvincia);
+        filterDialog.show();
 
-        ArrayAdapter<String> adapterProvincia = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(provinces.keySet()));
-        adapterProvincia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnProvincia.setAdapter(adapterProvincia);
+        RangeSeekBar<Integer> seekBar = view.findViewById(R.id.seekBar);
+        seekBar.setRangeValues(minPower.intValue(), (int)Math.round(maxPower));
 
-        spnLocalidad = (Spinner)view.findViewById(R.id.spnLocalidad);
+        TextView tvMin = view.findViewById(R.id.tvMin);
+        TextView tvMax = view.findViewById(R.id.tvMax);
 
-        spnProvincia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        if (minPowerNow != -1 && maxPowerNow != -1) {
+            seekBar.setSelectedMinValue(minPowerNow);
+            seekBar.setSelectedMaxValue(maxPowerNow);
+            tvMin.setText(String.valueOf(minPowerNow));
+            tvMax.setText(String.valueOf(maxPowerNow));
+        } else {
+            tvMin.setText(String.valueOf(seekBar.getAbsoluteMinValue()));
+            tvMax.setText(String.valueOf(seekBar.getAbsoluteMaxValue()));
+        }
+
+
+
+        seekBar.setNotifyWhileDragging(true);
+        seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedProvince = spnProvincia.getSelectedItem().toString();
-                Set<String> localities = provinces.get(selectedProvince);
-                String[] localityArray = localities.toArray(new String[0]);
-                ArrayAdapter<String> localityAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, localityArray);
-                localityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spnLocalidad.setAdapter(localityAdapter);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                ArrayAdapter<String> emptyAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-                spnLocalidad.setAdapter(emptyAdapter);
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+                //Now you have the minValue and maxValue of your RangeSeekbar
+                tvMin.setText(String.valueOf(minValue));
+                tvMax.setText(String.valueOf(maxValue));
             }
         });
-
-        filterDialog.show();
 
         Button btnBuscar = (Button)view.findViewById(R.id.btnBuscar);
         Button btnBuscarTodos = (Button)view.findViewById(R.id.btnBuscarTodos);
         btnBuscar.setOnClickListener(v -> {
             filterDialog.dismiss();
+            minPowerNow = seekBar.getSelectedMinValue();
+            maxPowerNow = seekBar.getSelectedMaxValue();
             setFilter();
         });
 
         btnBuscarTodos.setOnClickListener(v -> {
             filterDialog.dismiss();
-            presenter.showChargers();
+            minPowerNow = seekBar.getAbsoluteMinValue();
+            maxPowerNow = seekBar.getAbsoluteMaxValue();
+            presenter.onShowChargersClicked();
         });
-
     }
+
     private void setFilter() {
         String companhia = spnCompanhia.getSelectedItem().toString();
-        String localidad = spnLocalidad.getSelectedItem().toString();
-        presenter.onFilteredClicked(companhia, localidad);
+        presenter.onFilteredClicked(companhia, minPowerNow, maxPowerNow);
     }
 
     public void sortDialog() {
@@ -251,9 +262,35 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         sortDialog.show();
 
+        tvCapacidadBateria = view.findViewById(R.id.tvCapacidadBateria);
+        tvPorcentajeBateria = view.findViewById(R.id.tvPorcentajeBateria);
+        etCapacidadBateria = view.findViewById(R.id.etCapacidadBateria);
+        etPorcentajeBateria = view.findViewById(R.id.etPorcentajeBateria);
+
+        spnCriterio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 2) {
+                    tvPorcentajeBateria.setVisibility(View.VISIBLE);
+                    tvCapacidadBateria.setVisibility(View.VISIBLE);
+                    etCapacidadBateria.setVisibility(View.VISIBLE);
+                    etPorcentajeBateria.setVisibility(View.VISIBLE);
+                } else {
+                    tvPorcentajeBateria.setVisibility(View.INVISIBLE);
+                    tvCapacidadBateria.setVisibility(View.INVISIBLE);
+                    etCapacidadBateria.setVisibility(View.INVISIBLE);
+                    etPorcentajeBateria.setVisibility(View.INVISIBLE);
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                //  tu código
+            }
+        });
+
         radioButtonAsc = (RadioButton) view.findViewById(R.id.radioButtonAsc);
         radioButtonDesc = (RadioButton) view.findViewById(R.id.radioButtonDesc);
-
         radioButtonAsc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,22 +298,34 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             }
         });
 
-        radioButtonDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ascendente = false;
-            }
-        });
+        radioButtonDesc.setOnClickListener(v -> ascendente = false);
 
         Button btnBuscarOrden = (Button)view.findViewById(R.id.btnBuscarOrden);
         btnBuscarOrden.setOnClickListener(v -> {
             sortDialog.dismiss();
             setOrdenacion(ascendente);
         });
+        ascendente = null;
     }
 
     private void setOrdenacion(Boolean ascendente) {
         String criterio = spnCriterio.getSelectedItem().toString();
         presenter.onSortedClicked(criterio, ascendente);
+    }
+
+    @Override
+    public double returnCapacidadBateria() {
+        if (etCapacidadBateria.getText().toString().equals("")) {
+            return -1;
+        }
+        return Double.parseDouble(etCapacidadBateria.getText().toString());
+    }
+
+    @Override
+    public double returnPorcentajeBateria() {
+        if (etPorcentajeBateria.getText().toString().equals("")) {
+            return -1;
+        }
+        return Double.parseDouble(etPorcentajeBateria.getText().toString());
     }
 }

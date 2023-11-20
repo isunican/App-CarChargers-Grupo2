@@ -30,6 +30,7 @@
     <string-array name="criteriosArray">
         <item>NINGUNO</item>
         <item>POTENCIA</item>
+        <item>COSTE TOTAL</item>
     </string-array>
 
 </resources>

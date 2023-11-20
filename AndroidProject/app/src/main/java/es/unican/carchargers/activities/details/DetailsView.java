@@ -36,11 +36,14 @@ import es.unican.carchargers.model.Favourite;
 
 import es.unican.carchargers.model.Connection;
 
+import java.util.logging.Logger;
 
 /**
  * Charging station details view. Shows the basic information of a charging station.
  */
 public class DetailsView extends AppCompatActivity implements View.OnClickListener {
+
+    Logger logger = Logger.getLogger("lgDetailsView");
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
 
@@ -89,16 +92,14 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             resourceId = EOperator.fromId(charger.operator.id).logo;
         }
         ivLogo.setImageResource(resourceId);
-        ivLogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (finalStrWebsite != null) {
-                    Uri _link = Uri.parse(finalStrWebsite);
-                    Intent i = new Intent(Intent.ACTION_VIEW, _link);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(getApplicationContext(), "El proveedor no tiene enlace web", Toast.LENGTH_LONG).show();
-                }
+        ivLogo.setTag(resourceId, charger.operator.title);
+        ivLogo.setOnClickListener(v ->  {
+            if (finalStrWebsite != null) {
+                Uri _link = Uri.parse(finalStrWebsite);
+                Intent i = new Intent(Intent.ACTION_VIEW, _link);
+                startActivity(i);
+            } else {
+                Toast.makeText(getApplicationContext(), "El proveedor no tiene enlace web", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -130,6 +131,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             tv.setText(Integer.toString(i + 1));
             Connection connection = charger.connections.get(i);
             tv.setTag(connection);
+            tv.setContentDescription("tvChargerConnection" + Integer.toString(i+1));
             tv.setGravity(Gravity.CENTER);
 
             // Set a background for the connection
@@ -144,7 +146,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             } catch(NullPointerException n) {
                 // Gray when we do not know
                 tv.setBackgroundColor(Color.GRAY);
-                System.out.println("NullPointerException thrown");
+                logger.info("NullPointerException thrown");
             }
             params.setMargins(20,0,0,0);
             tv.setLayoutParams(params);
@@ -154,15 +156,16 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
 
 
         String strPrecio;
-        if (charger.usageCost == null) {
+        if (charger.usageCost == null  || charger.usageCost.equals("")) {
             strPrecio = String.format("Precio No Disponible");
         } else {
             strPrecio = String.format(charger.usageCost);
 
-
+        /*
             if (strPrecio.equals("") || strPrecio == null) {
                 strPrecio = String.format("Precio No Disponible");
             }
+            */
         }
         tvPrecio.setText(strPrecio);
 
@@ -170,14 +173,7 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
         String mapaString = "<iframe width=\"100%\" height=\"100%\" allowfullscreen=\"\" loading=\" lazy\" referrerpolicy=\"no-referrer-when-downgrade\" frameborder=\"0\" src=\"https://maps.google.com/maps?q=" + charger.address.latitude +"," + charger.address.longitude + "&hl=es;z=14&amp;output=embed\"></iframe>";
         wvMapa.loadData(mapaString, "text/html", null);
         wvMapa.getSettings().setJavaScriptEnabled(true);
-
-        wvMapa.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true; //True if the listener has consumed the event, false otherwise.
-            }
-        });
-
+        wvMapa.setOnTouchListener((v, event) -> true);
 
         // SharedPreferences
         SharedPreferences sharedPref = this.getSharedPreferences("favoritos",Context.MODE_PRIVATE);
@@ -192,17 +188,14 @@ public class DetailsView extends AppCompatActivity implements View.OnClickListen
             ivFavoritos.setImageResource(R.drawable.favoritosnoactivo);
         }
 
-        ivFavoritos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                charger.isFavourite = !charger.isFavourite;
-                if (charger.isFavourite) {
-                    ivFavoritos.setImageResource(R.drawable.favoritoactivo);
-                    editor.putBoolean(charger.id, true);
-                    editor.apply();
-                    favourite.addCharger(charger.id);
-                    Toast.makeText(getApplicationContext(), "Anhadido correctamente a favoritos", Toast.LENGTH_LONG).show();
-                }
+        ivFavoritos.setOnClickListener(v ->  {
+            charger.isFavourite = !charger.isFavourite;
+            if (charger.isFavourite) {
+                ivFavoritos.setImageResource(R.drawable.favoritoactivo);
+                editor.putBoolean(charger.id, true);
+                editor.apply();
+                favourite.addCharger(charger.id);
+                Toast.makeText(getApplicationContext(), "Anhadido correctamente a favoritos", Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -71,7 +71,18 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             tv.setText(charger.usageCost);
         }
 
+        // CosteTotalCarga
+        {
+            TextView tv = convertView.findViewById(R.id.tvCosteTotalCarga);
+            if (charger.costeTotal <= 0) {
+                tv.setText(" ");
+            } else if (charger.usageCost.contains("parking")) {
+                tv.setText(String.format("Coste Total de Carga: %.4s€ + parking fee", charger.costeTotal));
+            } else {
+                tv.setText(String.format("Coste Total de Carga: %.4s€", charger.costeTotal));
+            }
+        }
+
         return convertView;
     }
-
 }
